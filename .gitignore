@@ -1,0 +1,12 @@
+/.idea/
+/client/.angular/
+/client/.vscode/
+/client/node_modules/
+/server/.idea/
+/server/.mvn/
+/server/src/main/resources/static/
+/server/mvnw.cmd
+/server/mvnw
+/server/HELP.md
+/server/server.iml
+/server/target/
