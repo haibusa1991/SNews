@@ -1,0 +1,50 @@
+@use 'snews-palette' as palette;
+@use 'shadows' as shadows;
+
+%base-header-button {
+  display: inline-block;
+  width: 7.5rem;
+  height: 2.5rem;
+  text-transform: uppercase;
+  line-height: 2.5rem;
+  text-align: center;
+  text-decoration: none;
+  font-family: GilroyBold, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.2rem;
+  border-radius: 5px;
+  transition: background-color 250ms cubic-bezier(0, 0.5, 0.6, 1),
+              filter, scale 100ms cubic-bezier(0, 0.5, 0.6, 1)
+}
+
+%base-button-hover {
+  filter: drop-shadow(map-get(shadows.$shadows, BUTTON));
+  scale: 1.05;
+}
+
+.header-button {
+  @extend %base-header-button;
+  background-color: map-get(palette.$elements-palette, WHITE);
+  color: map-get(palette.$elements-palette, DARK-GRAY);
+}
+
+.header-button-active {
+  @extend %base-header-button;
+  background-color: map-get(palette.$elements-palette, RED);
+  color: map-get(palette.$elements-palette, WHITE);
+}
+
+
+
+@media (any-hover: hover) {
+  .header-button:hover {
+    //@extend %base-button-hover;
+    background-color: map-get(palette.$elements-palette, MEDIUM-GRAY);
+  }
+
+  .header-button-active:hover {
+    //@extend %base-button-hover;
+    background-color: map-get(palette.$elements-palette, DARK-RED);
+  }
+
+}

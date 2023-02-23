@@ -1,0 +1,90 @@
+@use 'src/assets/styles/snews-palette' as palette;
+@use 'src/assets/styles/responsive' as responsive;
+
+@import "buttons";
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600&display=swap');
+
+
+:root {
+  --slow-transition: all 200ms ease-in-out;
+  --fast-transition: all 150ms ease-in-out;
+}
+
+//h1, h2, h3 {
+//  font-family: Coda, sans-serif;
+//  color: map-get(palette.$elements-palette, RED);
+//  font-weight: 400;
+//}
+
+//h1 {
+//  font-size: 64px;
+//  letter-spacing: 0.1em;
+//}
+//
+//h2 {
+//  font-size: 36px;
+//}
+//
+//h3 {
+//  font-size: 24px;
+//}
+
+//.dummy-content {
+//  display: block;
+//  height: 800px;
+//  background: cadetblue;
+//  color: wheat;
+//  text-align: center;
+//}
+
+//.clickable {
+//  z-index: 100;
+//}
+
+//.always-on-top {
+//  z-index: 1000;
+//}
+
+html {
+  scroll-behavior: smooth;
+}
+
+//body {
+//  overflow-x: hidden;
+//  overflow-y: scroll;
+//  scroll-behavior: smooth;
+//}
+
+@media screen and (width < map-get(responsive.$content-width, MOBILE)) {
+  html {
+    font-size: map-get(responsive.$font-sizes, MOBILE);
+  }
+}
+
+
+@media screen and (width >= map-get(responsive.$content-width, MOBILE)) {
+  html {
+    font-size: map-get(responsive.$font-sizes, TABLET);
+  }
+}
+
+@media screen and (width >= map-get(responsive.$content-width, TABLET)) {
+  html {
+    font-size: map-get(responsive.$font-sizes, TABLET);
+  }
+}
+
+@media screen and (width >= map-get(responsive.$content-width, LAPTOP)) {
+  html {
+    font-size: map-get(responsive.$font-sizes, LAPTOP);
+  }
+}
+
+@media screen and (width >= map-get(responsive.$content-width, DESKTOP)) {
+  html {
+    font-size: map-get(responsive.$font-sizes, DESKTOP);
+  }
+}

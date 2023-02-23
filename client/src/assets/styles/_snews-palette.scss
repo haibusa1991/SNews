@@ -1,0 +1,38 @@
+$materials-palette: (
+  50:#edfaed,
+  100:#daf5da,
+  200:#c8efc8,
+  300:#b5eab5,
+  400:#a1e4a3,
+  500:#8dde90,
+  600:#77d87c,
+  700:#5ed268,
+  800:#40cc51,
+  900:#00c537,
+  contrast: (
+    50:#000000,
+    100:#000000,
+    200:#000000,
+    300:#000000,
+    400:#000000,
+    500:#FFFFFF,
+    600:#FFFFFF,
+    700:#FFFFFF,
+    800:#FFFFFF,
+    900:#FFFFFF,
+  )
+);
+
+$elements-palette: (
+  GREEN: map-get($materials-palette,900),
+  DARK-GREEN: #027522,
+  LIGHT-GREEN: #b2e3c0,
+  GRAY:505050,
+  WHITE: #ffffff,
+  BACKGROUND-GRAY:#eeeeee,
+  BACKGROUND-GREEN:#d7ebdc,
+  BACKGROUND-RED:#e3b8b2,
+  WARNING:#c5b100
+);
+
+

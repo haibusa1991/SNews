@@ -28,7 +28,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/styles/reset.scss",
+              "src/assets/styles/shared.scss",
+              "src/assets/styles/materials.scss"
             ],
             "scripts": []
           },
@@ -96,7 +98,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/styles/reset.scss",
+              "src/assets/styles/shared.scss",
+              "src/assets/styles/materials.scss"
             ],
             "scripts": []
           }

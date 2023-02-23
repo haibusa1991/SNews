@@ -1,0 +1,15 @@
+<div matRipple
+     [matRippleColor]="rippleColor"
+     class="wrapper">
+  <svg [@toggleMain]="isOpen? 'open':'closed'"
+       xmlns="http://www.w3.org/2000/svg"
+       [attr.viewBox]="icon['viewBox']">
+    <path [attr.d]="icon['path']"/>
+  </svg>
+
+  <svg [@toggleXMark]="isOpen? 'open':'closed'"
+       xmlns="http://www.w3.org/2000/svg"
+       [attr.viewBox]="icons['xmark'].viewBox">
+    <path [attr.d]="icons['xmark'].path"/>
+  </svg>
+</div>

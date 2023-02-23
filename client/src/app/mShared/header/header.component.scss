@@ -1,0 +1,52 @@
+@use 'src/assets/styles/snews-palette' as pallette;
+@use 'src/assets/styles/responsive' as responsive;
+@import "src/assets/styles/constants";
+
+header {
+  height: $header-height;
+  background-color: map-get(pallette.$elements-palette, WHITE);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid map-get(pallette.$elements-palette, GREEN);
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+
+  .logo {
+    text-decoration: none;
+  }
+  .logo-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+
+    svg {
+      align-self: center;
+      fill: map-get(pallette.$elements-palette, GREEN);
+      height: 3.2rem;
+    }
+
+    h1.logo {
+      margin-left: 0.8rem;
+      font-family: Anton, sans-serif;
+      color: map-get(pallette.$elements-palette, GREEN);
+      font-weight: 300;
+      font-size: 2.4rem;
+      letter-spacing: 0.1rem;
+    }
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    gap: 1.6rem;
+  }
+}
+
+.header-button {
+  min-height: 4rem;
+  min-width: 4rem;
+  max-height: 4rem;
+  max-width: 4rem;
+}
