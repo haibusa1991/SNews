@@ -12,7 +12,8 @@ import {toggleMain, toggleXMark} from "./animations";
   ]
 })
 export class IconButtonComponent implements OnInit {
-  rippleColor: string = '#00C53730';
+  // rippleColor: string = '#00C53730';
+  rippleColor: string = '#FFFFFF60';
 
   @Input()
   buttonIcon!: string;

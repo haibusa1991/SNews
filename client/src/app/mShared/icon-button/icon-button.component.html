@@ -1,15 +1,25 @@
 <div matRipple
      [matRippleColor]="rippleColor"
      class="wrapper">
-  <svg [@toggleMain]="isOpen? 'open':'closed'"
-       xmlns="http://www.w3.org/2000/svg"
-       [attr.viewBox]="icon['viewBox']">
-    <path [attr.d]="icon['path']"/>
-  </svg>
+  <div class="svg-wrapper"
+       [@toggleMain]="isOpen? 'open':'closed'">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         [attr.viewBox]="icon['viewBox']">
+      <path [attr.d]="icon['path']"/>
+    </svg>
+  </div>
 
-  <svg [@toggleXMark]="isOpen? 'open':'closed'"
-       xmlns="http://www.w3.org/2000/svg"
-       [attr.viewBox]="icons['xmark'].viewBox">
-    <path [attr.d]="icons['xmark'].path"/>
-  </svg>
+  <div class="svg-wrapper"
+       [@toggleXMark]="isOpen? 'open':'closed'">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         [attr.viewBox]="icons['xmark'].viewBox">
+      <path [attr.d]="icons['xmark'].path"/>
+    </svg>
+  </div>
 </div>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+  <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+  <path
+    d=""/>
+</svg>

@@ -9,25 +9,62 @@
     </div>
   </a>
   <nav>
-    <ul role="list">
-      <li class="header-button">
-        <app-icon-button
-          [buttonIcon]="'search'"
-          [isOpen]="isSearchOpen"
-          (click)="toggleSearch()"></app-icon-button>
-      </li>
-      <li class="header-button">
-        <app-icon-button
-          [buttonIcon]="'profile'"
-          [isOpen]="isProfileOpen"
-          (click)="toggleProfile()"></app-icon-button>
-      </li>
-      <li class="header-button">
-        <app-icon-button
-          [buttonIcon]="'menu'"
-          [isOpen]="isMenuOpen"
-          (click)="toggleMenu()"></app-icon-button>
-      </li>
-    </ul>
+    <p class="user-welcome"
+    *ngIf="hasUser">Добре дошъл, <span>haibusa2005</span></p>
+    <div class="mobile-nav">
+      <ul role="list">
+        <li class="icon-button">
+          <app-icon-button
+            [buttonIcon]="'search'"
+            [isOpen]="isSearchOpen"
+            (click)="toggleSearch()"></app-icon-button>
+        </li>
+        <li class="icon-button">
+          <app-icon-button
+            [buttonIcon]="'profile'"
+            [isOpen]="isProfileOpen"
+            (click)="toggleProfile()"></app-icon-button>
+        </li>
+        <li class="icon-button">
+          <app-icon-button
+            [buttonIcon]="'menu'"
+            [isOpen]="isMenuOpen"
+            (click)="toggleMenu()"></app-icon-button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tablet-nav">
+      <ul role="list">
+        <li class="text-button"
+            *ngIf="!hasUser">
+          <app-text-button
+            [buttonText]="'Вход'">
+          </app-text-button>
+        </li>
+        <li class="text-button"
+            *ngIf="!hasUser">
+          <app-text-button
+            [buttonText]="'Регистрация'">
+          </app-text-button>
+        </li>
+        <li class="text-button"
+            *ngIf="hasUser">
+          <app-text-button
+            [buttonText]="'Изход'">
+          </app-text-button>
+        </li>
+        <li class="text-button">
+          <app-text-button
+            [buttonText]="'Още'"
+            [isDropdown]="true"
+            [isOpen]="isMoreOpen"
+            (click)="toggleMoreMenu()">
+          </app-text-button>
+        </li>
+      </ul>
+    </div>
+
+
   </nav>
 </header>

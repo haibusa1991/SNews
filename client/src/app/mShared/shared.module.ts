@@ -3,9 +3,10 @@ import {CommonModule} from '@angular/common';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {Router, RouterModule} from "@angular/router";
+import {RouterModule} from "@angular/router";
 import {IconButtonComponent} from "./icon-button/icon-button.component";
 import {MatRippleModule} from "@angular/material/core";
+import { TextButtonComponent } from './text-button/text-button.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {MatRippleModule} from "@angular/material/core";
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
-    IconButtonComponent
+    IconButtonComponent,
+    TextButtonComponent
   ],
   exports: [
     HeaderComponent,
@@ -23,7 +25,7 @@ import {MatRippleModule} from "@angular/material/core";
     imports: [
         CommonModule,
         RouterModule,
-      MatRippleModule
+        MatRippleModule,
     ]
 })
 export class SharedModule {

@@ -9,6 +9,10 @@ export class HeaderComponent implements OnInit {
   isSearchOpen: boolean = false;
   isProfileOpen: boolean = false;
   isMenuOpen: boolean = false;
+  isMoreOpen: boolean = false;
+  hasUser: boolean = false;
+  // hasUser: boolean = true;
+
 
   constructor() {
   }
@@ -18,6 +22,11 @@ export class HeaderComponent implements OnInit {
 
 
   //todo refactor the boolean galore
+
+  toggleMoreMenu() {
+    this.isMoreOpen = !this.isMoreOpen;
+  }
+
   toggleSearch() {
     this.isMenuOpen = false;
     this.isProfileOpen = false;
