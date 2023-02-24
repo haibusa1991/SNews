@@ -1,0 +1,64 @@
+@use 'src/assets/styles/snews-palette' as pallette;
+@import "src/assets/styles/constants";
+@import "src/assets/styles/responsive";
+
+footer {
+  margin-top: 6rem;
+  height: $footer-height;
+  display: flex;
+  flex-direction: column;
+  background-color: map-get(pallette.$elements-palette,WHITE);
+  font-size: 0.9rem;
+
+  div.logo {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    svg {
+      align-self: center;
+      width: 1.6rem;
+      height: 1.2rem;
+      fill: map-get(pallette.$elements-palette, GREEN);
+    }
+
+    p {
+      align-self: center;
+      color: map-get(pallette.$elements-palette, GREEN);
+    }
+  }
+
+  .link {
+    flex-grow: 1;
+    align-self: center;
+    color: map-get(pallette.$elements-palette, GREEN);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  a.link {
+    border-bottom: 1px solid map-get(pallette.$elements-palette, GREEN);
+  }
+}
+
+@media screen and (width > map-get($content-width, TABLET)) {
+  footer {
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+@media (any-hover: hover) {
+  a.link {
+    transition: all 100ms ease-in-out;
+  }
+
+  a.link.link:hover {
+    color: map-get(pallette.$elements-palette, DARK-GREEN);
+    border-bottom-color: map-get(pallette.$elements-palette, DARK-GREEN);
+  }
+}
