@@ -1,0 +1,11 @@
+<div class="content"
+     [@menuToggle]="isOpen? 'open':'closed'">
+  <div class="link">
+    <ul role="list">
+      <li *ngFor="let item of menuItems">
+        <a routerLink="{{item.href}}"
+        (click)="onInteraction()">{{item.name}}</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Icon, menu, profile, search, xmark} from "./icons";
+import {menu, profile, search, xmark} from "./icons";
 import {toggleMain, toggleXMark} from "./animations";
+import {Icon} from "../../types/types";
 
 @Component({
   selector: 'app-icon-button',

@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {ExtensibleMenuItem} from "../../types/types";
+import {NavigationEnd, Router} from "@angular/router";
+import {filter, tap} from "rxjs";
+import {EventProviderService} from "../../core/event-provider.service";
 
 @Component({
   selector: 'app-header',
@@ -13,11 +17,26 @@ export class HeaderComponent implements OnInit {
   hasUser: boolean = false;
   // hasUser: boolean = true;
 
+  menuItems: ExtensibleMenuItem[] = [
+    {href: 'news/today', name: 'Новините от деня'},
+    {href: 'news/analyses', name: 'Анализи'},
+    {href: 'news/politics', name: 'Политика'},
+    {href: 'news/business', name: 'Бизнес'},
+    {href: 'news/sport', name: 'Спорт'},
+  ];
 
-  constructor() {
+  constructor(private router: Router,
+              private eventProvider:EventProviderService) {
   }
 
   ngOnInit(): void {
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
+    ).subscribe(() => {
+      this.closeAllPanels();
+    });
+
+    this.eventProvider.$backgroundClick().subscribe(() => this.closeAllPanels());
   }
 
 
@@ -49,5 +68,9 @@ export class HeaderComponent implements OnInit {
     this.isSearchOpen = false;
     this.isMenuOpen = false;
     this.isProfileOpen = false;
+  }
+
+  onMenuInteraction() {
+    this.closeAllPanels()
   }
 }

@@ -1,0 +1,47 @@
+@use 'src/assets/styles/snews-palette' as pallette;
+@use 'src/assets/styles/responsive' as responsive;
+@import "src/assets/styles/constants";
+
+html {
+  position: relative;
+}
+
+.content {
+  padding: 0 1rem;
+  background: map-get(pallette.$elements-palette, WHITE);
+  overflow: hidden;
+
+  ul {
+    padding: 0.5rem 0;
+
+    li {
+      margin-bottom: 0.5rem;
+      border-top: 1px solid map-get(pallette.$elements-palette, GREEN);
+      border-bottom: 1px solid map-get(pallette.$elements-palette, GREEN);
+      border-bottom: 1px solid map-get(pallette.$elements-palette, GREEN);
+      text-align: center;
+
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+        color: map-get(pallette.$elements-palette, GRAY);
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+
+@media (any-hover: hover) {
+
+  li {
+    transition: all 150ms ease-in-out;
+  }
+
+  li:hover {
+    background-color: map-get(pallette.$elements-palette, LIGHT-GREEN);
+  }
+
+}

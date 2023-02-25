@@ -13,6 +13,22 @@
   --fast-transition: all 150ms ease-in-out;
 }
 
+
+.always-on-top{
+  position: relative;
+  z-index: 1000;
+}
+
+.clickable {
+  position: relative;
+  z-index: 100;
+}
+
+.not-clickable {
+  position: relative;
+  z-index: -100;
+}
+
 //h1, h2, h3 {
 //  font-family: Coda, sans-serif;
 //  color: map-get(palette.$elements-palette, RED);
