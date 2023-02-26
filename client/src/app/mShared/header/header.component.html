@@ -1,7 +1,7 @@
 <header>
   <section class="content">
     <a class="logo" routerLink="/"
-    (click)="closeAllPanels()">
+       (click)="closeAllPanels()">
       <div class="logo-container">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
           <path
@@ -70,8 +70,20 @@
 </header>
 
 <app-extensible-menu
+  class="extensible"
   [isOpen]="isMenuOpen"
   [menuItems]="menuItems"
   (hasInteracted)="onMenuInteraction()">
 </app-extensible-menu>
 
+<app-extensible-menu
+  class="extensible"
+  [isOpen]="isProfileOpen"
+  [menuItems]="profileMenu"
+  (hasInteracted)="onMenuInteraction()">
+</app-extensible-menu>
+
+<app-search-bar
+  class="extensible1">
+
+</app-search-bar>

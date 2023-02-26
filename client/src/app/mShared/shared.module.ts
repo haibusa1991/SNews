@@ -9,6 +9,10 @@ import {MatRippleModule} from "@angular/material/core";
 import {TextButtonComponent} from './text-button/text-button.component';
 import {ExtensibleMenuComponent} from './extensible-menu/extensible-menu.component';
 import { BackgroundComponent } from './background/background.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -19,7 +23,8 @@ import { BackgroundComponent } from './background/background.component';
     IconButtonComponent,
     TextButtonComponent,
     ExtensibleMenuComponent,
-    BackgroundComponent
+    BackgroundComponent,
+    SearchBarComponent
   ],
     exports: [
         HeaderComponent,
@@ -30,6 +35,9 @@ import { BackgroundComponent } from './background/background.component';
     CommonModule,
     RouterModule,
     MatRippleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule
   ]
 })
 export class SharedModule {

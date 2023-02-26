@@ -42,15 +42,14 @@ header {
     }
   }
 }
-  app-extensible-menu {
-    position: absolute;
-    //bottom: $header-height;
-    bottom: calc(100% - $header-height);
-    //bottom: 100%;
-    right: 0;
-    width: 100%;
-    z-index: 110;
-  }
+
+.extensible {
+  position: absolute;
+  bottom: calc(100% - $header-height);
+  right: 0;
+  width: 100%;
+  z-index: 110;
+}
 
 
 nav {

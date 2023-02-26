@@ -25,6 +25,15 @@ export class HeaderComponent implements OnInit {
     {href: 'news/sport', name: 'Спорт'},
   ];
 
+  profileMenu: ExtensibleMenuItem[] = [
+    {href: 'user/login', name: 'Вход'},
+    {href: 'user/register', name: 'Регистрация'},
+    {href: 'user/settings', name: 'Настройки на профила'},
+    {href: 'user/moderation', name: 'Модераторски панел'},
+    {href: 'user/administration', name: 'Администраторски панел'},
+    {href: 'user/logout', name: 'Изход'},
+  ];
+
   constructor(private router: Router,
               private eventProvider:EventProviderService) {
   }
