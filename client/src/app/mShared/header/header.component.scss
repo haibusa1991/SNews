@@ -99,7 +99,7 @@ nav {
 }
 
 .user-welcome {
-  display: none;
+  display: block;
   text-align: right;
   padding-bottom: 0.2rem;
   color: map-get(pallette.$elements-palette, GRAY);

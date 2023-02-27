@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ExtensibleMenuItem} from "../../types/types";
-import {NavigationEnd, Router} from "@angular/router";
-import {filter} from "rxjs";
+import {NavigationEnd, NavigationStart, Router} from "@angular/router";
+import {filter, map} from "rxjs";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";
 import {menuToggle} from "./animations";
+import {AuthService, User} from "../../core/auth/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ import {menuToggle} from "./animations";
   animations: [menuToggle]
 })
 export class HeaderComponent implements OnInit {
-  hasUser: boolean = true;
+  user!: User | null;
+  username: string = '';
 
   headerFlags: { [k: string]: boolean } = {
     'search': false,
@@ -52,38 +54,23 @@ export class HeaderComponent implements OnInit {
     'more': 'Още',
   }
 
-  menuItems: ExtensibleMenuItem[] = [
-    {href: this.endpoints['todayNews'], name: this.texts['todayNews']},
-    {href: this.endpoints['analyses'], name: this.texts['analyses']},
-    {href: this.endpoints['politics'], name: this.texts['politics']},
-    {href: this.endpoints['business'], name: this.texts['business']},
-    {href: this.endpoints['sport'], name: this.texts['sport']},
-  ];
-
-  profileMenu: ExtensibleMenuItem[] = [
-    {href: this.endpoints['login'], name: this.texts['login']},
-    {href: this.endpoints['register'], name: this.texts['register']},
-    {href: this.endpoints['settings'], name: this.texts['settings']},
-    {href: this.endpoints['moderation'], name: this.texts['moderation']},
-    {href: this.endpoints['administration'], name: this.texts['administration']},
-    {href: this.endpoints['logout'], name: this.texts['logout']},
-  ];
-
-  tabletMenu: ExtensibleMenuItem[] = [
-    {href: this.endpoints['todayNews'],  name: this.texts['todayNews']},
-    {href: this.endpoints['analyses'], name: this.texts['analyses']},
-    {href: this.endpoints['politics'], name: this.texts['politics']},
-    {href: this.endpoints['business'], name: this.texts['business']},
-    {href: this.endpoints['sport'], name: this.texts['sport']},
-    {href: this.endpoints['settings'], name: this.texts['settings']},
-    {href: this.endpoints['moderation'], name: this.texts['moderation']},
-    {href: this.endpoints['administration'], name: this.texts['administration']},
-  ];
-
-  laptopMenu: ExtensibleMenuItem[] = this.profileMenu;
+  menuItems: { [k: string]: ExtensibleMenuItem } = {
+    'todayNews': {href: this.endpoints['todayNews'], name: this.texts['todayNews']},
+    'analyses': {href: this.endpoints['analyses'], name: this.texts['analyses']},
+    'politics': {href: this.endpoints['politics'], name: this.texts['politics']},
+    'business': {href: this.endpoints['business'], name: this.texts['business']},
+    'sport': {href: this.endpoints['sport'], name: this.texts['sport']},
+    'login': {href: this.endpoints['login'], name: this.texts['login']},
+    'register': {href: this.endpoints['register'], name: this.texts['register']},
+    'settings': {href: this.endpoints['settings'], name: this.texts['settings']},
+    'moderation': {href: this.endpoints['moderation'], name: this.texts['moderation']},
+    'administration': {href: this.endpoints['administration'], name: this.texts['administration']},
+    'logout': {href: this.endpoints['logout'], name: this.texts['logout']},
+  }
 
   constructor(private router: Router,
-              private eventProvider: EventProviderService) {
+              private eventProvider: EventProviderService,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -94,8 +81,26 @@ export class HeaderComponent implements OnInit {
     });
 
     this.eventProvider.backgroundClick$().subscribe(() => this.closeAllPanels());
-  }
 
+    this.authService.getUser$().subscribe(e => {
+      if (e) {
+        this.username = e.username;
+      }
+      this.user = e
+    });
+
+    //todo replace when auth service is properly implemented
+    //nasty :(
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationStart),
+      map(e => {
+        if ((e as NavigationStart).url == '/' + this.endpoints['logout']) {
+          this.authService.logout();
+          this.router.navigateByUrl('/');
+        }
+      })
+    ).subscribe()
+  }
 
   toggleMoreMenu() {
     this.onMenuInteraction('more');
@@ -131,15 +136,69 @@ export class HeaderComponent implements OnInit {
     this.headerFlags[toggleFlag] = !isOpen;
   }
 
-  onLogin() {
-    this.hasUser = true
+  navigateFromButton(endpoint: string) {
+    this.router.navigateByUrl(endpoint)
   }
 
-  onLogout() {
-    this.hasUser = false
+  getNewsMenu(): ExtensibleMenuItem[] {
+    return [
+      this.menuItems['todayNews'],
+      this.menuItems['analyses'],
+      this.menuItems['politics'],
+      this.menuItems['business'],
+      this.menuItems['sport']
+    ];
   }
 
-  navigate(endpoint: string) {
-    console.log(`navigating to ${endpoint}. Arrr!`)
+  getProfileMenu(): ExtensibleMenuItem[] {
+    let items: ExtensibleMenuItem[] = [];
+
+    if (this.user) {
+      items.push(this.menuItems['settings']);
+
+      if (this.user.isModerator) {
+        items.push(this.menuItems['moderation']);
+      }
+
+      if (this.user.isAdmin) {
+        items.push(this.menuItems['administration']);
+      }
+
+      items.push(this.menuItems['logout']);
+    }
+
+    if (!this.user) {
+      items.push(
+        this.menuItems['login'],
+        this.menuItems['register']
+      );
+    }
+
+    return items;
+  }
+
+  getTabletMenu(): ExtensibleMenuItem[] {
+    let items: ExtensibleMenuItem[] = [];
+
+    items.push(
+      this.menuItems['todayNews'],
+      this.menuItems['analyses'],
+      this.menuItems['politics'],
+      this.menuItems['business'],
+      this.menuItems['sport']
+    );
+
+    if (this.user) {
+      items.push(this.menuItems['settings']);
+
+      if (this.user.isModerator) {
+        items.push(this.menuItems['moderation']);
+      }
+      if (this.user.isAdmin) {
+        items.push(this.menuItems['administration']);
+      }
+    }
+
+    return items;
   }
 }
