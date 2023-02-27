@@ -13,7 +13,7 @@ export class EventProviderService {
     this.subject.next(true);
   }
 
-  $backgroundClick() {
+  backgroundClick$() {
     return new Observable<boolean>(e => {
       this.subject.subscribe(status => e.next(status as boolean));
     })

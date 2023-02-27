@@ -10,6 +10,8 @@ html {
   padding: 0 1rem;
   background: map-get(pallette.$elements-palette, WHITE);
   overflow: hidden;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 
   ul {
     padding: 0.5rem 0;
@@ -27,7 +29,8 @@ html {
         height: 100%;
         text-decoration: none;
         color: map-get(pallette.$elements-palette, GRAY);
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        padding: 0.25rem 1rem;
       }
     }
   }

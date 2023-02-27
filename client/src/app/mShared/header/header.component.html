@@ -11,27 +11,29 @@
       </div>
     </a>
     <nav>
+      <!--      todo add real user name on login, -->
       <p class="user-welcome"
-         *ngIf="hasUser">Добре дошъл, <span>haibusa2005</span></p>
+         *ngIf="hasUser">Добре дошъл, <span><a href="{{endpoints['settings']}}">haibusa2005</a></span></p>
       <div class="mobile-nav">
         <ul role="list">
           <li class="icon-button">
             <app-icon-button
               [buttonIcon]="'search'"
-              [isOpen]="isSearchOpen"
+              [isOpen]="headerFlags['search']"
               (click)="toggleSearch()"></app-icon-button>
           </li>
           <li class="icon-button">
             <app-icon-button
               [buttonIcon]="'profile'"
-              [isOpen]="isProfileOpen"
+              [isOpen]="headerFlags['profile']"
               (click)="toggleProfile()"></app-icon-button>
           </li>
           <li class="icon-button">
             <app-icon-button
               [buttonIcon]="'menu'"
-              [isOpen]="isMenuOpen"
-              (click)="toggleMenu()"></app-icon-button>
+              [isOpen]="headerFlags['menu']"
+              (click)="toggleMenu()">
+            </app-icon-button>
           </li>
         </ul>
       </div>
@@ -40,27 +42,75 @@
           <li class="text-button"
               *ngIf="!hasUser">
             <app-text-button
-              [buttonText]="'Вход'">
+              [buttonText]="texts['login']"
+              (click)="navigate(endpoints['login'])">
             </app-text-button>
           </li>
           <li class="text-button"
               *ngIf="!hasUser">
             <app-text-button
-              [buttonText]="'Регистрация'">
+              [buttonText]="texts['register']"
+              (click)="navigate(endpoints['register'])">
             </app-text-button>
           </li>
           <li class="text-button"
               *ngIf="hasUser">
             <app-text-button
-              [buttonText]="'Изход'">
+              [buttonText]="texts['logout']"
+              (click)="navigate(endpoints['logout'])">
             </app-text-button>
           </li>
           <li class="text-button">
             <app-text-button
-              [buttonText]="'Още'"
+              [buttonText]="texts['more']"
               [isDropdown]="true"
-              [isOpen]="isMoreOpen"
+              [isOpen]="headerFlags['more']"
               (click)="toggleMoreMenu()">
+            </app-text-button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="laptop-nav">
+        <ul role="list">
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['todayNews']"
+              (click)="navigate(endpoints['todayNews'])">
+            </app-text-button>
+          </li>
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['analyses']"
+              (click)="navigate(endpoints['analyses'])">
+            </app-text-button>
+          </li>
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['politics']"
+              (click)="navigate(endpoints['politics'])">
+            </app-text-button>
+          </li>
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['business']"
+              (click)="navigate(endpoints['business'])">
+            </app-text-button>
+          </li>
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['sport']"
+              (click)="navigate(endpoints['sport'])">
+            </app-text-button>
+          </li>
+
+
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['more']"
+              [isDropdown]="true"
+              [isOpen]="headerFlags['laptop-more']"
+              (click)="toggleLaptopMoreMenu()">
             </app-text-button>
           </li>
         </ul>
@@ -69,21 +119,50 @@
   </section>
 </header>
 
-<app-extensible-menu
-  class="extensible"
-  [isOpen]="isMenuOpen"
-  [menuItems]="menuItems"
-  (hasInteracted)="onMenuInteraction()">
-</app-extensible-menu>
+<div class="menus-wrapper">
+  <!------------------------------mobile menus------------------------------>
+  <app-extensible-menu
+    class="extensible extensible-mobile"
+    *ngIf="headerFlags['menu']"
+    [menuItems]="menuItems"
+    (hasInteracted)="closeAllPanels()"
+    [@menuToggle]="headerFlags['menu'] ? 'open' : 'closed'">
+  </app-extensible-menu>
 
-<app-extensible-menu
-  class="extensible"
-  [isOpen]="isProfileOpen"
-  [menuItems]="profileMenu"
-  (hasInteracted)="onMenuInteraction()">
-</app-extensible-menu>
+  <app-extensible-menu
+    class="extensible extensible-mobile"
+    *ngIf="headerFlags['profile']"
+    [menuItems]="profileMenu"
+    (hasInteracted)="closeAllPanels()"
+    [@menuToggle]="headerFlags['profile'] ? 'open' : 'closed'">
+  </app-extensible-menu>
 
-<app-search-bar
-  class="extensible1">
+  <app-search-bar
+    class="extensible extensible-mobile"
+    *ngIf="headerFlags['search']"
+    [@menuToggle]="headerFlags['search'] ? 'open' : 'closed'">
+  </app-search-bar>
+  <!------------------------------end mobile menus------------------------------>
 
-</app-search-bar>
+
+  <!------------------------------tablet menus------------------------------>
+  <app-extensible-menu
+    class="extensible extensible-tablet"
+    *ngIf="headerFlags['more']"
+    [menuItems]="tabletMenu"
+    (hasInteracted)="closeAllPanels()"
+    [@menuToggle]="headerFlags['more'] ? 'open' : 'closed'">
+  </app-extensible-menu>
+  <!------------------------------end tablet menus------------------------------>
+
+
+  <!------------------------------laptop menus------------------------------>
+  <app-extensible-menu
+    class="extensible extensible-tablet"
+    *ngIf="headerFlags['laptop-more']"
+    [menuItems]="laptopMenu"
+    (hasInteracted)="closeAllPanels()"
+    [@menuToggle]="headerFlags['laptop-more'] ? 'open' : 'closed'">
+  </app-extensible-menu>
+  <!------------------------------end laptop menus------------------------------>
+</div>

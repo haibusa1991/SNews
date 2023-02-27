@@ -1,5 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {EventProviderService} from "../../core/event-provider.service";
+import {EventProviderService} from "../../core/event-provider/event-provider.service";
 
 @Component({
   selector: 'app-background',

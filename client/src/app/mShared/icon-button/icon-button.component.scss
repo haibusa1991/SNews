@@ -4,7 +4,6 @@
   content: "";
   width: 100%;
   height: 100%;
-  //border: 2px solid map-get(palette.$materials-palette, 900);
   border-radius: 5px;
   position: relative;
   background-color: map-get(palette.$elements-palette, GREEN);
@@ -16,7 +15,6 @@
     height: 100%;
 
     svg {
-      //fill: map-get(palette.$materials-palette, 900);
       fill: map-get(palette.$elements-palette, WHITE);
       width: 100%;
       height: 100%;
@@ -27,6 +25,7 @@
 @media (any-hover: hover) {
   .wrapper {
     transition: all 150ms ease-in-out;
+    cursor: pointer;
   }
 
   .wrapper:hover {

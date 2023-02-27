@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ExtensibleMenuItem} from "../../types/types";
-import {menuToggle} from "./animations";
+import {menuToggle} from "../header/animations";
 
 @Component({
   selector: 'app-extensible-menu',

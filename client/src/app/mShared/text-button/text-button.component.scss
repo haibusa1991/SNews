@@ -36,6 +36,7 @@ div {
 @media (any-hover: hover) {
   div {
     transition: all 150ms ease-in-out;
+    cursor: pointer;
   }
 
   div:hover {

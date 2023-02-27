@@ -1,11 +1,14 @@
 @use 'src/assets/styles/snews-palette' as pallette;
 @use 'src/assets/styles/responsive' as responsive;
 @import "src/assets/styles/constants";
+@import "src/assets/styles/shadows";
 
 header {
   position: relative;
   background-color: map-get(pallette.$elements-palette, WHITE);
   z-index: 150;
+  max-width: map-get(responsive.$content-width, DESKTOP);
+  margin: 0 auto;
 
   .content {
     height: $header-height;
@@ -45,12 +48,29 @@ header {
 
 .extensible {
   position: absolute;
-  bottom: calc(100% - $header-height);
+  //bottom: calc(100% - $header-height);
+  bottom: 0;
   right: 0;
-  width: 100%;
   z-index: 110;
 }
 
+.extensible-mobile {
+  width: 100%;
+  filter: drop-shadow(map-get($shadows, HAMBURGER-MENU));
+}
+
+.extensible-tablet {
+  width: unset;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  filter: drop-shadow(map-get($shadows, MORE-MENU));
+}
+
+.menus-wrapper {
+  position: relative;
+  max-width: map-get(responsive.$content-width, DESKTOP);
+  margin: 0 auto;
+}
 
 nav {
   ul {
@@ -74,13 +94,35 @@ nav {
   display: none;
 }
 
+.laptop-nav {
+  display: none;
+}
+
 .user-welcome {
   display: none;
   text-align: right;
   padding-bottom: 0.2rem;
+  color: map-get(pallette.$elements-palette, GRAY);
 
   span {
     font-weight: 600;
+  }
+
+  a {
+    text-decoration: underline;
+    color: map-get(pallette.$elements-palette, GRAY);
+  }
+}
+
+@media (any-hover: hover) {
+  .user-welcome {
+    a {
+      transition: all 150ms ease-in-out;
+    }
+
+    a:hover {
+      color: map-get(pallette.$elements-palette, GREEN);
+    }
   }
 }
 
@@ -100,7 +142,25 @@ nav {
     display: block;
   }
 
+  .laptop-nav {
+    display: none;
+  }
+
   .user-welcome {
+    display: block;
+  }
+}
+
+@media screen and (width > map-get(responsive.$content-width, TABLET)) {
+  .mobile-nav {
+    display: none;
+  }
+
+  .tablet-nav {
+    display: none;
+  }
+
+  .laptop-nav {
     display: block;
   }
 }
