@@ -31,7 +31,8 @@ import {MatButtonModule} from "@angular/material/button";
     exports: [
         HeaderComponent,
         FooterComponent,
-        BackgroundComponent
+        BackgroundComponent,
+        TextButtonComponent
     ],
   imports: [
     CommonModule,

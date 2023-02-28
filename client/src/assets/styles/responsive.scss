@@ -10,5 +10,36 @@ $font-sizes: (
   TABLET: 13px,
   LAPTOP: 14px,
   DESKTOP: 16px,
-)
+);
 
+
+@media screen and (width < map-get($content-width, MOBILE)) {
+  html {
+    font-size: map-get($font-sizes, MOBILE);
+  }
+}
+
+
+@media screen and (width >= map-get($content-width, MOBILE)) {
+  html {
+    font-size: map-get($font-sizes, TABLET);
+  }
+}
+
+@media screen and (width >= map-get($content-width, TABLET)) {
+  html {
+    font-size: map-get($font-sizes, TABLET);
+  }
+}
+
+@media screen and (width >= map-get($content-width, LAPTOP)) {
+  html {
+    font-size: map-get($font-sizes, LAPTOP);
+  }
+}
+
+@media screen and (width >= map-get($content-width, DESKTOP)) {
+  html {
+    font-size: map-get($font-sizes, DESKTOP);
+  }
+}
