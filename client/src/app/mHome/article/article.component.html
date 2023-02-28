@@ -1,0 +1,58 @@
+<div class="content">
+  <article class="article">
+    <div class="article-header">
+      <h1>"Вектор за атака". Как София даде милиони за китайски камери в градския транспорт</h1>
+      <h3>02 Февруари 2023 17:33</h3>
+      <div class="old-article">
+        <p>Тази статия е публикувана преди повече от 3 месеца.</p>
+      </div>
+    </div>
+
+    <div class="article-picture">
+      <img src="assets/placeholders/article-overview-placeholder.png" alt="Article image">
+      <p>Източник: Радио Свободна Европа</p>
+    </div>
+
+
+    <p>Автор: <a routerLink="author-profile" class="clickable">Пламен Симеонов</a></p>
+    <div class="article-footer">
+      <p>Категория:</p>
+      <ul>
+        <li><a routerLink="/articles/analysis"></a></li>
+        <li><a routerLink="/articles/politics"></a></li>
+      </ul>
+
+      <div class="button-wrapper">
+        <app-text-button
+          class="button"
+          (click)="onNavigate('news/today')"
+          [buttonText]="'Коментари'"></app-text-button>
+      </div>
+    </div>
+  </article>
+
+  <section class="more-news">
+    <h1 style="text-align: center">Още от категорията</h1>
+    <div class="more-news-wrapper">
+      <app-article-overview
+        [isSmallHeading]="true"></app-article-overview>
+      <app-article-overview
+        [isSmallHeading]="true"></app-article-overview>
+      <app-article-overview
+        [isSmallHeading]="true"></app-article-overview>
+      <app-article-overview
+        [isSmallHeading]="true"></app-article-overview>
+      <app-article-overview
+        [isSmallHeading]="true"></app-article-overview>
+      <app-article-overview
+        [isSmallHeading]="true"></app-article-overview>
+    </div>
+
+    <div class="button-wrapper">
+      <app-text-button
+        class="button"
+        (click)="onNavigate('news/today')"
+        [buttonText]="'Вижте още от категорията'"></app-text-button>
+    </div>
+  </section>
+</div>

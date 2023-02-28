@@ -14,3 +14,14 @@ export type ArticleOverviewData = {
   publishDate: string
   heading: string
 }
+
+export type ArticleContent = {
+  id:string,
+  heading:string,
+  publishDate: string,
+  imageUrl:string,
+  imageSource:string,
+  content:string
+  author:string
+  tags:string[]
+}

@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { ArticleOverviewComponent } from './article-overview/article-overview.component';
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../mShared/shared.module";
+import { ArticleComponent } from './article/article.component';
 
 
 
@@ -11,6 +12,7 @@ import {SharedModule} from "../mShared/shared.module";
   declarations: [
     HomeComponent,
     ArticleOverviewComponent,
+    ArticleComponent,
   ],
     imports: [
         CommonModule,
