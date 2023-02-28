@@ -3,7 +3,7 @@ export type Icon = {
   viewBox: string;
 };
 
-export type ExtensibleMenuItem = {
+export type NamedLink = {
   href: string,
   name: string
 }
@@ -16,12 +16,12 @@ export type ArticleOverviewData = {
 }
 
 export type ArticleContent = {
-  id:string,
-  heading:string,
+  id: string,
+  heading: string,
   publishDate: string,
-  imageUrl:string,
-  imageSource:string,
-  content:string
-  author:string
-  tags:string[]
+  imageUrl: string,
+  imageSource: string,
+  content: string[],
+  author: string,
+  categories: NamedLink[]
 }

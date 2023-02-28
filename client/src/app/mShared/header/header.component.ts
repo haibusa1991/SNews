@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ExtensibleMenuItem} from "../../types/types";
+import {NamedLink} from "../../types/types";
 import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {filter, map} from "rxjs";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";
@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
     'search': 'Търсене',
   }
 
-  menuItems: { [k: string]: ExtensibleMenuItem } = {
+  menuItems: { [k: string]: NamedLink } = {
     'todayNews': {href: this.endpoints['todayNews'], name: this.texts['todayNews']},
     'analyses': {href: this.endpoints['analyses'], name: this.texts['analyses']},
     'politics': {href: this.endpoints['politics'], name: this.texts['politics']},
@@ -141,7 +141,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(endpoint)
   }
 
-  getNewsMenu(): ExtensibleMenuItem[] {
+  getNewsMenu(): NamedLink[] {
     return [
       this.menuItems['todayNews'],
       this.menuItems['analyses'],
@@ -151,8 +151,8 @@ export class HeaderComponent implements OnInit {
     ];
   }
 
-  getProfileMenu(): ExtensibleMenuItem[] {
-    let items: ExtensibleMenuItem[] = [];
+  getProfileMenu(): NamedLink[] {
+    let items: NamedLink[] = [];
 
     if (this.user) {
       items.push(this.menuItems['settings']);
@@ -178,8 +178,8 @@ export class HeaderComponent implements OnInit {
     return items;
   }
 
-  getTabletMenu(): ExtensibleMenuItem[] {
-    let items: ExtensibleMenuItem[] = [];
+  getTabletMenu(): NamedLink[] {
+    let items: NamedLink[] = [];
 
     items.push(
       this.menuItems['todayNews'],
