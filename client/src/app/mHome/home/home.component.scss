@@ -1,0 +1,111 @@
+@import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
+
+.content {
+  background-color: map-get($elements-palette, BACKGROUND-GRAY);
+}
+
+.heading-news {
+  background-color: map-get($elements-palette, BACKGROUND-GREEN);
+}
+
+.more-news {
+  background-color: map-get($elements-palette, BACKGROUND-GREEN);
+}
+
+h1 {
+  padding: 1rem 0;
+}
+
+%base-news-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: column;
+  padding: 0 2rem;
+  max-width: map-get($content-width, DESKTOP);
+  margin: 0 auto;
+}
+
+.heading-news-wrapper {
+  @extend %base-news-wrapper;
+
+  app-article-overview {
+    border-bottom: 2px solid map-get($elements-palette, GREEN);
+  }
+
+  app-article-overview:nth-of-type(5),
+  app-article-overview:nth-of-type(6) {
+    display: none;
+  }
+}
+
+
+//@media screen and (width >= map-get($content-width, TABLET)) {
+@media screen and (width >= 550px) {
+  .heading-news-wrapper {
+    flex-direction: row;
+
+    app-article-overview {
+      border-bottom: unset;
+      max-width: 40%;
+    }
+  }
+}
+
+@media screen and (width >= map-get($content-width, LAPTOP)) {
+  .heading-news-wrapper {
+    app-article-overview {
+      max-width: 30%;
+    }
+
+    app-article-overview:nth-of-type(5),
+    app-article-overview:nth-of-type(6) {
+      display: block;
+    }
+  }
+}
+
+
+.more-news {
+  background-color: map-get($elements-palette, BACKGROUND-GRAY);
+
+  .more-news-wrapper {
+    @extend %base-news-wrapper;
+
+    app-article-overview:nth-of-type(5),
+    app-article-overview:nth-of-type(6) {
+      display: none;
+    }
+  }
+}
+
+@media screen and (width >= map-get($content-width, TABLET)) {
+  .more-news {
+    .more-news-wrapper {
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      app-article-overview {
+        border-bottom: unset;
+        max-width: 40%;
+      }
+
+      app-article-overview:nth-of-type(5),
+      app-article-overview:nth-of-type(6) {
+        display: block;
+      }
+    }
+  }
+}
+
+.more-news-button-wrapper {
+display: block;
+  margin: 0 auto;
+  text-align: center;
+
+  .more-news-button {
+    display: inline-block;
+    margin: 2rem auto 2rem;
+  }
+}
