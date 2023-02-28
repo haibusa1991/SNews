@@ -56,7 +56,7 @@ header {
 
 .extensible-mobile {
   width: 100%;
-  filter: drop-shadow(map-get($shadows, HAMBURGER-MENU));
+  filter: drop-shadow(map-get($shadows, MORE-MENU));
 }
 
 .extensible-tablet {
@@ -162,5 +162,12 @@ nav {
 
   .laptop-nav {
     display: block;
+  }
+}
+
+@media screen and (width >= map-get(responsive.$content-width, DESKTOP)) {
+  app-search-bar.extensible-mobile {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
