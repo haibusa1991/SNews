@@ -126,7 +126,7 @@ nav {
   }
 }
 
-@media screen and (width > map-get(responsive.$content-width, MOBILE)) {
+@media screen and (width > calc(map-get(responsive.$content-width, MOBILE) + 72px)) {
   nav {
     ul {
       display: flex;
