@@ -1,0 +1,171 @@
+@import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
+
+.button-wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+
+  .button {
+    display: inline-block;
+    margin: 2rem auto 2rem;
+  }
+}
+
+%base-news-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: column;
+  padding: 0 2rem;
+  max-width: map-get($content-width, DESKTOP);
+  margin: 0 auto;
+}
+
+.more-news {
+  background-color: map-get($elements-palette, BACKGROUND-GREEN);
+
+  h1 {
+    padding: 1.5rem 0;
+  }
+
+  .more-news-wrapper {
+    @extend %base-news-wrapper;
+
+    app-article-overview {
+      border-bottom: 2px solid map-get($elements-palette, GREEN);
+    }
+  }
+}
+
+@media screen and (width >= map-get($content-width, TABLET)) {
+  .more-news {
+    .more-news-wrapper {
+      flex-direction: row;
+
+      app-article-overview {
+        border-bottom: unset;
+        max-width: 40%;
+      }
+    }
+  }
+}
+
+.content {
+  background-color: map-get($elements-palette, BACKGROUND-GRAY);
+}
+
+.article {
+  max-width: map-get($content-width, DESKTOP);
+  margin: 0 auto;
+
+  .article-header {
+    h1 {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    h3 {
+      padding: 0 1rem;
+      font-weight: 200;
+    }
+
+    .old-article p {
+      margin-top: 1rem;
+      width: 100%;
+      background-color: map-get($elements-palette, WARNING);
+      height: 2.5rem;
+      line-height: 2.5rem;
+      text-align: center;
+      color: map-get($elements-palette, WHITE);
+    }
+
+    @media screen and (width >  map-get($content-width, DESKTOP)) {
+      .old-article p{
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .article-picture {
+    margin: 2rem auto 0;
+    text-align: right;
+    max-width: map-get($content-width, LAPTOP);
+
+
+    @media screen and (width >  map-get($content-width, LAPTOP)) {
+      img {
+        border-radius: 5px;
+      }
+    }
+
+    p {
+      display: inline-block;
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      padding: 0.25rem;
+      border-radius: 5px;
+      background-color: map-get($elements-palette, WHITE);;
+    }
+
+    @media screen and (width < map-get($content-width, LAPTOP)) {
+      p {
+        border-top-right-radius: unset;
+        border-bottom-right-radius: unset;
+      }
+    }
+  }
+
+  .article {
+    max-width: map-get($content-width, LAPTOP);
+    margin-top: 3rem;
+    padding: 0 2rem;
+
+    p {
+      padding-top: 0.5rem;
+      text-indent: 2rem;
+    }
+
+
+    .article-author {
+      padding-top: 2rem;
+      text-align: right;
+    }
+  }
+
+  @media screen and (width > map-get($content-width, LAPTOP)) {
+    .article {
+      padding: unset;
+    }
+  }
+
+  .article-footer {
+    max-width: map-get($content-width, LAPTOP);
+    margin: 1rem auto 0;
+    padding: 0 2rem;
+
+    p {
+      display: inline-block;
+    }
+
+    ul {
+      display: inline-block;
+      padding-left: 0.5rem;
+
+      li {
+        display: inline-block;
+
+        a {
+          color: map-get($elements-palette, GREEN);
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+
+  @media screen and (width > map-get($content-width, LAPTOP)) {
+    .article-footer {
+      padding: unset;
+    }
+  }
+}

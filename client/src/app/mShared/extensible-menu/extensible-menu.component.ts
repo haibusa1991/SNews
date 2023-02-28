@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ExtensibleMenuItem} from "../../types/types";
+import {NamedLink} from "../../types/types";
 import {menuToggle} from "../header/animations";
 
 @Component({
@@ -11,7 +11,7 @@ import {menuToggle} from "../header/animations";
 export class ExtensibleMenuComponent implements OnInit {
 
   @Input()
-  menuItems!: ExtensibleMenuItem[];
+  menuItems!: NamedLink[];
 
   @Input()
   isOpen!:boolean;

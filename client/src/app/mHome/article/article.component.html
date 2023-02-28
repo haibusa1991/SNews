@@ -1,0 +1,63 @@
+<div class="content">
+  <article class="article">
+
+    <div class="article-header">
+      <h1>{{articleContent.heading}}</h1>
+      <h3>{{articleContent.publishDate}}</h3>
+      <div class="old-article"
+           *ngIf="isOldArticle">
+        <p>{{oldArticleWarning}}</p>
+      </div>
+    </div>
+
+    <div class="article-picture">
+      <img src="assets/placeholders/article-overview-placeholder.png" alt="Article image">
+      <p>Източник: {{articleContent.imageSource}}</p>
+    </div>
+
+    <div class="article">
+      <p *ngFor="let paragraph of articleContent.content">{{paragraph}}</p>
+      <p class="article-author">Автор: {{articleContent.author}}</p>
+    </div>
+
+    <div class="article-footer">
+      <p>Категория:</p>
+      <ul role="list">
+        <li *ngFor="let category of articleContent.categories; last as isLast">
+          <a routerLink="{{category.href}}"
+             class="clickable"
+          >{{category.name}}</a>
+          <p *ngIf="!isLast">, &nbsp;</p>
+        </li>
+      </ul>
+
+      <div class="button-wrapper">
+        <app-text-button
+          class="button"
+          (click)="onNavigate(articleContent.id +'/comments')"
+          [buttonText]="'Коментари'"></app-text-button>
+      </div>
+    </div>
+  </article>
+
+  <section class="more-news">
+    <h1 style="text-align: center">Още по темата</h1>
+    <div class="more-news-wrapper">
+      <app-article-overview
+        *ngFor="let data of relatedArticles"
+        [isSmallHeading]="true"
+        [articleOverviewData]=data>
+      </app-article-overview>
+    </div>
+
+
+<!--    todo Not feeling cute, might delete later-->
+
+<!--    <div class="button-wrapper">-->
+<!--      <app-text-button-->
+<!--        class="button"-->
+<!--        (click)="onNavigate('news/today')"-->
+<!--        [buttonText]="'Още по темата'"></app-text-button>-->
+<!--    </div>-->
+  </section>
+</div>
