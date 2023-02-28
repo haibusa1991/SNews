@@ -17,15 +17,15 @@
         <ul role="list">
           <li class="icon-button">
             <app-icon-button
-              [buttonIcon]="'search'"
-              [isOpen]="headerFlags['search']"
-              (click)="toggleSearch()"></app-icon-button>
-          </li>
-          <li class="icon-button">
-            <app-icon-button
               [buttonIcon]="'profile'"
               [isOpen]="headerFlags['profile']"
               (click)="toggleProfile()"></app-icon-button>
+          </li>
+          <li class="icon-button">
+            <app-icon-button
+              [buttonIcon]="'search'"
+              [isOpen]="headerFlags['search']"
+              (click)="toggleSearch()"></app-icon-button>
           </li>
           <li class="icon-button">
             <app-icon-button
@@ -39,28 +39,36 @@
       <div class="tablet-nav">
         <ul role="list">
           <li class="text-button"
-              *ngIf="!user">
-            <app-text-button
+          *ngIf="!user">
+          <app-text-button
               [buttonText]="texts['login']"
               (click)="navigateFromButton(endpoints['login'])">
-            </app-text-button>
+          </app-text-button>
           </li>
           <li class="text-button"
               *ngIf="!user">
-            <app-text-button
+          <app-text-button
               [buttonText]="texts['register']"
               (click)="navigateFromButton(endpoints['register'])">
-            </app-text-button>
+          </app-text-button>
           </li>
           <li class="text-button"
               *ngIf="user">
-            <app-text-button
+          <app-text-button
               [buttonText]="texts['logout']"
               (click)="navigateFromButton(endpoints['logout'])">
-            </app-text-button>
+          </app-text-button>
           </li>
           <li class="text-button">
             <app-text-button
+              [buttonText]="texts['search']"
+              [isDropdown]="true"
+              [isOpen]="headerFlags['search']"
+              (click)="toggleSearch()">
+            </app-text-button>
+          </li>
+          <li class="text-button">
+          <app-text-button
               [buttonText]="texts['more']"
               [isDropdown]="true"
               [isOpen]="headerFlags['more']"
@@ -102,8 +110,14 @@
               (click)="navigateFromButton(endpoints['sport'])">
             </app-text-button>
           </li>
-
-
+          <li class="text-button">
+            <app-text-button
+              [buttonText]="texts['search']"
+              [isDropdown]="true"
+              [isOpen]="headerFlags['search']"
+              (click)="toggleSearch()">
+            </app-text-button>
+          </li>
           <li class="text-button">
             <app-text-button
               [buttonText]="texts['more']"

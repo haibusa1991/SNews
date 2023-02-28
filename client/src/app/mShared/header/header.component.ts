@@ -52,6 +52,7 @@ export class HeaderComponent implements OnInit {
     'administration': 'Администраторски панел',
     'logout': 'Изход',
     'more': 'Още',
+    'search': 'Търсене',
   }
 
   menuItems: { [k: string]: ExtensibleMenuItem } = {
