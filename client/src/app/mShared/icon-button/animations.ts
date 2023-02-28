@@ -1,14 +1,14 @@
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
-const ANIMATION_DURATION = '125ms'
+const ANIMATION_DURATION = '150ms'
 
 export const toggleXMark =
   trigger('toggleXMark', [
     state('open', style({
-      'transform': 'translateY(-170%)'
+      'transform': 'translateY(-100%)'
     })),
     state('closed', style({
-      'transform': 'translateY(0)'
+      'transform': 'translateY(-200%)'
     })),
     transition('* => *', [
       animate(ANIMATION_DURATION)
@@ -18,7 +18,7 @@ export const toggleXMark =
 export const toggleMain =
   trigger('toggleMain', [
     state('open', style({
-      'transform': 'translateY(-120%)'
+      'transform': 'translateY(100%)'
     })),
     state('closed', style({
       'transform': 'translateY(0)'

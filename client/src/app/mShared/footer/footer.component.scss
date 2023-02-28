@@ -3,14 +3,14 @@
 @import "src/assets/styles/responsive";
 
 footer {
-  margin-top: 6rem;
-  margin-bottom: 0.5rem;
   min-height: $footer-height;
   display: flex;
   flex-direction: column;
   background-color: map-get(pallette.$elements-palette, WHITE);
   font-size: 0.9rem;
   border-top: 2px solid map-get(pallette.$elements-palette, GREEN);
+  max-width: map-get($content-width,DESKTOP);
+  margin: 0 auto 0.5rem;
 
   div.logo {
     margin-top: 0.4rem;
@@ -60,7 +60,7 @@ footer {
 
 @media (any-hover: hover) {
   a.link {
-    transition: all 100ms ease-in-out;
+    transition: all 150ms ease-in-out;
   }
 
   a.link.link:hover {

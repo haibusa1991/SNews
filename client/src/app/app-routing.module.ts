@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    loadChildren: () => import('./mUserControlPanel/user-control-panel.module').then(m => m.UserControlPanelModule)
+    loadChildren: () => import('./mUser/user.module').then(m => m.UserModule)
   },
   {
     path: '**',
