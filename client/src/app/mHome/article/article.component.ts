@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {ArticleContent, ArticleOverviewData} from "../../types/types";
+import {ArticleContent, ArticleOverviewData} from "../../utils/types";
 
 @Component({
   selector: 'app-article',

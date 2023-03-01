@@ -19,15 +19,4 @@ $snews-light: mat.define-light-theme((
 
 @include mat.all-component-themes($snews-light);
 
-
-mat-form-field.white-input-field {
-  .mat-form-field-outline-start,
-  .mat-form-field-outline-gap,
-  .mat-form-field-outline-end {
-    background-color: white !important;
-  }
-
-  .mat-form-field-outline-thick {
-    color: map-get(palette.$elements-palette,GRAY);
-  }
-}
+//todo remove

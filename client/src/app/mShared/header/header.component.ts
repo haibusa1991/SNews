@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NamedLink} from "../../types/types";
+import {NamedLink} from "../../utils/types";
 import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {filter, map} from "rxjs";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";

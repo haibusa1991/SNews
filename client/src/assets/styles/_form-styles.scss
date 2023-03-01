@@ -1,0 +1,57 @@
+@import "responsive";
+@import 'snews-palette';
+@import 'constants';
+
+.form-content {
+  min-height: calc(100vh - $header-height * 2);
+  background-color: map-get($elements-palette, BACKGROUND-GRAY);
+}
+
+.form-centered-input-field {
+  display: block !important;
+  margin: 0 auto;
+  max-width: 30rem;
+  padding: 0 2rem;
+}
+
+.form-clear-button-style {
+  background-color: unset;
+  border: unset;
+  min-width: 10rem;
+}
+
+.form-button-wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-input-field-svg {
+  width: 90%;
+  height: 90%;
+  fill: map-get($elements-palette, GRAY);
+}
+
+.form-error-message {
+  max-width: map-get($content-width, DESKTOP);
+  margin: 2rem auto 0;
+}
+
+mat-form-field.form-white-input-field {
+  .mat-form-field-outline-start,
+  .mat-form-field-outline-gap,
+  .mat-form-field-outline-end {
+    background-color: white;
+  }
+
+  .mat-form-field-outline-thick {
+    color: map-get($elements-palette,GRAY);
+  }
+}
+
+//todo green outline on valid form fields
+mat-form-field.form-valid-field {
+  .mat-form-field-outline-thick {
+    color: map-get($elements-palette,GRAY);
+  }
+}

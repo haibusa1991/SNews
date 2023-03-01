@@ -1,0 +1,33 @@
+@import 'src/assets/styles/responsive';
+@import 'src/assets/styles/constants';
+@import 'src/assets/styles/snews-palette';
+
+
+
+h1 {
+  padding-top: 1rem;
+}
+
+form {
+  margin-top: 1rem;
+}
+
+h2 {
+  margin-top: 3rem;
+}
+
+
+.center-text {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+
+.register-button {
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+mat-form-field:not(:first-of-type) {
+  margin-top: 0.5rem;
+}

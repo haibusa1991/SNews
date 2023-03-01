@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NamedLink} from "../../types/types";
+import {NamedLink} from "../../utils/types";
 import {menuToggle} from "../header/animations";
 
 @Component({

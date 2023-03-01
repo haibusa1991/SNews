@@ -1,9 +1,15 @@
+<!--todo specify correct classes from _form_styles-->
+
 <div class="content">
   <h1>Вход</h1>
+
+<!--  todo fix typo-->
   <h2>Въдете email адрес и парола</h2>
   <form
     [formGroup]="loginForm"
     (submit)="onSubmit()">
+
+    <!--todo fix classes-->
     <mat-form-field
       appearance="outline"
       class="centered-input-field white-input-field">
@@ -22,12 +28,15 @@
       </mat-icon>
     </mat-form-field>
 
+    <!--todo fix classes-->
     <mat-form-field appearance="outline"
                     class="centered-input-field white-input-field">
       <mat-label>Парола</mat-label>
       <input matInput
              [type]="isPasswordHidden ? 'password' : 'text'"
              formControlName="password">
+
+<!--      todo make button wider-->
       <button
         type="button"
         mat-icon-button
