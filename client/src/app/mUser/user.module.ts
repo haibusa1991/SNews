@@ -4,6 +4,11 @@ import {UserPanelComponent} from './user-panel/user-panel.component';
 import {Router, RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {SharedModule} from "../mShared/shared.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 const moduleRoutes: Routes = [
   {
@@ -29,7 +34,12 @@ const moduleRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(moduleRoutes)
+    RouterModule.forChild(moduleRoutes),
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule {

@@ -1,0 +1,17 @@
+@import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
+
+.warning p {
+  width: 100%;
+  background-color: map-get($elements-palette, WARNING);
+  height: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  color: map-get($elements-palette, WHITE);
+}
+
+@media screen and (width >  map-get($content-width, DESKTOP)) {
+  .warning p {
+    border-radius: 5px;
+  }
+}

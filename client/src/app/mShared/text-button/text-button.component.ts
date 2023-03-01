@@ -15,9 +15,11 @@ export class TextButtonComponent implements OnInit {
   @Input()
   buttonText!: string;
   @Input()
-  isDropdown!:boolean;
+  isDropdown!: boolean;
   @Input()
-  isOpen!:boolean;
+  isOpen!: boolean;
+  @Input()
+  isDisabled: boolean = false;
 
   constructor() {
   }

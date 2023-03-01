@@ -1,14 +1,13 @@
-
 @use '@angular/material' as mat;
 @use "snews-palette" as palette;
 
 @include mat.core();
 
-$primary-color: mat.define-palette(palette.$materials-palette,900);
-$selected-color: mat.define-palette(palette.$materials-palette,900);
+$primary-color: mat.define-palette(palette.$materials-palette, 900);
+$selected-color: mat.define-palette(palette.$materials-palette, 900);
 $accent-color: mat.define-palette(palette.$materials-palette, 50);
 
-$warn: mat.define-palette(mat.$indigo-palette);
+$warn: mat.define-palette(mat.$red-palette);
 
 $snews-light: mat.define-light-theme((
   color: (
@@ -20,3 +19,15 @@ $snews-light: mat.define-light-theme((
 
 @include mat.all-component-themes($snews-light);
 
+
+mat-form-field.white-input-field {
+  .mat-form-field-outline-start,
+  .mat-form-field-outline-gap,
+  .mat-form-field-outline-end {
+    background-color: white !important;
+  }
+
+  .mat-form-field-outline-thick {
+    color: map-get(palette.$elements-palette,GRAY);
+  }
+}

@@ -12,6 +12,7 @@ h1 {
   @extend %base-text;
   font-size: 2rem;
   line-height: 2rem;
+  text-align: center;
 }
 
 
@@ -19,12 +20,14 @@ h2 {
   @extend %base-text;
   font-size: 1.2rem;
   line-height: 1.2rem;
+  text-align: center;
 }
 
 h3 {
   @extend %base-text;
   font-size: 0.8rem;
   line-height: 0.8rem;
+  text-align: center;
 }
 
 p,a {
