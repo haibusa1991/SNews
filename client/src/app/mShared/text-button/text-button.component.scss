@@ -34,15 +34,29 @@ div {
 }
 
 @media (any-hover: hover) {
-  div {
+  div:not(.disabled) {
     transition: all 150ms ease-in-out;
     cursor: pointer;
   }
 
-  div:hover {
+  div:not(.disabled):hover {
     scale: 1.02;
     filter: drop-shadow(map-get($shadows, BUTTON));
     transform: translateY(-0.1rem);
   }
+}
 
+.disabled {
+  background-color: unset;
+  //border: 2px solid map-get(palette.$elements-palette, GRAY);
+  outline: map-get(palette.$elements-palette, GRAY) solid 2px;
+  cursor: not-allowed;
+
+  p {
+    color: map-get(palette.$elements-palette, GRAY);
+  }
+
+  svg {
+    fill: map-get(palette.$elements-palette, GRAY);
+  }
 }

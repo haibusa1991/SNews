@@ -1,6 +1,8 @@
 @import 'src/assets/styles/snews-palette';
 @import 'src/assets/styles/responsive';
 
+
+//todo DRY extraction candidate
 .button-wrapper {
   display: block;
   margin: 0 auto;

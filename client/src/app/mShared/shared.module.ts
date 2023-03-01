@@ -8,13 +8,14 @@ import {IconButtonComponent} from "./icon-button/icon-button.component";
 import {MatRippleModule} from "@angular/material/core";
 import {TextButtonComponent} from './text-button/text-button.component';
 import {ExtensibleMenuComponent} from './extensible-menu/extensible-menu.component';
-import { BackgroundComponent } from './background/background.component';
-import { SearchBarComponent } from './search-bar/search-bar.component';
+import {BackgroundComponent} from './background/background.component';
+import {SearchBarComponent} from './search-bar/search-bar.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
+import {WarningLabelComponent} from './warning-label/warning-label.component';
 
 
 @NgModule({
@@ -26,14 +27,16 @@ import {MatButtonModule} from "@angular/material/button";
     TextButtonComponent,
     ExtensibleMenuComponent,
     BackgroundComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    WarningLabelComponent
   ],
-    exports: [
-        HeaderComponent,
-        FooterComponent,
-        BackgroundComponent,
-        TextButtonComponent
-    ],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    BackgroundComponent,
+    TextButtonComponent,
+    WarningLabelComponent
+  ],
   imports: [
     CommonModule,
     RouterModule,
