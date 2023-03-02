@@ -1,9 +1,9 @@
-@use 'src/assets/styles/snews-palette' as palette;
-@use 'src/assets/styles/responsive' as responsive;
-
-@import "buttons";
+//@import 'snews-palette';
+//@import 'constants';
+//@import "buttons";
 @import "typography";
 @import "responsive";
+@import "form-styles";
 
 
 .always-on-top{
@@ -25,9 +25,3 @@
 html {
   scroll-behavior: smooth;
 }
-
-//body {
-//  overflow-x: hidden;
-//  overflow-y: scroll;
-//  scroll-behavior: smooth;
-//}

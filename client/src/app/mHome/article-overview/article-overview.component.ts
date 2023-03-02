@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ArticleOverviewData} from "../../types/types";
+import {ArticleOverviewData} from "../../utils/types";
 
 @Component({
   selector: 'app-article-overview',

@@ -2,13 +2,6 @@
 @import 'src/assets/styles/constants';
 @import 'src/assets/styles/snews-palette';
 
-
-//todo DRY extraction candidate
-.content {
-  min-height: calc(100vh - $header-height * 2);
-  background-color: map-get($elements-palette, BACKGROUND-GRAY);
-}
-
 h1 {
   padding-top: 1rem;
 }
@@ -21,44 +14,17 @@ h2 {
   margin-top: 3rem;
 }
 
-//todo DRY extraction candidate
-.centered-input-field {
-  display: block;
-  margin: 0 auto;
-  max-width: 30rem;
-  padding: 0 2rem;
-}
-
-.clear-button-style {
-  background-color: unset;
-  border: unset;
-}
-
 .center-text {
   text-align: center;
 }
 
 .bad-credentials {
-  max-width: map-get($content-width, DESKTOP);
   margin: 2rem auto 0;
+  max-width: map-get($content-width, DESKTOP);
 }
 
-//todo DRY extraction candidate
-.button-wrapper {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
-}
 
 .login-button {
   padding-bottom: 2rem;
   margin-top: 2rem;
-}
-
-
-//todo DRY extraction candidate
-.input-field-svg {
-  width: 90%;
-  height: 90%;
-  fill: map-get($elements-palette, GRAY);
 }
