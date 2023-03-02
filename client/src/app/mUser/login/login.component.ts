@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../../core/auth/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UserService} from "../../core/user-service/user.service";
 
 @Component({
   selector: 'app-login',
@@ -20,8 +21,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private router: Router,
-              private authService: AuthService) {
+  constructor(private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -34,9 +34,11 @@ export class LoginComponent implements OnInit {
   onSubmit() {
 
     //todo implement. hasBadCredentials changes on failed login
-    this.hasBadCredentials = true
-    this.loginForm.controls['password'].setValue('');
-    console.log(this.loginForm.value)
+    this.userService.login(this.loginForm.value.email, this.loginForm.value.password)
+
+    // this.hasBadCredentials = true
+    // this.loginForm.controls['password'].setValue('');
+    // console.log(this.loginForm.value)
 
 
   }

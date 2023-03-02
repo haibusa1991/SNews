@@ -20,4 +20,10 @@ public class HomeController implements ErrorController {
     public String getHome(){
         return "index.html";
     }
+
+    @RequestMapping(value = "/{path:[^\\.]*}")
+    public String redirect() {
+        return "forward:/";
+    }
+
 }

@@ -1,61 +1,38 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from "rxjs";
+import {HttpClient,} from "@angular/common/http";
+import {User} from "../../utils/types";
+import {Endpoints} from "../../utils/endpoints";
+import {Observable} from "rxjs";
 
-
-export type User = {
-  'username': string,
-  'isModerator': boolean,
-  'isAdmin': boolean
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // readonly USERDATA: User = {
-  //   'username': 'haibusa2005',
-  //   isModerator: false,
-  //   isAdmin: false
-  // };
 
-  // readonly USERDATA: User = {
-  //   'username': 'haibusa2005',
-  //   isModerator: true,
-  //   isAdmin: false
-  // };
-
-  readonly USERDATA: User = {
-    'username': 'haibusa2005',
-    isModerator: true,
-    isAdmin: true
-  };
-
-  private user: User | null = null;
-
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  o:Subject<User|null> = new Subject<User | null>()
+  login(username: string, password: string): Observable<any> {
+    let body = {
+      'username': username,
+      'password': password
+    }
 
-  hasUser(): boolean {
-    return !!this.user;
+    return this.http.post(Endpoints.postEndpoints['login'], body);
   }
 
-  login(): void {
-    this.user = this.USERDATA;
-    this.o.next(this.user);
+  register(username: string, email: string, password: string): Observable<any> {
+    let body = {
+      'username': username,
+      'password': password
+    }
+
+    return this.http.post(Endpoints.postEndpoints['login'], body);
   }
 
   logout(): void {
-    this.user = null;
-    this.o.next(this.user);
+    this.http.post(Endpoints.postEndpoints['logout'], {});
   }
 
-  getUsername(): string {
-    return this.user ? this.user.username : '<EMPTY>';
-  }
-
-  getUser$(): Observable<User | null> {
-    return this.o;
-  }
 }

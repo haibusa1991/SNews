@@ -25,3 +25,12 @@ export type ArticleContent = {
   author: string,
   categories: NamedLink[]
 }
+
+export type User = {
+  'username': string,
+  roles: [
+    'user',
+    'moderator',
+    'admin',
+  ]
+}
