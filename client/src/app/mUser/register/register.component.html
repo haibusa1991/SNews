@@ -7,10 +7,13 @@
     <mat-form-field
       appearance="outline"
       class="form-centered-input-field
-             form-white-input-field">
+             form-white-input-field"
+      [ngClass]="{'form-valid-field':registerForm.controls.email.valid}">
+
       <mat-label>Email адрес</mat-label>
       <mat-error>Въведеният email адрес е невалиден.</mat-error>
       <input matInput
+             placeholder="Email адрес"
              formControlName="email">
       <mat-icon
         matSuffix
@@ -27,9 +30,10 @@
     <mat-form-field
       appearance="outline"
       class="form-centered-input-field
-             form-white-input-field">
+             form-white-input-field"
+      [ngClass]="{'form-valid-field':registerForm.controls.username.valid}">
       <mat-label>Потребителско име</mat-label>
-      <mat-error>Потребителското трябва да бъде 3 или повече символа.</mat-error>
+      <mat-error>Потребителското име трябва да бъде 3 или повече символа.</mat-error>
       <input matInput
              placeholder="3 или повече символа"
              formControlName="username">
@@ -46,57 +50,58 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline"
-                    class="form-centered-input-field form-white-input-field">
+                    class="form-centered-input-field
+                           form-white-input-field"
+                    [ngClass]="{'form-valid-field':registerForm.controls.password.valid}"
+                    ngSwitch="errorMessage">
       <mat-label>Парола</mat-label>
-      <!--      todo show separate texts for each error-->
-      <mat-error>Изберете парола с най-малко 8 символа, която съдържа малка буква, главна буква и цифра.</mat-error>
+      <mat-error>{{passwordErrorMessage}}</mat-error>
       <mat-hint *ngIf="!registerForm.controls.password.valid">Изберете парола с най-малко 8 символа.</mat-hint>
       <input matInput
              placeholder="Малки и главни букви, цифри"
-             [type]="isPasswordHidden ? 'password' : 'text'"
+             type="password"
              formControlName="password">
-      <button
-        type="button"
-        mat-icon-button
+      <mat-icon
         matSuffix
-        (click)="isPasswordHidden = !isPasswordHidden"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="isPasswordHidden">
-        <mat-icon>{{isPasswordHidden ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
+        mat-icon-button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          class="form-input-field-svg">
+          <path
+            d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
+        </svg>
+      </mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline"
-                    class="form-centered-input-field form-white-input-field">
+                    class="form-centered-input-field
+                    form-white-input-field"
+                    [ngClass]="{'form-valid-field':registerForm.controls.repass.valid}">
       <mat-label>Повторете паролата</mat-label>
       <mat-error>Паролите не съвпадат.</mat-error>
       <input matInput
              placeholder="Въведете паролата си отново"
-             [type]="isRepassHidden ? 'password' : 'text'"
+             type="password"
              formControlName="repass">
-      <button
-        type="button"
-        mat-icon-button
+
+      <mat-icon
         matSuffix
-        (click)="isRepassHidden = !isRepassHidden"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="isRepassHidden">
-        <mat-icon>{{isRepassHidden ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
+        mat-icon-button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          class="form-input-field-svg">
+          <path
+            d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
+        </svg>
+      </mat-icon>
     </mat-form-field>
 
     <div>
       <p class="center-text">Вече имате профил? Влезте от <a routerLink="/user/login" class="clickable">тук</a>.
       </p>
     </div>
-
-    <!--    <div class="form-error-message"-->
-    <!--         *ngIf="hasBadCredentials">-->
-    <!--      <app-warning-label-->
-    <!--        [warningText]="'Грешен email адрес или парола'">-->
-    <!--      </app-warning-label>-->
-    <!--      <p class="center-text"><a routerLink="/user/register" class="clickable">Забравена парола?</a></p>-->
-    <!--    </div>-->
 
     <div class="form-button-wrapper register-button">
       <button
