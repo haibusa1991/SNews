@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {PasswordValidators} from "../../utils/validators";
+import {UserService} from "../../core/user-service/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -17,7 +19,15 @@ export class RegisterComponent implements OnInit {
     noNumeric: "Паролата трябва да съдържа цифра."
   }
 
+  formErrorMessages: { [key: string]: string } = {
+    usernameAlreadyRegistered: "Вече съществува потребител с това потребителско име.",
+    emailAlreadyRegistered: "Вече съществува потребител с този email адрес.",
+  }
+
   passwordErrorMessage = this.passwordErrorMessages['minlength'];
+  formErrorMessage = '';
+  hasRegistrationIssue: boolean = false;
+
 
   passwordsMatchValidator(): ValidatorFn {
     return (c: AbstractControl): ValidationErrors | null => {
@@ -52,7 +62,9 @@ export class RegisterComponent implements OnInit {
     ])
   })
 
-  constructor() {
+
+  constructor(private userService: UserService,
+              private router:Router) {
   }
 
   ngOnInit(): void {
@@ -73,7 +85,23 @@ export class RegisterComponent implements OnInit {
 
 
   onSubmit() {
-    console.log(this.registerForm.value);
+    let form = this.registerForm.value;
+
+    this.userService.register$(form.email!, form.username!, form.password!).subscribe(response => {
+      if (response.isEmailTaken) {
+        this.formErrorMessage = this.formErrorMessages['emailAlreadyRegistered'];
+        this.hasRegistrationIssue = true;
+        return;
+      }
+
+      if (response.isUsernameTaken) {
+        this.formErrorMessage = this.formErrorMessages['usernameAlreadyRegistered'];
+        this.hasRegistrationIssue = true;
+        return;
+      }
+
+      this.router.navigateByUrl('/user/login')
+    })
   }
 
   updatePasswordError() {

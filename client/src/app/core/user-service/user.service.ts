@@ -1,38 +1,66 @@
 import {Injectable} from '@angular/core';
-import {AuthService} from "../auth/auth.service";
 import {Observable, Subject} from "rxjs";
-import {User} from "../../utils/types";
+import {RegisterResponse, User} from "../../utils/types";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Endpoints} from "../../utils/endpoints";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private dummyuser: User = {
-    roles: [
-      'user',
-      'moderator',
-      'admin'
-    ],
-    username: "dummyname"
-  };
-
   private currentUser: User | null = null;
+  private currentUserStatus = new Subject<User | null>();
 
-  // private usernameEvent: Subject<string> = new Subject();
-
-  constructor(private authService: AuthService) {
+  constructor(private http: HttpClient) {
   }
 
-  login(username: string, password: string) {
-    this.authService.login(username, password).subscribe(
+  login$(username: string, password: string): Observable<boolean> {
+    let body = {username, password};
+    return new Observable<boolean>(hasErrors =>
+      this.http.post(Endpoints.postEndpoints['login'], body).subscribe(response => {
+        let user = response as any as User;
+        if (user.username) {
+          this.currentUser = user;
+          this.currentUserStatus.next(this.currentUser);
+          hasErrors.next(false);
+        }
+        hasErrors.next(true);
+      }));
+  }
+
+  getUser$(): Observable<User | null> {
+    return this.currentUserStatus.asObservable();
+  }
+
+  register$(email: string, username: string, password: string): Observable<RegisterResponse> {
+    let body = {email, username, password};
+    return new Observable<RegisterResponse>(response =>
+      this.http.post(Endpoints.postEndpoints['register'], body).subscribe(
+
       next => {
-        console.log(next)
-      });
+        response.next({isUsernameTaken: false, isEmailTaken: false});
+      },
+        error =>{
+
+          let resp = error as HttpErrorResponse
+
+          if (resp.status == 409 && resp.error.message == 'Username already registered.') {
+            response.next({isUsernameTaken: true, isEmailTaken: false});
+          }
+
+          if (resp.status == 409 && resp.error.message == 'Email address is already registered.') {
+            response.next({isUsernameTaken: false, isEmailTaken: true});
+          }
+        }
+      )
+    );
   }
 
-  getUser$(): Observable<User|null> {
-    return new Observable(e => e.next(this.currentUser));
+  logout() {
+    //todo properly implement - should notify server that the session has ended
+    this.currentUser = null;
+    this.currentUserStatus.next(null);
   }
 }
 

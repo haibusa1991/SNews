@@ -4,6 +4,7 @@
     <div class="article-header">
       <h1>{{articleContent.heading}}</h1>
       <h3>{{articleContent.publishDate}}</h3>
+<!--      todo DRY candidate. Replace div with a warning component-->
       <div class="old-article"
            *ngIf="isOldArticle">
         <p>{{oldArticleWarning}}</p>

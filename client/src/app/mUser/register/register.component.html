@@ -98,8 +98,14 @@
       </mat-icon>
     </mat-form-field>
 
+    <app-warning-label
+      *ngIf="hasRegistrationIssue"
+      warningText="{{formErrorMessage}}"
+      class="warning-label">
+    </app-warning-label>
+
     <div>
-      <p class="center-text">Вече имате профил? Влезте от <a routerLink="/user/login" class="clickable">тук</a>.
+      <p class="center-text">Вече имате профил? Влезте от <a routerLink="/userEntity/login" class="clickable">тук</a>.
       </p>
     </div>
 

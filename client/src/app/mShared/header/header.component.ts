@@ -4,7 +4,6 @@ import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {filter, map} from "rxjs";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";
 import {menuToggle} from "./animations";
-import {AuthService} from "../../core/auth/auth.service";
 import {UserService} from "../../core/user-service/user.service";
 
 @Component({
@@ -15,9 +14,7 @@ import {UserService} from "../../core/user-service/user.service";
 })
 export class HeaderComponent implements OnInit {
 
-  username: string = '';
-
-  user!:User|null;
+  currentUser!:User|null;
 
   headerFlags: { [k: string]: boolean } = {
     'search': false,
@@ -74,7 +71,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router,
               private eventProvider: EventProviderService,
-              private authService: AuthService,
               private userService: UserService) {
   }
 
@@ -87,16 +83,15 @@ export class HeaderComponent implements OnInit {
 
     this.eventProvider.backgroundClick$().subscribe(() => this.closeAllPanels());
 
-    this.userService.getUser$().subscribe(user => this.user = user);
+    this.userService.getUser$().subscribe(user => this.currentUser = user);
 
 
-    //todo replace when auth service is properly implemented
     //nasty :(
     this.router.events.pipe(
       filter(e => e instanceof NavigationStart),
       map(e => {
         if ((e as NavigationStart).url == '/' + this.endpoints['logout']) {
-          this.authService.logout();
+          this.userService.logout();
           this.router.navigateByUrl('/');
         }
       })
@@ -155,21 +150,21 @@ export class HeaderComponent implements OnInit {
     let items: NamedLink[] = [];
 
     //todo check if enum will be appropriate
-    if (this.user) {
+    if (this.currentUser) {
       items.push(this.menuItems['settings']);
 
-      if (this.user.roles.find(e=>e=='moderator')) {
+      if (this.currentUser.roles.find(e=>e=='moderator')) {
         items.push(this.menuItems['moderation']);
       }
 
-      if (this.user.roles.find(e=>e=='admin')) {
+      if (this.currentUser.roles.find(e=>e=='admin')) {
         items.push(this.menuItems['administration']);
       }
 
       items.push(this.menuItems['logout']);
     }
 
-    if (!this.user) {
+    if (!this.currentUser) {
       items.push(
         this.menuItems['login'],
         this.menuItems['register']
@@ -191,17 +186,21 @@ export class HeaderComponent implements OnInit {
     );
 
     //todo refactor. DRY candidate
-    if (this.user) {
+    if (this.currentUser) {
       items.push(this.menuItems['settings']);
 
-      if (this.user.roles.find(e=>e=='moderator')) {
+      if (this.currentUser.roles.find(e=>e=='moderator')) {
         items.push(this.menuItems['moderation']);
       }
-      if (this.user.roles.find(e=>e=='admin')) {
+      if (this.currentUser.roles.find(e=>e=='admin')) {
         items.push(this.menuItems['administration']);
       }
     }
 
     return items;
+  }
+
+  onLogout(){
+    this.userService.logout();
   }
 }
