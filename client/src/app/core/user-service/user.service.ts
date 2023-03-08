@@ -93,25 +93,33 @@ export class UserService {
   }
 
   register$(email: string, username: string, password: string): Observable<RegisterResponse> {
-    let body = {email, username, password};
+    // let body = new FormData();
+    // body.append('email',email);
+    // body.append('username',username);
+    // body.append('password',password);
+
     return new Observable<RegisterResponse>(response =>
-      this.http.post(Endpoints.postEndpoints['register'], body).subscribe(
-        next => {
-          response.next({isUsernameTaken: false, isEmailTaken: false});
-        },
-        error => {
+      this.getToken$().subscribe(() => {
+        this.http.post(userEndpoints['register'], {email,username,password},{
+          responseType: 'text',
+          withCredentials: true,
+        }).subscribe({
+          next: () => {
+            response.next({isUsernameTaken: false, isEmailTaken: false});
+          },
+          error: e => {
+            let resp = e as HttpErrorResponse
 
-          let resp = error as HttpErrorResponse
+            if (resp.status == 409 && resp.error == 'Username already registered.') {
+              response.next({isUsernameTaken: true, isEmailTaken: false});
+            }
 
-          if (resp.status == 409 && resp.error.message == 'Username already registered.') {
-            response.next({isUsernameTaken: true, isEmailTaken: false});
+            if (resp.status == 409 && resp.error == 'Email address is already registered.') {
+              response.next({isUsernameTaken: false, isEmailTaken: true});
+            }
           }
-
-          if (resp.status == 409 && resp.error.message == 'Email address is already registered.') {
-            response.next({isUsernameTaken: false, isEmailTaken: true});
-          }
-        }
-      )
+        })
+      })
     );
   }
 
