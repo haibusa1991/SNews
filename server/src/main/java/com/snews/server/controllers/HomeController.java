@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController implements ErrorController {
 
-    private static final String ERROR_PATH = "/error";
-
-    @RequestMapping(value = ERROR_PATH)
-    public String error() {
-        return "forward:/index.html";
-    }
+//    private static final String ERROR_PATH = "/error";
+//
+//    @RequestMapping(value = ERROR_PATH)
+//    public String error() {
+//        return "forward:/index.html";
+//    }
 
     @GetMapping("/")
     public String getHome(){
         return "index.html";
     }
-
-    @RequestMapping(value = "/{path:[^\\.]*}")
-    public String redirect() {
-        return "forward:/";
-    }
+//
+//    @RequestMapping(value = "/{path:[^\\.]*}")
+//    public String redirect() {
+//        return "forward:/";
+//    }
 
 }

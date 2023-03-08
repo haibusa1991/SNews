@@ -16,32 +16,34 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
-    //    todo remove after adding the real user service
+
+    //    //    todo remove after adding the real user service
     private final UserRoleService userRoleService;
 
     public UserController(UserRoleService userRoleService) {
         this.userRoleService = userRoleService;
     }
 
-    @PostMapping(path = "/login")
-    public UserDto login(@RequestBody LoginDto loginDto) {
-        UserDto userdto = new UserDto();
-        userdto.setUsername("haibusa2005")
-                .setRoles(Set.of(
-                        this.userRoleService.getUserRole(UserRoleEnum.USER).getRole().name().toLowerCase(),
-                        this.userRoleService.getUserRole(UserRoleEnum.MODERATOR).getRole().name().toLowerCase()
-                ));
-
-        return userdto;
-    }
+//    @PostMapping(path = "/login")
+//    public UserDto login(@RequestBody LoginDto loginDto) {
+//        UserDto userdto = new UserDto();
+//        userdto.setUsername("haibusa2005")
+//                .setRoles(Set.of(
+//                        this.userRoleService.getUserRole(UserRoleEnum.USER).getRole().name().toLowerCase(),
+//                        this.userRoleService.getUserRole(UserRoleEnum.MODERATOR).getRole().name().toLowerCase()
+//                ));
+//
+//        return userdto;
+//    }
 
     @PostMapping(path = "/register")
-    public User register(@RequestBody RegisterDto registerDto) {
-        User user = new User();
-        UserRole role = this.userRoleService.getUserRole(UserRoleEnum.USER);
-        user.setUsername("haibusa2005")
-                .setEmail("haibusa2005@abv.bg")
-                .setUserRole(Set.of(role));
-        return user;
+    public String register(@RequestBody RegisterDto registerDto) {
+//        User user = new User();
+//        UserRole role = this.userRoleService.getUserRole(UserRoleEnum.USER);
+//        user.setUsername("haibusa2005")
+//                .setEmail("haibusa2005@abv.bg")
+//                .setUserRole(Set.of(role));
+//        return user;
+        return "ok";
     }
 }
