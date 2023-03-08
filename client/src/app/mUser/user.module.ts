@@ -9,6 +9,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {SharedModule} from "../mShared/shared.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CsrfInterceptor} from "../core/interceptors/csrf-header";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {CookieService} from "ngx-cookie-service";
 
 const moduleRoutes: Routes = [
   {

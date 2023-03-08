@@ -13,19 +13,19 @@ import java.util.HashMap;
 @RestControllerAdvice
 public class ExceptionResolver {
 
-    @ResponseStatus(value = HttpStatus.CONFLICT)
-    @ExceptionHandler(UserAlreadyRegisteredException.class)
-    public HashMap<String, String> handleEmailAlreadyRegisteredException(Exception e) {
-        HashMap<String, String> response = new HashMap<>();
-        response.put("message", e.getMessage());
-        return response;
-    }
-
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MalformedDataException.class)
-    public HashMap<String, String[]> handleMalformedDataException(Exception e) {
-        HashMap<String, String[]> response = new HashMap<>();
-        response.put("message", Arrays.stream(e.getMessage().split(System.lineSeparator())).sorted().toArray(String[]::new));
-        return response;
-    }
+//    @ResponseStatus(value = HttpStatus.CONFLICT)
+//    @ExceptionHandler(UserAlreadyRegisteredException.class)
+//    public HashMap<String, String> handleEmailAlreadyRegisteredException(Exception e) {
+//        HashMap<String, String> response = new HashMap<>();
+//        response.put("message", e.getMessage());
+//        return response;
+//    }
+//
+//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MalformedDataException.class)
+//    public HashMap<String, String[]> handleMalformedDataException(Exception e) {
+//        HashMap<String, String[]> response = new HashMap<>();
+//        response.put("message", Arrays.stream(e.getMessage().split(System.lineSeparator())).sorted().toArray(String[]::new));
+//        return response;
+//    }
 }

@@ -55,11 +55,11 @@ public class UserEntity {
         return this;
     }
 
-    public Set<UserRoleEntity> getUserRole() {
+    public Set<UserRoleEntity> getUserRoles() {
         return userRoles;
     }
 
-    public UserEntity setUserRole(Set<UserRoleEntity> userRoleEntity) {
+    public UserEntity setUserRoles(Set<UserRoleEntity> userRoleEntity) {
         this.userRoles = userRoleEntity;
         return this;
     }

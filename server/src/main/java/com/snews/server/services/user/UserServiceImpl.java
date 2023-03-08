@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setUsername(candidateUsername)
                 .setEmail(candidateEmail)
-                .setUserRole(Set.of(role))
+                .setUserRoles(Set.of(role))
                 .setPassword(this.passwordEncoder.encode(dto.getPassword()));
 
         UserEntity registeredUserEntity = this.userRepository.save(userEntity);
@@ -85,19 +85,19 @@ public class UserServiceImpl implements UserService {
         Set<UserEntity> users = new HashSet<>();
 
         UserEntity user1 = createBaseUser("haibusa2005");
-        user1.setUserRole(Set.of(userRole));
+        user1.setUserRoles(Set.of(userRole));
         users.add(user1);
 
         UserEntity user2 = createBaseUser("haibusa2006");
-        user2.setUserRole(Set.of(userRole,moderatorRole));
+        user2.setUserRoles(Set.of(userRole,moderatorRole));
         users.add(user2);
 
         UserEntity user3 = createBaseUser("haibusa2007");
-        user3.setUserRole(Set.of(userRole,administratorRole));
+        user3.setUserRoles(Set.of(userRole,administratorRole));
         users.add(user3);
 
         UserEntity user4 = createBaseUser("haibusa2008");
-        user4.setUserRole(Set.of(userRole,moderatorRole,administratorRole));
+        user4.setUserRoles(Set.of(userRole,moderatorRole,administratorRole));
         users.add(user4);
 
         this.userRepository.saveAll(users);

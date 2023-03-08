@@ -26,7 +26,7 @@ public class BeansConfiguration {
                         .collect(Collectors.toSet());
 
         modelMapper.createTypeMap(UserEntity.class, UserDto.class)
-                .addMappings(m -> m.using(userRoleConverter).map(UserEntity::getUserRole, UserDto::setRoles));
+                .addMappings(m -> m.using(userRoleConverter).map(UserEntity::getUserRoles, UserDto::setRoles));
 
         return modelMapper;
     }

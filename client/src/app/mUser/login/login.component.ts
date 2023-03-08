@@ -17,8 +17,9 @@ export class LoginComponent implements OnInit {
   hasBadCredentials = false;
 
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    //todo remove defaults
+    email: new FormControl('haibusa2005@abv.b', Validators.required),
+    password: new FormControl('123456Aa', Validators.required),
   });
 
   constructor(private userService: UserService,
@@ -31,12 +32,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     let formValues = this.loginForm.value;
-    this.userService.login$(formValues.email, formValues.password).subscribe(hasBadCredentials => {
-      if (hasBadCredentials) {
-        this.hasBadCredentials = true;
+
+    this.userService.login$(formValues.email, formValues.password).subscribe(hasLoggedIn => {
+      if (hasLoggedIn) {
+        this.router.navigateByUrl('/');
         return;
       }
-      this.router.navigateByUrl('/');
+      this.hasBadCredentials = true;
     });
   }
 }

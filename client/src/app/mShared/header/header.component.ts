@@ -5,6 +5,7 @@ import {filter, map} from "rxjs";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";
 import {menuToggle} from "./animations";
 import {UserService} from "../../core/user-service/user.service";
+import {userEndpoints} from "../../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -36,7 +37,7 @@ export class HeaderComponent implements OnInit {
     'settings': 'user/settings',
     'moderation': 'user/moderation',
     'administration': 'user/administration',
-    'logout': 'user/logout',
+    'logout': 'user/logout'
   }
 
   texts: { [k: string]: string } = {
@@ -82,7 +83,6 @@ export class HeaderComponent implements OnInit {
     });
 
     this.eventProvider.backgroundClick$().subscribe(() => this.closeAllPanels());
-
     this.userService.getUser$().subscribe(user => this.currentUser = user);
 
 
@@ -91,11 +91,13 @@ export class HeaderComponent implements OnInit {
       filter(e => e instanceof NavigationStart),
       map(e => {
         if ((e as NavigationStart).url == '/' + this.endpoints['logout']) {
-          this.userService.logout();
+          this.userService.logout$().subscribe();
           this.router.navigateByUrl('/');
         }
       })
-    ).subscribe()
+    ).subscribe();
+
+    this.userService.validateSession();
   }
 
   toggleMoreMenu() {
@@ -157,7 +159,7 @@ export class HeaderComponent implements OnInit {
         items.push(this.menuItems['moderation']);
       }
 
-      if (this.currentUser.roles.find(e=>e=='admin')) {
+      if (this.currentUser.roles.find(e=>e=='administrator')) {
         items.push(this.menuItems['administration']);
       }
 
@@ -192,7 +194,7 @@ export class HeaderComponent implements OnInit {
       if (this.currentUser.roles.find(e=>e=='moderator')) {
         items.push(this.menuItems['moderation']);
       }
-      if (this.currentUser.roles.find(e=>e=='admin')) {
+      if (this.currentUser.roles.find(e=>e=='administrator')) {
         items.push(this.menuItems['administration']);
       }
     }
@@ -201,6 +203,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout(){
-    this.userService.logout();
+    this.userService.logout$().subscribe();
   }
 }

@@ -31,7 +31,7 @@ export type User = {
   roles: [
     'user',
     'moderator',
-    'admin',
+    'administrator',
   ]
 }
 
