@@ -17,13 +17,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/user")
 public class UserController {
-<<<<<<< HEAD
 
     //    //    todo remove after adding the real user service
     private final UserRoleService userRoleService;
-=======
     private final UserService userService;
->>>>>>> 1ee05b6debfb77954562e91a69c3c9a7003e9fb3
+    private final UserService userService;
 
     public UserController(
                           UserService userService) {
@@ -32,7 +30,6 @@ public class UserController {
 
 //    @PostMapping(path = "/login")
 //    public UserDto login(@RequestBody LoginDto loginDto) {
-<<<<<<< HEAD
 //        UserDto userdto = new UserDto();
 //        userdto.setUsername("haibusa2005")
 //                .setRoles(Set.of(
@@ -52,7 +49,6 @@ public class UserController {
 //                .setUserRole(Set.of(role));
 //        return user;
         return "ok";
-=======
 //        return this.userService.loginUser(loginDto);
 //    }
 //
@@ -95,7 +91,50 @@ public class UserController {
     @GetMapping(path = "/mods-only")
     public String mods(){
         return "moderators only area";
->>>>>>> 1ee05b6debfb77954562e91a69c3c9a7003e9fb3
+    }
+
+//        return this.userService.loginUser(loginDto);
+//    }
+//
+//    @PostMapping(path = "/register")
+//    public UserDto register(@RequestBody @Valid RegisterDto registerDto,
+//                            BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
+//
+//        if (bindingResult.hasErrors()) {
+//            String errorMessages = bindingResult
+//                    .getAllErrors()
+//                    .stream()
+//                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+//                    .collect(Collectors.joining(System.lineSeparator()));
+//            throw new MalformedDataException(errorMessages);
+//        }
+//
+//        String candidateUsername = registerDto.getUsername();
+//        UserEntity userEntityByUsername = this.userService.getUserByUsername(candidateUsername);
+//        if (userEntityByUsername != null && candidateUsername.equalsIgnoreCase(userEntityByUsername.getUsername())) {
+//            throw new UserAlreadyRegisteredException("Username already registered.");
+//        }
+//
+//        String candidateEmail = registerDto.getEmail();
+//        UserEntity userEntityByEmail = this.userService.getUserByEmail(candidateEmail);
+//        if (userEntityByEmail != null && candidateEmail.equalsIgnoreCase(userEntityByEmail.getEmail())) {
+//            throw new UserAlreadyRegisteredException("Email address is already registered.");
+//        }
+//
+//        return this.userService.registerUser(registerDto);
+//
+//    }
+
+
+
+    @GetMapping(path = "/users-only")
+    public String users(){
+        return "users only area";
+    }
+
+    @GetMapping(path = "/mods-only")
+    public String mods(){
+        return "moderators only area";
     }
 
     @GetMapping(path = "/admins-only")
