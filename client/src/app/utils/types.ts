@@ -34,3 +34,8 @@ export type User = {
     'admin',
   ]
 }
+
+export type RegisterResponse = {
+  isEmailTaken:boolean,
+  isUsernameTaken:boolean
+}

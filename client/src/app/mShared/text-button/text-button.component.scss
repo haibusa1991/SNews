@@ -50,7 +50,7 @@ div {
   background-color: unset;
   //border: 2px solid map-get(palette.$elements-palette, GRAY);
   outline: map-get(palette.$elements-palette, GRAY) solid 2px;
-  cursor: not-allowed;
+  //cursor: not-allowed;
 
   p {
     color: map-get(palette.$elements-palette, GRAY);

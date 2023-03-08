@@ -1,7 +1,5 @@
 package com.snews.server.dto;
 
-import com.snews.server.entities.UserRole;
-
 import java.util.Set;
 
 public class UserDto {

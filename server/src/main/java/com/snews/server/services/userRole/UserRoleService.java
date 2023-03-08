@@ -1,8 +1,10 @@
 package com.snews.server.services.userRole;
 
-import com.snews.server.entities.UserRole;
+import com.snews.server.entities.UserRoleEntity;
 import com.snews.server.enumeration.UserRoleEnum;
 
 public interface UserRoleService {
-    UserRole getUserRole(UserRoleEnum userRoleEnum);
+    UserRoleEntity getUserRole(UserRoleEnum userRoleEnum);
+
+    void initRoles();
 }

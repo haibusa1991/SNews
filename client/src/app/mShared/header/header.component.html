@@ -11,8 +11,8 @@
       </div>
     </a>
     <nav>
-      <p class="user-welcome"
-         *ngIf="user">Здравейте, <span><a href="{{endpoints['settings']}}">{{user.username || ''}}</a></span></p>
+      <p class="userEntity-welcome"
+         *ngIf="currentUser">Здравейте, <span><a href="{{endpoints['settings']}}">{{currentUser.username}}</a></span></p>
       <div class="mobile-nav">
         <ul role="list">
           <li class="icon-button">
@@ -39,24 +39,24 @@
       <div class="tablet-nav">
         <ul role="list">
           <li class="text-button"
-          *ngIf="!user">
+          *ngIf="!currentUser">
           <app-text-button
               [buttonText]="texts['login']"
               (click)="navigateFromButton(endpoints['login'])">
           </app-text-button>
           </li>
           <li class="text-button"
-              *ngIf="!user">
+              *ngIf="!currentUser">
           <app-text-button
               [buttonText]="texts['register']"
               (click)="navigateFromButton(endpoints['register'])">
           </app-text-button>
           </li>
           <li class="text-button"
-              *ngIf="user">
+              *ngIf="currentUser">
           <app-text-button
               [buttonText]="texts['logout']"
-              (click)="navigateFromButton(endpoints['logout'])">
+              (click)="onLogout()">
           </app-text-button>
           </li>
           <li class="text-button">
