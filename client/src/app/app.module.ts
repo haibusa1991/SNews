@@ -6,6 +6,9 @@ import {AppComponent} from './app.component';
 import {SharedModule} from "./mShared/shared.module";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HomeModule} from "./mHome/home.module";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {CsrfInterceptor} from "./core/interceptors/csrf-header";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -16,9 +19,16 @@ import {HomeModule} from "./mHome/home.module";
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    HomeModule
+    HomeModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CsrfInterceptor,
+      multi: true,
+    },
+  ],
   exports: [],
   bootstrap: [AppComponent]
 })

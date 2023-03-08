@@ -1,29 +1,65 @@
+#spring:
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#        format_sql: 'TRUE'
+#    hibernate:
+#      ddl-auto: update
+#    open-in-view: 'false'
+#  mvc:
+#    hiddenmethod:
+#      filter:
+#        enabled: 'true'
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    password: 'toor'
+#    username: 'root'
+#    url: jdbc:mysql://localhost:3306/snews?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor: TRACE
+#        SQL: DEBUG
+#      nodeValue: WARN
+#    blog: WARN
+#server:
+#  port: 8080
+
 spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/snews?useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC"
+    username: root
+    password: toor
+  sql:
+    init:
+      mode: always
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: 'TRUE'
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
-    open-in-view: 'false'
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
   mvc:
     hiddenmethod:
       filter:
-        enabled: 'true'
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    password: 'toor'
-    username: 'root'
-    url: jdbc:mysql://localhost:3306/snews?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+        enabled: true
+  web:
+    resources:
+      static-locations: classpath:/static
 logging:
   level:
-    org:
-      hibernate:
-        type:
-          descriptor: TRACE
-        SQL: DEBUG
-      nodeValue: WARN
-    blog: WARN
+        org.springframework.security: trace
+#    org.springframework.security: error
+
 server:
-  port: 8080
+  servlet:
+    session:
+      cookie:
+        secure: true

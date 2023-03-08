@@ -25,3 +25,17 @@ export type ArticleContent = {
   author: string,
   categories: NamedLink[]
 }
+
+export type User = {
+  'username': string,
+  roles: [
+    'user',
+    'moderator',
+    'administrator',
+  ]
+}
+
+export type RegisterResponse = {
+  isEmailTaken:boolean,
+  isUsernameTaken:boolean
+}

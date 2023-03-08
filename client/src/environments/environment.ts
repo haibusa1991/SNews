@@ -6,6 +6,22 @@ export const environment = {
   production: false
 };
 
+export const apiEndpoints = {
+  'articleContent': 'api/api/articleContent',
+  'csrf': 'api/api/csrf',
+  'testPost': 'api/api/testPost'
+}
+
+export const userEndpoints = {
+  'login': 'api/user/login',
+  'register': 'api/user/register',
+  'logout': 'api/user/logout',
+  'csrf': apiEndpoints['csrf'],
+  'getUsername' : '/api/user/username',
+  'getUser':'/api/user/user'
+}
+
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

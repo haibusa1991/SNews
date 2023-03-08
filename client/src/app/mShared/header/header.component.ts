@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {NamedLink} from "../../utils/types";
+import {NamedLink, User} from "../../utils/types";
 import {NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {filter, map} from "rxjs";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";
 import {menuToggle} from "./animations";
-import {AuthService, User} from "../../core/auth/auth.service";
+import {UserService} from "../../core/user-service/user.service";
+import {userEndpoints} from "../../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -13,8 +14,8 @@ import {AuthService, User} from "../../core/auth/auth.service";
   animations: [menuToggle]
 })
 export class HeaderComponent implements OnInit {
-  user!: User | null;
-  username: string = '';
+
+  currentUser!:User|null;
 
   headerFlags: { [k: string]: boolean } = {
     'search': false,
@@ -36,7 +37,7 @@ export class HeaderComponent implements OnInit {
     'settings': 'user/settings',
     'moderation': 'user/moderation',
     'administration': 'user/administration',
-    'logout': 'user/logout',
+    'logout': 'user/logout'
   }
 
   texts: { [k: string]: string } = {
@@ -71,7 +72,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private router: Router,
               private eventProvider: EventProviderService,
-              private authService: AuthService) {
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -82,25 +83,21 @@ export class HeaderComponent implements OnInit {
     });
 
     this.eventProvider.backgroundClick$().subscribe(() => this.closeAllPanels());
+    this.userService.getUser$().subscribe(user => this.currentUser = user);
 
-    this.authService.getUser$().subscribe(e => {
-      if (e) {
-        this.username = e.username;
-      }
-      this.user = e
-    });
 
-    //todo replace when auth service is properly implemented
     //nasty :(
     this.router.events.pipe(
       filter(e => e instanceof NavigationStart),
       map(e => {
         if ((e as NavigationStart).url == '/' + this.endpoints['logout']) {
-          this.authService.logout();
+          this.userService.logout$().subscribe();
           this.router.navigateByUrl('/');
         }
       })
-    ).subscribe()
+    ).subscribe();
+
+    this.userService.validateSession();
   }
 
   toggleMoreMenu() {
@@ -154,21 +151,22 @@ export class HeaderComponent implements OnInit {
   getProfileMenu(): NamedLink[] {
     let items: NamedLink[] = [];
 
-    if (this.user) {
+    //todo check if enum will be appropriate
+    if (this.currentUser) {
       items.push(this.menuItems['settings']);
 
-      if (this.user.isModerator) {
+      if (this.currentUser.roles.find(e=>e=='moderator')) {
         items.push(this.menuItems['moderation']);
       }
 
-      if (this.user.isAdmin) {
+      if (this.currentUser.roles.find(e=>e=='administrator')) {
         items.push(this.menuItems['administration']);
       }
 
       items.push(this.menuItems['logout']);
     }
 
-    if (!this.user) {
+    if (!this.currentUser) {
       items.push(
         this.menuItems['login'],
         this.menuItems['register']
@@ -189,17 +187,22 @@ export class HeaderComponent implements OnInit {
       this.menuItems['sport']
     );
 
-    if (this.user) {
+    //todo refactor. DRY candidate
+    if (this.currentUser) {
       items.push(this.menuItems['settings']);
 
-      if (this.user.isModerator) {
+      if (this.currentUser.roles.find(e=>e=='moderator')) {
         items.push(this.menuItems['moderation']);
       }
-      if (this.user.isAdmin) {
+      if (this.currentUser.roles.find(e=>e=='administrator')) {
         items.push(this.menuItems['administration']);
       }
     }
 
     return items;
+  }
+
+  onLogout(){
+    this.userService.logout$().subscribe();
   }
 }

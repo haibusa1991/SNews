@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthService} from "../../core/auth/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UserService} from "../../core/user-service/user.service";
+import {User} from "../../utils/types";
 
 @Component({
   selector: 'app-login',
@@ -16,28 +17,28 @@ export class LoginComponent implements OnInit {
   hasBadCredentials = false;
 
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    //todo remove defaults
+    email: new FormControl('haibusa2005@abv.b', Validators.required),
+    password: new FormControl('123456Aa', Validators.required),
   });
 
-  constructor(private router: Router,
-              private authService: AuthService) {
+  constructor(private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
-    // this.authService.login();
-    // this.router.navigateByUrl('/');
-
     this.loginForm.statusChanges.subscribe(formStatus => this.isLoginDisabled = formStatus == 'INVALID');
   }
 
   onSubmit() {
+    let formValues = this.loginForm.value;
 
-    //todo implement. hasBadCredentials changes on failed login
-    this.hasBadCredentials = true
-    this.loginForm.controls['password'].setValue('');
-    console.log(this.loginForm.value)
-
-
+    this.userService.login$(formValues.email, formValues.password).subscribe(hasLoggedIn => {
+      if (hasLoggedIn) {
+        this.router.navigateByUrl('/');
+        return;
+      }
+      this.hasBadCredentials = true;
+    });
   }
 }
