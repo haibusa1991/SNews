@@ -1,5 +1,6 @@
 package com.snews.server.controllers;
 
+import com.snews.server.dto.ForgottenPasswordDto;
 import com.snews.server.dto.RegisterDto;
 import com.snews.server.dto.UserDto;
 import com.snews.server.entities.UserEntity;
@@ -21,21 +22,15 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/user")
 public class UserController {
 
-    private final UserRoleService userRoleService;
+//    private final UserRoleService userRoleService;
     private final UserService userService;
 
     public UserController(
-            UserRoleService userRoleService, UserService userService) {
-        this.userRoleService = userRoleService;
+//            UserRoleService userRoleService,
+            UserService userService) {
+//        this.userRoleService = userRoleService;
         this.userService = userService;
     }
-
-
-//    @PostMapping(path = "/register")
-//    public String register(@RequestBody RegisterDto registerDto) {
-//        return "ok";
-//    }
-
 
     @PostMapping(path = "/register")
     public UserDto register(@RequestBody @Valid RegisterDto registerDto,
@@ -50,6 +45,7 @@ public class UserController {
             throw new MalformedDataException(errorMessages);
         }
 
+//todo refactor -> move logic to service. Service returns enum - OK, usernameError, emailError
         String candidateUsername = registerDto.getUsername();
         UserEntity userEntityByUsername = this.userService.getUserByUsername(candidateUsername);
         if (userEntityByUsername != null && candidateUsername.equalsIgnoreCase(userEntityByUsername.getUsername())) {
@@ -66,6 +62,12 @@ public class UserController {
 
     }
 
+    @PostMapping(path = "/forgotten-password")
+    public void forgottenPassword(@RequestBody ForgottenPasswordDto dto) {
+        this.userService.recoverPassword(dto);
+//        System.out.println("--------------------------********************************-------------------------------");
+    }
+
     @GetMapping("/username")
     public String getUsername() {
         return SecurityContextHolder
@@ -75,7 +77,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public UserDto getUser(){
+    public UserDto getUser() {
         UserDto userDto = new UserDto();
 
         userDto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -86,7 +88,7 @@ public class UserController {
                 .getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .map(e-> e.replaceAll("ROLE_",""))
+                .map(e -> e.replaceAll("ROLE_", ""))
                 .map(String::toLowerCase)
                 .collect(Collectors.toSet());
 

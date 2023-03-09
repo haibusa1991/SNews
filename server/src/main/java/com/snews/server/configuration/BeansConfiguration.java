@@ -6,7 +6,10 @@ import com.snews.server.entities.UserRoleEntity;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,5 +34,24 @@ public class BeansConfiguration {
         return modelMapper;
     }
 
+    @Bean
+    public JavaMailSender getJavaMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setDefaultEncoding("UTF-8");
+
+        mailSender.setUsername("haibusa1991@gmail.com");
+        mailSender.setPassword("gyki axmu lpnt kmje");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        //todo remove
+        props.put("mail.debug", "true");
+
+        return mailSender;
+    }
 
 }

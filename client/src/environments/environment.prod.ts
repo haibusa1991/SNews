@@ -14,6 +14,7 @@ export const userEndpoints = {
   'logout': 'http://localhost:8080/user/logout',
   'csrf': apiEndpoints['csrf'],
   'getUsername' : 'http://localhost:8080/user/username',
-  'getUser':'http://localhost:8080/user/user'
+  'getUser':'http://localhost:8080/user/user',
+  'forgottenPassword':'http://localhost:8080/user/forgotten-password'
 }
 

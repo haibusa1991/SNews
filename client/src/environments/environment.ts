@@ -18,7 +18,8 @@ export const userEndpoints = {
   'logout': 'api/user/logout',
   'csrf': apiEndpoints['csrf'],
   'getUsername' : '/api/user/username',
-  'getUser':'/api/user/user'
+  'getUser':'/api/user/user',
+  'forgottenPassword':'/api/user/forgotten-password'
 }
 
 

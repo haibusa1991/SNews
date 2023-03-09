@@ -12,6 +12,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {CsrfInterceptor} from "../core/interceptors/csrf-header";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
+import {ForgottenPasswordComponent} from './forgotten-password/forgotten-password.component';
+import {EmailTemplateDeleteMeComponent} from './email-template-delete-me/email-template-delete-me.component';
 
 const moduleRoutes: Routes = [
   {
@@ -26,6 +28,14 @@ const moduleRoutes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'forgotten-password',
+    component: ForgottenPasswordComponent
+  },
+  {
+    path: 'email-template',
+    component: EmailTemplateDeleteMeComponent
   }
 ];
 
@@ -33,7 +43,9 @@ const moduleRoutes: Routes = [
   declarations: [
     UserPanelComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ForgottenPasswordComponent,
+    EmailTemplateDeleteMeComponent
   ],
   imports: [
     CommonModule,
