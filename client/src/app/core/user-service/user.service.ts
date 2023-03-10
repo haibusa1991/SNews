@@ -100,7 +100,7 @@ export class UserService {
 
     return new Observable<RegisterResponse>(response =>
       this.getToken$().subscribe(() => {
-        this.http.post(userEndpoints['register'], {email,username,password},{
+        this.http.post(userEndpoints['register'], {email, username, password}, {
           responseType: 'text',
           withCredentials: true,
         }).subscribe({
@@ -133,6 +133,29 @@ export class UserService {
         }
       })
     });
+  }
+
+  recoverPassword$(emailAddress: string):Observable<void> {
+    return new Observable(()=>{
+      this.getToken$().subscribe(()=>{
+        this.http.post(userEndpoints['forgottenPassword'],{'email':emailAddress},{responseType:"text",withCredentials:true}).subscribe();
+      })
+    })
+  }
+
+  resetPassword$(password: string, token:string):Observable<boolean> {
+    return new Observable(response =>{
+      this.getToken$().subscribe(()=>{
+        this.http.post(userEndpoints['passwordReset'],
+          {'password':password,
+            'recoveryToken':token},
+          {responseType:"text",withCredentials:true})
+          .subscribe({
+            next: () => {response.next(true)},
+            error:() => {response.next(false)}
+          });
+      })
+    })
   }
 }
 
