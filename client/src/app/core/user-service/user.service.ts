@@ -141,8 +141,21 @@ export class UserService {
         this.http.post(userEndpoints['forgottenPassword'],{'email':emailAddress},{responseType:"text",withCredentials:true}).subscribe();
       })
     })
+  }
 
-
+  resetPassword$(password: string, token:string):Observable<boolean> {
+    return new Observable(response =>{
+      this.getToken$().subscribe(()=>{
+        this.http.post(userEndpoints['passwordReset'],
+          {'password':password,
+            'recoveryToken':token},
+          {responseType:"text",withCredentials:true})
+          .subscribe({
+            next: () => {response.next(true)},
+            error:() => {response.next(false)}
+          });
+      })
+    })
   }
 }
 

@@ -41,7 +41,7 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/testpost").hasRole(UserRoleEnum.ADMINISTRATOR.name())
 
                 .and()

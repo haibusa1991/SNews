@@ -1,13 +1,14 @@
 package com.snews.server.controllers;
 
-import com.snews.server.dto.ForgottenPasswordDto;
+import com.snews.server.dto.ResetPasswordRequestDto;
 import com.snews.server.dto.RegisterDto;
+import com.snews.server.dto.ResetPasswordDto;
 import com.snews.server.dto.UserDto;
 import com.snews.server.entities.UserEntity;
+import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.services.user.UserService;
-import com.snews.server.services.userRole.UserRoleService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/user")
 public class UserController {
 
-//    private final UserRoleService userRoleService;
+    //    private final UserRoleService userRoleService;
     private final UserService userService;
 
     public UserController(
@@ -37,12 +38,13 @@ public class UserController {
                             BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
 
         if (bindingResult.hasErrors()) {
-            String errorMessages = bindingResult
-                    .getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .collect(Collectors.joining(System.lineSeparator()));
-            throw new MalformedDataException(errorMessages);
+//            String errorMessages = bindingResult
+//                    .getAllErrors()
+//                    .stream()
+//                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+//                    .collect(Collectors.joining(System.lineSeparator()));
+//            throw new MalformedDataException(errorMessages);
+            throw getMalformedDataException(bindingResult);
         }
 
 //todo refactor -> move logic to service. Service returns enum - OK, usernameError, emailError
@@ -63,9 +65,24 @@ public class UserController {
     }
 
     @PostMapping(path = "/forgotten-password")
-    public void forgottenPassword(@RequestBody ForgottenPasswordDto dto) {
-        this.userService.recoverPassword(dto);
+    public void forgottenPassword(@RequestBody ResetPasswordRequestDto dto) {
+        this.userService.sendPasswordResetToken(dto);
 //        System.out.println("--------------------------********************************-------------------------------");
+    }
+
+    @PostMapping(path = "/reset-password")
+    public void resetPassword(@RequestBody @Valid ResetPasswordDto dto, BindingResult bindingResult)
+            throws MalformedDataException, InvalidPasswordResetException {
+
+        if (bindingResult.hasErrors()) {
+            throw getMalformedDataException(bindingResult);
+        }
+
+        if (!this.userService.validatePasswordResetToken(dto.getRecoveryToken())) {
+            throw new InvalidPasswordResetException("Token timeout or token already used");
+        }
+
+        this.userService.changePassword(dto);
     }
 
     @GetMapping("/username")
@@ -96,6 +113,16 @@ public class UserController {
 
         return userDto;
 
+    }
+
+    private MalformedDataException getMalformedDataException(BindingResult result) {
+        String errorMessages = result
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(System.lineSeparator()));
+
+        return new MalformedDataException(errorMessages);
     }
 
 }

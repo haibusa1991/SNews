@@ -1,11 +1,14 @@
 package com.snews.server.services.user;
 
-import com.snews.server.dto.ForgottenPasswordDto;
+import com.snews.server.dto.ResetPasswordDto;
+import com.snews.server.dto.ResetPasswordRequestDto;
 import com.snews.server.dto.RegisterDto;
 import com.snews.server.dto.UserDto;
+import com.snews.server.entities.ResetPasswordTokenEntity;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
 import com.snews.server.enumeration.UserRoleEnum;
+import com.snews.server.repositories.PasswordResetTokenRepository;
 import com.snews.server.repositories.UserRepository;
 import com.snews.server.services.email.EmailService;
 import com.snews.server.services.userRole.UserRoleService;
@@ -13,6 +16,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -21,13 +27,22 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordResetTokenRepository tokenRepository;
+
     private final UserRoleService userRoleService;
-    private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
     private final EmailService emailService;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleService userRoleService, PasswordEncoder passwordEncoder, ModelMapper modelMapper, EmailService emailService) {
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
+
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordResetTokenRepository tokenRepository,
+                           UserRoleService userRoleService,
+                           PasswordEncoder passwordEncoder,
+                           ModelMapper modelMapper,
+                           EmailService emailService) {
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
         this.userRoleService = userRoleService;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
@@ -60,21 +75,6 @@ public class UserServiceImpl implements UserService {
 
         return this.modelMapper.map(registeredUserEntity, UserDto.class);
     }
-
-//    @Override
-//    public UserDto loginUser(LoginDto dto) {
-//        UserEntity userEntity = this.userRepository.getUserByUsername(dto.getUsername());
-//        if (userEntity == null) {
-//            return new UserDto();
-//        }
-//
-//        if (!this.passwordEncoder.matches(dto.getPassword(), userEntity.getPassword())) {
-//            return new UserDto();
-//        }
-//
-//        return this.modelMapper.map(userEntity, UserDto.class);
-//    }
-
 
     @Override
     public void initUsers() {
@@ -117,15 +117,57 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void recoverPassword(ForgottenPasswordDto dto) {
+    public void sendPasswordResetToken(ResetPasswordRequestDto dto) {
         UserEntity user = this.userRepository.getUserByEmail(dto.getEmail());
 
         if (user == null) {
             return;
         }
 
-        //todo properly implement token generation.
-        String passwordResetLink = UUID.randomUUID().toString();
-        this.emailService.sendMessage(user.getUsername(), "http://localhost:8080/user/password-reset/" + passwordResetLink);
+        String passwordResetToken = getPasswordResetToken(user);
+        this.emailService.sendMessage(user.getUsername(), user.getEmail(), "http://localhost:8080/user/password-reset/" + passwordResetToken);
+    }
+
+    private String getPasswordResetToken(UserEntity user) {
+        ResetPasswordTokenEntity passwordResetToken = new ResetPasswordTokenEntity();
+
+        String token = Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes());
+
+        passwordResetToken.setToken(token)
+                .setCreated(LocalDateTime.now())
+                .setUser(user);
+
+        this.tokenRepository.save(passwordResetToken);
+
+        return token;
+    }
+
+    @Override
+    public boolean validatePasswordResetToken(String token) {
+        ResetPasswordTokenEntity tokenEntity = this.tokenRepository.getPasswordResetTokenEntityByToken(token);
+
+        if (tokenEntity.isExhausted()) {
+            return false;
+        }
+
+        tokenEntity.setExhausted(true);
+        ResetPasswordTokenEntity exhaustedToken = this.tokenRepository.save(tokenEntity);
+
+        long elapsedTimeSeconds = Duration.between(LocalDateTime.now(), exhaustedToken.getCreated()).abs().toSeconds();
+
+        if (elapsedTimeSeconds > 900) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void changePassword(ResetPasswordDto dto) {
+        ResetPasswordTokenEntity tokenEntity = this.tokenRepository.getPasswordResetTokenEntityByToken(dto.getRecoveryToken());
+        UserEntity user = tokenEntity.getUser();
+
+        user.setPassword(this.passwordEncoder.encode(dto.getPassword()));
+        this.userRepository.save(user);
     }
 }

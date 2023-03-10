@@ -15,11 +15,11 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMessage(String username, String passwordResetUrl) {
+    public void sendMessage(String username,String email, String passwordResetUrl) {
         MimeMessagePreparator preparator = (mimeMessage) -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
             helper.setFrom(new InternetAddress("noreply@snews", "noreply@snews"));
-            helper.setTo("haibusa2005@abv.bg");
+            helper.setTo(email);
             helper.setSubject("Забравена парола за SNews");
             helper.setText(getMessage(username,passwordResetUrl), true);
         };

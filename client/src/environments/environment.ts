@@ -19,7 +19,8 @@ export const userEndpoints = {
   'csrf': apiEndpoints['csrf'],
   'getUsername' : '/api/user/username',
   'getUser':'/api/user/user',
-  'forgottenPassword':'/api/user/forgotten-password'
+  'forgottenPassword':'/api/user/forgotten-password',
+  'passwordReset':'/api/user/reset-password'
 }
 
 

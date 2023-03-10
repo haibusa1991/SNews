@@ -1,5 +1,6 @@
 package com.snews.server.controllerAdvice;
 
+import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.exceptions.MalformedDataException;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,6 @@ public class ExceptionResolver {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(UserAlreadyRegisteredException.class)
     public String handleUserAlreadyRegisteredException(Exception e) {
-//        HashMap<String, String> response = new HashMap<>();
-//        response.put("message", e.getMessage());
         return e.getMessage();
     }
 
@@ -27,5 +26,12 @@ public class ExceptionResolver {
         HashMap<String, String[]> response = new HashMap<>();
         response.put("message", Arrays.stream(e.getMessage().split(System.lineSeparator())).sorted().toArray(String[]::new));
         return response;
+    }
+
+
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(InvalidPasswordResetException.class)
+    public String handleInvalidPasswordResetException(Exception e) {
+        return e.getMessage();
     }
 }

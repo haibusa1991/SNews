@@ -23,8 +23,8 @@ spring:
   web:
     resources:
       static-locations: classpath:/static
-  mail:
-    username: noreply@snews.com
+#  mail:
+#    username: noreply@snews.com
 logging:
   level:
         org.springframework.security: trace

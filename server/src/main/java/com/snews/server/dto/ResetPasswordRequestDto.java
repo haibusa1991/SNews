@@ -2,7 +2,7 @@ package com.snews.server.dto;
 
 import jakarta.validation.constraints.Email;
 
-public class ForgottenPasswordDto {
+public class ResetPasswordRequestDto {
     @Email
     private String email;
 
@@ -10,7 +10,7 @@ public class ForgottenPasswordDto {
         return email;
     }
 
-    public ForgottenPasswordDto setEmail(String email) {
+    public ResetPasswordRequestDto setEmail(String email) {
         this.email = email;
         return this;
     }

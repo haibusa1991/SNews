@@ -5,7 +5,9 @@ import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -15,7 +17,8 @@ import java.util.stream.Collectors;
 
 @org.springframework.context.annotation.Configuration
 public class BeansConfiguration {
-
+@Autowired
+    private Environment environment;
 
     @Bean
     public ModelMapper getModelMapper() {
@@ -41,8 +44,8 @@ public class BeansConfiguration {
         mailSender.setPort(587);
         mailSender.setDefaultEncoding("UTF-8");
 
-        mailSender.setUsername("haibusa1991@gmail.com");
-        mailSender.setPassword("gyki axmu lpnt kmje");
+        mailSender.setUsername(System.getenv("GmailUsername"));
+        mailSender.setPassword(System.getenv("GmailPasswordToken"));
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
