@@ -38,26 +38,25 @@
 }
 
 mat-form-field.form-white-input-field {
-  .mat-form-field-outline-start,
-  .mat-form-field-outline-gap,
-  .mat-form-field-outline-end {
-    background-color: white;
+  .mdc-text-field {
+    background-color: map-get($elements-palette, WHITE);
+    border-radius: 4px;
   }
 
-  .mat-form-field-outline-thick {
-    color: map-get($elements-palette, GRAY);
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-width: 2px;
   }
 }
 
 mat-form-field.form-valid-field {
-  .mat-form-field-outline {
-    color: map-get($elements-palette, GREEN) !important;
-  }
-
-  .mat-form-field-outline-start,
-  .mat-form-field-outline-gap,
-  .mat-form-field-outline-end {
-    border-width: 2px;
+  .mdc-text-field--outlined .mdc-notched-outline__leading,
+  .mdc-text-field--outlined .mdc-notched-outline__notch,
+  .mdc-text-field--outlined .mdc-notched-outline__trailing
+  {
+    border-color: map-get($elements-palette, GREEN);
   }
 
 }
+

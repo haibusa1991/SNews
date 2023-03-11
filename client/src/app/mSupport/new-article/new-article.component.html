@@ -1,6 +1,5 @@
 <div class="form-content">
   <h1>Нова статия</h1>
-<!--  <h2>Въведете данните си</h2>-->
   <form
     [formGroup]="newArticleForm"
     (submit)="onSubmit()">
@@ -14,35 +13,23 @@
       <mat-label>Заглавие на статията</mat-label>
       <mat-error>Заглавието трябва е поне 10 символа.</mat-error>
       <input matInput
-             placeholder="Заглавие на статията"
              formControlName="heading">
-      <mat-icon
-        matSuffix
-        mat-icon-button>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 512 512"
-             class="form-input-field-svg">
-          <path
-            d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
-        </svg>
-      </mat-icon>
     </mat-form-field>
 
-<!--todo update to reflect picture
--->
     <div class="upload-file-section-wrapper">
-      <label>Please attach the latest CPU and activity log if available</label>
-      <div class="file-wrapper">
         <p>{{pictureFilename | filename}}</p>
         <label class="upload-file" for="picture">
-          <div>Choose file</div>
+          <app-text-button buttonText="Избор на снимка"></app-text-button>
         </label>
-        <input type="file"
+        <input style="display: none" type="file"
                id="picture"
                formControlName="pictureFile"
-               accept=".log"
+               accept=".bmp,
+                      .jpg,
+                      .jpeg,
+                      .gif,
+                      .png"
                (change)="onFileChange($event)">
-      </div>
     </div>
 
     <mat-form-field
@@ -53,18 +40,7 @@
       <mat-label>Източник на снимката</mat-label>
       <mat-error>Въведете източник</mat-error>
       <input matInput
-             placeholder="Източник на снимката"
              formControlName="pictureSource">
-      <mat-icon
-        matSuffix
-        mat-icon-button>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 448 512"
-             class="form-input-field-svg">
-          <path
-            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
-        </svg>
-      </mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline"
@@ -74,7 +50,6 @@
       <mat-label>Статия</mat-label>
       <mat-error>Дължината трябва да бъде минимум 100 символа.</mat-error>
       <textarea matInput
-             placeholder="Съдържание на статията."
                 formControlName="article"></textarea>
     </mat-form-field>
 
@@ -85,28 +60,19 @@
       <mat-label>Автор на статията</mat-label>
       <mat-error>Въведете автор</mat-error>
       <input matInput
-             placeholder="Автор на статията"
              formControlName="author">
-
-      <mat-icon
-        matSuffix
-        mat-icon-button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          class="form-input-field-svg">
-          <path
-            d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
-        </svg>
-      </mat-icon>
     </mat-form-field>
 
-<!--    <mat-chip-listbox aria-label="Fish selection" multiple="true">-->
-<!--      <mat-chip-option>One fish</mat-chip-option>-->
-<!--      <mat-chip-option>Two fish</mat-chip-option>-->
-<!--      <mat-chip-option color="accent" selected>Accent fish</mat-chip-option>-->
-<!--      <mat-chip-option color="warn">Warn fish</mat-chip-option>-->
-<!--    </mat-chip-listbox>-->
+    <h2>Категории на статията</h2>
+    <div class="articleCategories">
+      <mat-chip-listbox
+        aria-label="Article categories"
+        multiple="true"
+        formControlName="categories">
+        <mat-chip-option *ngFor="let category of articleCategories">{{category}}</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
 
     <div class="form-button-wrapper register-button">
       <button

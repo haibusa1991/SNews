@@ -1,0 +1,50 @@
+h1 {
+  padding-top: 1rem;
+}
+
+form {
+  margin-top: 1rem;
+}
+
+h2 {
+  margin-top: 1rem;
+}
+
+
+.center-text {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+
+.register-button {
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+mat-form-field:not(:first-of-type) {
+  margin-top: 1rem;
+}
+
+
+
+.articleCategories {
+  display: block;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding:1rem 2rem 0;
+}
+
+.upload-file-section-wrapper {
+  display: block;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 0 2rem 1rem;
+
+  p{
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
