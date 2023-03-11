@@ -9,6 +9,8 @@ import {ArticleContent, ArticleOverviewData} from "../../utils/types";
 })
 export class ArticleComponent implements OnInit {
 
+  pictureFilename: string = '798a8018-1327-45eb-8113-06a0b0ec3a05.png'
+
   //todo replace with proper implementation
   articleContent: ArticleContent = {
     heading: '"Вектор за атака". Как София даде милиони за китайски камери в градския транспорт',
@@ -30,7 +32,7 @@ export class ArticleComponent implements OnInit {
 
   //todo replace with proper implementation; Count must be multiple of 2
 
-  relatedArticles:ArticleOverviewData[] = [
+  relatedArticles: ArticleOverviewData[] = [
     {
       heading: '"Вектор за атака1". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',

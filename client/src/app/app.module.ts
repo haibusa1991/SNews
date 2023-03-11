@@ -8,7 +8,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HomeModule} from "./mHome/home.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CsrfInterceptor} from "./core/interceptors/csrf-header";
-import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -20,7 +19,8 @@ import {CookieService} from "ngx-cookie-service";
     SharedModule,
     BrowserAnimationsModule,
     HomeModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers:[
     {
@@ -29,7 +29,8 @@ import {CookieService} from "ngx-cookie-service";
       multi: true,
     },
   ],
-  exports: [],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

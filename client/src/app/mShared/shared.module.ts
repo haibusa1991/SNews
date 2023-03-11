@@ -16,6 +16,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {WarningLabelComponent} from './warning-label/warning-label.component';
+import {FilenamePipe} from "./pipes/filename.pipe";
 
 
 @NgModule({
@@ -28,14 +29,16 @@ import {WarningLabelComponent} from './warning-label/warning-label.component';
     ExtensibleMenuComponent,
     BackgroundComponent,
     SearchBarComponent,
-    WarningLabelComponent
+    WarningLabelComponent,
+    FilenamePipe
   ],
   exports: [
     HeaderComponent,
     FooterComponent,
     BackgroundComponent,
     TextButtonComponent,
-    WarningLabelComponent
+    WarningLabelComponent,
+    FilenamePipe
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,7 @@ import {WarningLabelComponent} from './warning-label/warning-label.component';
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
   ]
 })
 export class SharedModule {
