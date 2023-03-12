@@ -42,12 +42,17 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password").permitAll()
+//                .requestMatchers(HttpMethod.POST, "/article/new-article").hasRole(UserRoleEnum.ADMINISTRATOR.name())
+                .requestMatchers(HttpMethod.POST, "/article/new-article").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/testpost").hasRole(UserRoleEnum.ADMINISTRATOR.name())
 
                 .and()
                 .formLogin()
                 .loginPage("/user/login")
                 .failureHandler((request, response, exception) -> response.sendError(403))
+
+//                .and().cors().disable().csrf().disable()
+
 
                 .and()
                 .csrf()

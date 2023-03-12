@@ -1,5 +1,6 @@
 package com.snews.server.controllerAdvice;
 
+import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.exceptions.MalformedDataException;
@@ -28,10 +29,15 @@ public class ExceptionResolver {
         return response;
     }
 
-
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(InvalidPasswordResetException.class)
     public String handleInvalidPasswordResetException(Exception e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(InternalServerErrorException.class)
+    public String handleInternalServerErrorException(Exception e) {
         return e.getMessage();
     }
 }

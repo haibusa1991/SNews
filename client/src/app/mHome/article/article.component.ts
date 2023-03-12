@@ -9,7 +9,7 @@ import {ArticleContent, ArticleOverviewData} from "../../utils/types";
 })
 export class ArticleComponent implements OnInit {
 
-  pictureFilename: string = '798a8018-1327-45eb-8113-06a0b0ec3a05.png'
+  pictureFilename: string = '555bd6da-5f18-444d-a77c-ba610499dd83'
 
   //todo replace with proper implementation
   articleContent: ArticleContent = {

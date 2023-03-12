@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {PasswordValidators} from "../../utils/validators";
+import {ArticleService} from "../../core/article-service/article.service";
 
 @Component({
   selector: 'app-new-article',
@@ -8,36 +9,37 @@ import {PasswordValidators} from "../../utils/validators";
   styleUrls: ['./new-article.component.scss']
 })
 export class NewArticleComponent implements OnInit {
-  noFileChosen:string='Не е избран файл.'
+  noFileChosen: string = 'Не е избран файл.'
 
   isSubmitButtonDisabled = true;
   pictureFilename: string = this.noFileChosen;
-  private picture: File | null = null;
+  private pictureFile: File | null = null;
 
 
   newArticleForm = new FormGroup({
-    heading: new FormControl('', [
+    heading: new FormControl('my heading', [
       Validators.required,
       // Validators.minLength(10)
     ]),
-    pictureFile:new FormControl('',Validators.required),
-    pictureSource: new FormControl('', [
+    pictureFile: new FormControl('', Validators.required),
+    pictureSource: new FormControl('my picture source', [
       Validators.required,
     ]),
-    article: new FormControl('', [
+    article: new FormControl('my article', [
       Validators.required,
       // Validators.minLength(100),
     ]),
-    author: new FormControl('', [
+    author: new FormControl('my author', [
       Validators.required,
     ]),
-    categories: new FormControl('',Validators.required)
+    categories: new FormControl('', Validators.required)
   })
 
 // todo ask server for categories
-  articleCategories = ['Анализи','Политика','Бизнес','Спорт'];
+  articleCategories = ['Анализи', 'Политика', 'Бизнес', 'Спорт'];
 
-  constructor() { }
+  constructor(private articleService: ArticleService) {
+  }
 
   ngOnInit(): void {
     this.newArticleForm
@@ -46,13 +48,12 @@ export class NewArticleComponent implements OnInit {
 
   }
 
-  onSubmit(){
-    console.log('submitting!')
-    console.log(this.newArticleForm.value);
+  onSubmit() {
+    this.articleService.postNewArticle$(this.newArticleForm, this.pictureFile!)
   }
 
   onFileChange(e: any) {
-    this.picture = e.target.files[0];
-    this.pictureFilename = this.picture ? this.picture.name : this.noFileChosen;
+    this.pictureFile = e.target.files[0];
+    this.pictureFilename = this.pictureFile ? this.pictureFile.name : this.noFileChosen;
   }
 }

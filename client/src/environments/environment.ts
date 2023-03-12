@@ -23,6 +23,10 @@ export const userEndpoints = {
   'passwordReset':'/api/user/reset-password'
 }
 
+export const articleEndpoints = {
+  'newArticle': '/api/article/new-article',
+}
+
 
 /*
  * For easier debugging in development mode, you can import the following file

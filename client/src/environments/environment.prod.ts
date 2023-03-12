@@ -19,3 +19,8 @@ export const userEndpoints = {
   'passwordReset':'http://localhost:8080/user/reset-password'
 }
 
+export const articleEndpoints = {
+  'newArticle': 'http://localhost:8080/article/new-article',
+}
+
+
