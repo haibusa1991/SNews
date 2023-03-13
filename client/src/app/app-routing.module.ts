@@ -12,7 +12,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'articles/article-url-goes-here',
+    path: 'article/:articleHref',
     component: ArticleComponent
   },
   {

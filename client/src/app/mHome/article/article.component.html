@@ -2,8 +2,8 @@
   <article class="article">
 
     <div class="article-header">
-      <h1>{{articleContent.heading}}</h1>
-      <h3>{{articleContent.publishDate}}</h3>
+      <h1>{{article.heading}}</h1>
+      <h3>{{article.published}}</h3>
 <!--      todo DRY candidate. Replace div with a warning component-->
       <div class="old-article"
            *ngIf="isOldArticle">
@@ -12,22 +12,22 @@
     </div>
 
     <div class="article-picture">
-      <img src="assets/storage/articles/{{pictureFilename}}" alt="Article image">
-      <p>Източник: {{articleContent.imageSource}}</p>
+      <img src="assets/storage/articles/{{article.picture}}" alt="Article image">
+      <p>Източник: {{article.pictureSource}}</p>
     </div>
 
     <div class="article">
-      <p *ngFor="let paragraph of articleContent.content">{{paragraph}}</p>
-      <p class="article-author">Автор: {{articleContent.author}}</p>
+      <p *ngFor="let paragraph of article.content">{{paragraph}}</p>
+      <p class="article-author">Автор: {{article.author}}</p>
     </div>
 
     <div class="article-footer">
       <p>Категория:</p>
       <ul role="list">
-        <li *ngFor="let category of articleContent.categories; last as isLast">
-          <a routerLink="{{category.href}}"
+        <li *ngFor="let tag of articleTags; last as isLast">
+          <a routerLink="{{tag.href}}"
              class="clickable"
-          >{{category.name}}</a>
+          >{{tag.tag}}</a>
           <p *ngIf="!isLast">, &nbsp;</p>
         </li>
       </ul>
@@ -35,7 +35,7 @@
       <div class="form-button-wrapper">
         <app-text-button
           class="button"
-          (click)="onNavigate(articleContent.id +'/comments')"
+          (click)="onNavigate(article.href +'/comments')"
           [buttonText]="'Коментари'"></app-text-button>
       </div>
     </div>

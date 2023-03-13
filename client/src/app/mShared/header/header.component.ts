@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     'register': 'user/register',
     'settings': 'user/settings',
     'moderation': 'user/moderation',
-    'administration': 'user/administration',
+    'administration': 'support/new-article',
     'logout': 'user/logout'
   }
 

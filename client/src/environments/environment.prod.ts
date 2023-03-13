@@ -21,6 +21,8 @@ export const userEndpoints = {
 
 export const articleEndpoints = {
   'newArticle': 'http://localhost:8080/article/new-article',
+  'articleCategories':'http://localhost:8080/article/article-categories',
+  'articles':'http://localhost:8080/api/article'
 }
 
 

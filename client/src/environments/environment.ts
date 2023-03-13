@@ -25,6 +25,8 @@ export const userEndpoints = {
 
 export const articleEndpoints = {
   'newArticle': '/api/article/new-article',
+  'articleCategories':'api/article/article-categories',
+  'articles':'/api/api/article'
 }
 
 

@@ -3,6 +3,7 @@ package com.snews.server.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,17 +19,20 @@ public class ArticleEntity {
 
     private LocalDateTime published;
 
-    @ManyToOne
-    private PictureEntity picture;
+    private String picture;
 
     private String pictureSource;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String author;
 
-    @ManyToMany(mappedBy = "articles")
-    private Set<ArticleTagEntity> tags;
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "tags",referencedColumnName = "article_tags_id")
+    private Set<ArticleTagEntity> tags = new HashSet<>();
+
+    private String href;
 
     public String getHeading() {
         return heading;
@@ -48,11 +52,11 @@ public class ArticleEntity {
         return this;
     }
 
-    public PictureEntity getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public ArticleEntity setPicture(PictureEntity picture) {
+    public ArticleEntity setPicture(String picture) {
         this.picture = picture;
         return this;
     }
@@ -91,5 +95,18 @@ public class ArticleEntity {
     public ArticleEntity setTags(Set<ArticleTagEntity> tags) {
         this.tags = tags;
         return this;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public ArticleEntity setHref(String href) {
+        this.href = href;
+        return this;
+    }
+
+    public void addTag(ArticleTagEntity tag){
+        this.tags.add(tag);
     }
 }

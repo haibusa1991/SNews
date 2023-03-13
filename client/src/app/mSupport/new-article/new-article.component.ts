@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {PasswordValidators} from "../../utils/validators";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ArticleService} from "../../core/article-service/article.service";
+import {articleCategories} from "../../utils/snewsConstants";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-article',
@@ -36,9 +37,9 @@ export class NewArticleComponent implements OnInit {
   })
 
 // todo ask server for categories
-  articleCategories = ['Анализи', 'Политика', 'Бизнес', 'Спорт'];
+  articleCategories!: string[];
 
-  constructor(private articleService: ArticleService) {
+  constructor(private articleService: ArticleService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -46,10 +47,22 @@ export class NewArticleComponent implements OnInit {
       .statusChanges
       .subscribe(formStatus => this.isSubmitButtonDisabled = formStatus == 'INVALID');
 
+    this.articleService.getArticleCategories$().subscribe(e => {
+      let result: string[] = [];
+      for (let category of e) {
+        if (articleCategories[category]) {
+          result.push(articleCategories[category]);
+          continue;
+        }
+        result.push(category);
+      }
+
+      this.articleCategories = result;
+    })
   }
 
   onSubmit() {
-    this.articleService.postNewArticle$(this.newArticleForm, this.pictureFile!)
+    this.articleService.postNewArticle$(this.newArticleForm, this.pictureFile!).subscribe(link => this.router.navigateByUrl(`/article/${link}`));
   }
 
   onFileChange(e: any) {

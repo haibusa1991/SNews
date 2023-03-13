@@ -1,27 +1,22 @@
 package com.snews.server.controllers;
 
+import com.snews.server.dto.ArticleDto;
+import com.snews.server.services.article.ArticleService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
-//todo remove together with testpost
-class TestDto{
-    private String parameterGoesHere;
-
-    public String getParameterGoesHere() {
-        return parameterGoesHere;
-    }
-
-    public TestDto setParameterGoesHere(String parameterGoesHere) {
-        this.parameterGoesHere = parameterGoesHere;
-        return this;
-    }
-}
-
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+
+    private final ArticleService articleService;
+
+    public ApiController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
+
 
     @GetMapping("/articleContent")
     public String getArticle() {
@@ -43,11 +38,14 @@ public class ApiController {
     public void getCsrfToken(HttpServletRequest request) {
         CsrfToken token = (CsrfToken)request.getAttribute(CsrfToken.class.getName());
         token.getToken();
-//        return token.getToken();
     }
 
-    @PostMapping("/testpost")
-    public String testPost(@RequestBody TestDto testDto ) {
-        return "posting ok";
+
+    @GetMapping("article/{href}")
+    public ArticleDto getArticle(@PathVariable String href) {
+
+        return this.articleService.getArticle(href);
     }
+
+
 }

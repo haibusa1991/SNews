@@ -1,6 +1,6 @@
 package com.snews.server.entities;
 
-import com.snews.server.enumeration.AriticleTagEnum;
+import com.snews.server.enumeration.ArticleTagEnum;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -15,16 +15,16 @@ public class ArticleTagEntity {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    private AriticleTagEnum tag;
+    private ArticleTagEnum tag;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "tags")
     private Set<ArticleEntity> articles;
 
-    public AriticleTagEnum getTag() {
+    public ArticleTagEnum getTag() {
         return tag;
     }
 
-    public ArticleTagEntity setTag(AriticleTagEnum tag) {
+    public ArticleTagEntity setTag(ArticleTagEnum tag) {
         this.tag = tag;
         return this;
     }
@@ -32,7 +32,16 @@ public class ArticleTagEntity {
     public ArticleTagEntity() {
     }
 
-    public ArticleTagEntity(AriticleTagEnum tag) {
+    public ArticleTagEntity(ArticleTagEnum tag) {
         this.tag = tag;
+    }
+
+    public Set<ArticleEntity> getArticles() {
+        return articles;
+    }
+
+    public ArticleTagEntity setArticles(Set<ArticleEntity> articles) {
+        this.articles = articles;
+        return this;
     }
 }

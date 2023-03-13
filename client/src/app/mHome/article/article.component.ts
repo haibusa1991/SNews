@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {ArticleContent, ArticleOverviewData} from "../../utils/types";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Article, ArticleContent, ArticleOverviewData, ArticleTag} from "../../utils/types";
+import {ArticleService} from "../../core/article-service/article.service";
+import {articleCategories, articleCategoriesHref} from "../../utils/snewsConstants";
 
 @Component({
   selector: 'app-article',
@@ -9,29 +11,10 @@ import {ArticleContent, ArticleOverviewData} from "../../utils/types";
 })
 export class ArticleComponent implements OnInit {
 
-  pictureFilename: string = '555bd6da-5f18-444d-a77c-ba610499dd83'
-
-  //todo replace with proper implementation
-  articleContent: ArticleContent = {
-    heading: '"Вектор за атака". Как София даде милиони за китайски камери в градския транспорт',
-    imageSource: 'RFE/RL',
-    content: [
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil',
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad aspernatur facere incidunt, modi recusandae. Alias aliquid dignissimos et iste necessitatibus nisi officia sed ullam unde, voluptate. Adipisci nihil',
-    ],
-    author: 'RFE/RL',
-    id: 'article-id-goes-here',
-    imageUrl: "",
-    publishDate: "02 Февруари 2023 17:33",
-    categories: [
-      {href: '/news/analyses', name: 'Анализи'},
-      {href: '/news/politics', name: 'Политика'}
-    ]
-  }
+  article!: Article;
+  articleTags: ArticleTag[] = [];
 
   //todo replace with proper implementation; Count must be multiple of 2
-
   relatedArticles: ArticleOverviewData[] = [
     {
       heading: '"Вектор за атака1". Как София даде милиони за китайски камери в градския транспорт',
@@ -62,11 +45,24 @@ export class ArticleComponent implements OnInit {
   isOldArticle: boolean = false
   oldArticleWarning: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private articleService: ArticleService) {
   }
 
   ngOnInit(): void {
     this.checkIfOldArticle();
+
+
+    let articleHref = this.activatedRoute.snapshot.paramMap.get('articleHref');
+    this.articleService.getArticle$(articleHref!).subscribe(article => {
+      this.article = article;
+
+      for (let inputTag of article.articleTags) {
+        this.articleTags.push({
+          href: articleCategoriesHref[inputTag],
+          tag: articleCategories[inputTag]
+        })
+      }
+    });
   }
 
   onNavigate(href: string) {

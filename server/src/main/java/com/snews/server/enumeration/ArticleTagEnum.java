@@ -1,6 +1,6 @@
 package com.snews.server.enumeration;
 
-public enum AriticleTagEnum {
+public enum ArticleTagEnum {
     ANALYSIS,
     POLITICS,
     BUSINESS,
