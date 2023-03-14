@@ -12,12 +12,12 @@ const routes: Routes = [
   },
 
   {
-    path: 'articles/article-url-goes-here',
+    path: 'article/:articleHref',
     component: ArticleComponent
   },
   {
-    path: 'moderation',
-    loadChildren: () => import('./mModerator/moderator.module').then(m => m.ModeratorModule)
+    path: 'support',
+    loadChildren: () => import('./mSupport/support.module').then(m => m.SupportModule)
   },
   {
     path: 'user',

@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SharedModule} from "./mShared/shared.module";
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HomeModule} from "./mHome/home.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CsrfInterceptor} from "./core/interceptors/csrf-header";
-import {CookieService} from "ngx-cookie-service";
+import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatRippleModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -20,7 +20,9 @@ import {CookieService} from "ngx-cookie-service";
     SharedModule,
     BrowserAnimationsModule,
     HomeModule,
-    HttpClientModule
+    HttpClientModule,
+    MatRippleModule,
+
   ],
   providers:[
     {
@@ -29,7 +31,8 @@ import {CookieService} from "ngx-cookie-service";
       multi: true,
     },
   ],
-  exports: [],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

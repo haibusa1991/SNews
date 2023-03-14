@@ -13,6 +13,7 @@ export class UserService {
 
   private currentUser: User | null = null;
   private currentUserSubject = new Subject<User | null>();
+  private urlBeforeLogin: string | null = null;
 
   constructor(private http: HttpClient) {
   }
@@ -129,33 +130,51 @@ export class UserService {
         next: () => {
           this.http.post(userEndpoints['logout'], {}, {responseType: 'text'}).subscribe();
           this.currentUser = null;
+          this.urlBeforeLogin = '/';
           this.currentUserSubject.next(this.currentUser);
         }
       })
     });
   }
 
-  recoverPassword$(emailAddress: string):Observable<void> {
-    return new Observable(()=>{
-      this.getToken$().subscribe(()=>{
-        this.http.post(userEndpoints['forgottenPassword'],{'email':emailAddress},{responseType:"text",withCredentials:true}).subscribe();
+  recoverPassword$(emailAddress: string): Observable<void> {
+    return new Observable(() => {
+      this.getToken$().subscribe(() => {
+        this.http.post(userEndpoints['forgottenPassword'], {'email': emailAddress}, {
+          responseType: "text",
+          withCredentials: true
+        }).subscribe();
       })
     })
   }
 
-  resetPassword$(password: string, token:string):Observable<boolean> {
-    return new Observable(response =>{
-      this.getToken$().subscribe(()=>{
+  resetPassword$(password: string, token: string): Observable<boolean> {
+    return new Observable(response => {
+      this.getToken$().subscribe(() => {
         this.http.post(userEndpoints['passwordReset'],
-          {'password':password,
-            'recoveryToken':token},
-          {responseType:"text",withCredentials:true})
+          {
+            'password': password,
+            'recoveryToken': token
+          },
+          {responseType: "text", withCredentials: true})
           .subscribe({
-            next: () => {response.next(true)},
-            error:() => {response.next(false)}
+            next: () => {
+              response.next(true)
+            },
+            error: () => {
+              response.next(false)
+            }
           });
       })
     })
+  }
+
+  setUrlBeforeLogin(url: string) {
+    this.urlBeforeLogin = url;
+  }
+
+  getUrlBeforeLogin(): string | null {
+    return this.urlBeforeLogin;
   }
 }
 

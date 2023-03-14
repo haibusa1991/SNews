@@ -1,22 +1,21 @@
 @use '@angular/material' as mat;
 @use "snews-palette" as palette;
-
 @include mat.core();
 
 $primary-color: mat.define-palette(palette.$materials-palette, 900);
 $selected-color: mat.define-palette(palette.$materials-palette, 900);
 $accent-color: mat.define-palette(palette.$materials-palette, 50);
 
-$warn: mat.define-palette(mat.$red-palette);
+//$warn: mat.define-palette(mat.$red-palette);
 
 $snews-light: mat.define-light-theme((
   color: (
     primary: $primary-color,
     accent: $accent-color,
-    warn: $warn,
-  )
+    //warn: $warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
 ));
 
-@include mat.all-component-themes($snews-light);
-
-//todo remove
+@include mat.all-component-themes($snews-light)

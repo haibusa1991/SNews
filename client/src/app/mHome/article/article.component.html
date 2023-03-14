@@ -2,32 +2,42 @@
   <article class="article">
 
     <div class="article-header">
-      <h1>{{articleContent.heading}}</h1>
-      <h3>{{articleContent.publishDate}}</h3>
-<!--      todo DRY candidate. Replace div with a warning component-->
-      <div class="old-article"
-           *ngIf="isOldArticle">
-        <p>{{oldArticleWarning}}</p>
-      </div>
+      <h1>{{article.heading}}</h1>
+      <h3>{{article.published}}</h3>
+      <app-warning-label
+        class="warning-label"
+        *ngIf="isOldArticle"
+        [warningText]="oldArticleWarning">
+      </app-warning-label>
     </div>
 
     <div class="article-picture">
-      <img src="assets/placeholders/article-overview-placeholder.png" alt="Article image">
-      <p>Източник: {{articleContent.imageSource}}</p>
+      <div class="img-wrapper">
+        <img src="assets/storage/articles/{{article.picture}}" alt="Article image">
+        <p>Източник: {{article.pictureSource}}</p>
+      </div>
     </div>
 
     <div class="article">
-      <p *ngFor="let paragraph of articleContent.content">{{paragraph}}</p>
-      <p class="article-author">Автор: {{articleContent.author}}</p>
+      <p *ngFor="let paragraph of article.content">{{paragraph}}</p>
+      <p class="article-author"
+         *ngIf="!isShortArticle">Автор: {{article.author}}</p>
+    </div>
+
+    <div class="unregistered-user"
+    *ngIf="isShortArticle">
+      <h2>Благодаря, че четете SNews!</h2>
+<!--      todo DRY candidate - links should come from a central place-->
+      <p>За да прочетете цялата статия, моля <a routerLink="/user/login"><strong>влезте</strong></a> или се <a routerLink="/user/register"><strong>регистрирайте</strong></a>.</p>
     </div>
 
     <div class="article-footer">
       <p>Категория:</p>
       <ul role="list">
-        <li *ngFor="let category of articleContent.categories; last as isLast">
-          <a routerLink="{{category.href}}"
+        <li *ngFor="let tag of articleTags; last as isLast">
+          <a routerLink="{{tag.href}}"
              class="clickable"
-          >{{category.name}}</a>
+          >{{tag.tag}}</a>
           <p *ngIf="!isLast">, &nbsp;</p>
         </li>
       </ul>
@@ -35,7 +45,7 @@
       <div class="form-button-wrapper">
         <app-text-button
           class="button"
-          (click)="onNavigate(articleContent.id +'/comments')"
+          (click)="onNavigate(article.href +'/comments')"
           [buttonText]="'Коментари'"></app-text-button>
       </div>
     </div>
@@ -52,13 +62,13 @@
     </div>
 
 
-<!--    todo Not feeling cute, might delete later-->
+    <!--    todo Not feeling cute, might delete later-->
 
-<!--    <div class="button-wrapper">-->
-<!--      <app-text-button-->
-<!--        class="button"-->
-<!--        (click)="onNavigate('news/today')"-->
-<!--        [buttonText]="'Още по темата'"></app-text-button>-->
-<!--    </div>-->
+    <!--    <div class="button-wrapper">-->
+    <!--      <app-text-button-->
+    <!--        class="button"-->
+    <!--        (click)="onNavigate('news/today')"-->
+    <!--        [buttonText]="'Още по темата'"></app-text-button>-->
+    <!--    </div>-->
   </section>
 </div>

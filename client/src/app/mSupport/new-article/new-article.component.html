@@ -1,0 +1,89 @@
+<div class="form-content">
+  <h1>Нова статия</h1>
+  <form
+    [formGroup]="newArticleForm"
+    (submit)="onSubmit()">
+
+    <mat-form-field
+      appearance="outline"
+      class="form-centered-input-field
+             form-white-input-field"
+      [ngClass]="{'form-valid-field':newArticleForm.controls.heading.valid}">
+
+      <mat-label>Заглавие на статията</mat-label>
+      <mat-error>Заглавието трябва е поне 10 символа.</mat-error>
+      <input matInput
+             formControlName="heading">
+    </mat-form-field>
+
+    <div class="upload-file-section-wrapper">
+        <p>{{pictureFilename | filename}}</p>
+        <label class="upload-file" for="picture">
+          <app-text-button buttonText="Избор на снимка"></app-text-button>
+        </label>
+        <input style="display: none" type="file"
+               id="picture"
+               formControlName="pictureFile"
+               accept=".bmp,
+                      .jpg,
+                      .jpeg,
+                      .gif,
+                      .png"
+               (change)="onFileChange($event)">
+    </div>
+
+    <mat-form-field
+      appearance="outline"
+      class="form-centered-input-field
+             form-white-input-field"
+      [ngClass]="{'form-valid-field':newArticleForm.controls.pictureSource.valid}">
+      <mat-label>Източник на снимката</mat-label>
+      <mat-error>Въведете източник</mat-error>
+      <input matInput
+             formControlName="pictureSource">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline"
+                    class="form-centered-input-field
+                           form-white-input-field"
+                    [ngClass]="{'form-valid-field':newArticleForm.controls.article.valid}">
+      <mat-label>Статия</mat-label>
+      <mat-error>Дължината трябва да бъде минимум 100 символа.</mat-error>
+      <textarea matInput
+                formControlName="article"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline"
+                    class="form-centered-input-field
+                    form-white-input-field"
+                    [ngClass]="{'form-valid-field':newArticleForm.controls.author.valid}">
+      <mat-label>Автор на статията</mat-label>
+      <mat-error>Въведете автор</mat-error>
+      <input matInput
+             formControlName="author">
+    </mat-form-field>
+
+    <h2>Категории на статията</h2>
+    <div class="articleCategories">
+      <mat-chip-listbox
+        aria-label="Article categories"
+        multiple="true"
+        formControlName="categories">
+        <mat-chip-option *ngFor="let category of articleCategories">{{category}}</mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+
+
+    <div class="form-button-wrapper register-button">
+      <button
+        type="submit"
+        [disabled]="isSubmitButtonDisabled"
+        class="clickable form-clear-button-style">
+        <app-text-button
+          [buttonText]="'Изпращане'"
+          [isDisabled]="isSubmitButtonDisabled">
+        </app-text-button>
+      </button>
+    </div>
+  </form>
+</div>

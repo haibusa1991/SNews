@@ -35,6 +35,11 @@ export class LoginComponent implements OnInit {
 
     this.userService.login$(formValues.email, formValues.password).subscribe(hasLoggedIn => {
       if (hasLoggedIn) {
+        if(this.userService.getUrlBeforeLogin()){
+          this.router.navigateByUrl(this.userService.getUrlBeforeLogin()!);
+          this.userService.setUrlBeforeLogin('/');
+          return;
+        }
         this.router.navigateByUrl('/');
         return;
       }

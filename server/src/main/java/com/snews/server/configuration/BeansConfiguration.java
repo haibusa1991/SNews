@@ -1,6 +1,9 @@
 package com.snews.server.configuration;
 
+import com.snews.server.dto.ArticleDto;
 import com.snews.server.dto.UserDto;
+import com.snews.server.entities.ArticleEntity;
+import com.snews.server.entities.ArticleTagEntity;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
 import org.modelmapper.Converter;
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
 
 @org.springframework.context.annotation.Configuration
 public class BeansConfiguration {
-@Autowired
+    @Autowired
     private Environment environment;
 
     @Bean
@@ -31,14 +34,27 @@ public class BeansConfiguration {
                         .map(Enum::name)
                         .collect(Collectors.toSet());
 
+        Converter<Set<ArticleTagEntity>, String[]> articleTagsConverter = context ->
+                context.getSource()
+                        .stream()
+                        .map(e -> e.getTag().name())
+                        .toArray(String[]::new);
+
+        Converter<String, String[]> articleContentConverter = context ->
+                context.getSource().split("\n");
+
         modelMapper.createTypeMap(UserEntity.class, UserDto.class)
                 .addMappings(m -> m.using(userRoleConverter).map(UserEntity::getUserRoles, UserDto::setRoles));
+
+        modelMapper.createTypeMap(ArticleEntity.class, ArticleDto.class)
+                .addMappings(m -> m.using(articleTagsConverter).map(ArticleEntity::getTags, ArticleDto::setArticleTags))
+                .addMappings(m -> m.using(articleContentConverter).map(ArticleEntity::getContent, ArticleDto::setContent));
 
         return modelMapper;
     }
 
     @Bean
-    public JavaMailSender getJavaMailSender(){
+    public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);

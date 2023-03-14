@@ -1,27 +1,22 @@
 package com.snews.server.controllers;
 
+import com.snews.server.dto.ArticleDto;
+import com.snews.server.services.article.ArticleService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
-//todo remove together with testpost
-class TestDto{
-    private String parameterGoesHere;
-
-    public String getParameterGoesHere() {
-        return parameterGoesHere;
-    }
-
-    public TestDto setParameterGoesHere(String parameterGoesHere) {
-        this.parameterGoesHere = parameterGoesHere;
-        return this;
-    }
-}
-
 @RestController
 @RequestMapping("/api")
 public class ApiController {
+
+    private final ArticleService articleService;
+
+    public ApiController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
+
 
     @GetMapping("/articleContent")
     public String getArticle() {
@@ -39,15 +34,31 @@ public class ApiController {
         return "this is a full article";
     }
 
-    @GetMapping(value="/csrf")
+    @GetMapping(value = "/csrf")
     public void getCsrfToken(HttpServletRequest request) {
-        CsrfToken token = (CsrfToken)request.getAttribute(CsrfToken.class.getName());
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         token.getToken();
-//        return token.getToken();
     }
 
-    @PostMapping("/testpost")
-    public String testPost(@RequestBody TestDto testDto ) {
-        return "posting ok";
+
+    @GetMapping("article/{href}")
+    public ArticleDto getArticle(@PathVariable String href) {
+        ArticleDto article = this.articleService.getArticle(href);
+
+        boolean isAnonymous = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .anyMatch(e -> e.getAuthority().equals("ROLE_ANONYMOUS"));
+
+        if (isAnonymous) {
+            String[] content = article.getContent();
+            article.setContent(new String[]{content[0]});
+        }
+
+        return article;
     }
+
+
 }

@@ -7,6 +7,7 @@
   border-radius: 5px;
   position: relative;
   background-color: map-get(palette.$elements-palette, GREEN);
+  overflow: hidden;
 
   div.svg-wrapper {
     padding: 0.5rem;
