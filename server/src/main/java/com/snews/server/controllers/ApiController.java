@@ -34,17 +34,30 @@ public class ApiController {
         return "this is a full article";
     }
 
-    @GetMapping(value="/csrf")
+    @GetMapping(value = "/csrf")
     public void getCsrfToken(HttpServletRequest request) {
-        CsrfToken token = (CsrfToken)request.getAttribute(CsrfToken.class.getName());
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         token.getToken();
     }
 
 
     @GetMapping("article/{href}")
     public ArticleDto getArticle(@PathVariable String href) {
+        ArticleDto article = this.articleService.getArticle(href);
 
-        return this.articleService.getArticle(href);
+        boolean isAnonymous = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .anyMatch(e -> e.getAuthority().equals("ROLE_ANONYMOUS"));
+
+        if (isAnonymous) {
+            String[] content = article.getContent();
+            article.setContent(new String[]{content[0]});
+        }
+
+        return article;
     }
 
 

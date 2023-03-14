@@ -2,6 +2,7 @@ package com.snews.server.dto;
 
 public class ArticleDto {
     private String heading;
+    private String published;
     private String picture;
     private String pictureSource;
     private String content[];
@@ -59,6 +60,15 @@ public class ArticleDto {
 
     public ArticleDto setArticleTags(String[] articleTags) {
         this.articleTags = articleTags;
+        return this;
+    }
+
+    public String getPublished() {
+        return published;
+    }
+
+    public ArticleDto setPublished(String published) {
+        this.published = published;
         return this;
     }
 }

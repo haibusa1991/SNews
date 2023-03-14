@@ -17,6 +17,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
+import {DateTimePipe} from "./pipes/date-time.pipe";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatRippleModule} from "@angular/material/core";
     BackgroundComponent,
     SearchBarComponent,
     WarningLabelComponent,
-    FilenamePipe
+    FilenamePipe,
+    DateTimePipe
   ],
   exports: [
     HeaderComponent,
@@ -39,6 +41,7 @@ import {MatRippleModule} from "@angular/material/core";
     TextButtonComponent,
     WarningLabelComponent,
     FilenamePipe,
+    DateTimePipe
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,7 @@ import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.services.article.ArticleService;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,6 @@ public class ArticleController {
 
     @GetMapping("/article-categories")
     public String[] getArticle() {
-
         return articleService.getArticleCategories();
     }
 }

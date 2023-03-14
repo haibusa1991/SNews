@@ -71,27 +71,18 @@
       padding: 0 1rem;
       font-weight: 200;
     }
-//todo DRY candidate. Replace div with a warning component
-    .old-article p {
-      margin-top: 1rem;
-      width: 100%;
-      background-color: map-get($elements-palette, WARNING);
-      height: 2.5rem;
-      line-height: 2.5rem;
-      text-align: center;
-      color: map-get($elements-palette, WHITE);
-    }
 
-    @media screen and (width >  map-get($content-width, DESKTOP)) {
-      .old-article p{
-        border-radius: 5px;
-      }
+    .warning-label {
+      margin-top: 1rem;
     }
   }
 
   .article-picture {
+    display: flex;
+    flex-direction: column;
     margin: 2rem auto 0;
-    text-align: right;
+    //text-align: right;
+    align-items: center;
     max-width: map-get($content-width, LAPTOP);
 
 
@@ -101,13 +92,20 @@
       }
     }
 
-    p {
-      display: inline-block;
-      margin-top: 0.25rem;
-      font-size: 0.8rem;
-      padding: 0.25rem;
-      border-radius: 5px;
-      background-color: map-get($elements-palette, WHITE);;
+    .img-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+
+      p {
+        margin-left: auto;
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.8rem;
+        padding: 0.25rem;
+        border-radius: 5px;
+        background-color: map-get($elements-palette, WHITE);;
+      }
     }
 
     @media screen and (width < map-get($content-width, LAPTOP)) {
@@ -141,10 +139,26 @@
     }
   }
 
+  .unregistered-user {
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 1rem;
+    background-color: map-get($elements-palette,WHITE);
+    max-width: map-get($content-width, LAPTOP);
+
+  }
+
+  @media screen and (width > map-get($content-width, LAPTOP)) {
+    .unregistered-user {
+      border-radius: 5px;
+    }
+  }
+
   .article-footer {
     max-width: map-get($content-width, LAPTOP);
     margin: 1rem auto 0;
-    padding: 0 2rem;
+    padding: 0 1rem;
 
     p {
       display: inline-block;

@@ -1,8 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {Article, ArticleContent, ArticleOverviewData, ArticleTag} from "../../utils/types";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent} from "@angular/router";
+import {Article, ArticleOverviewData, ArticleTag} from "../../utils/types";
 import {ArticleService} from "../../core/article-service/article.service";
 import {articleCategories, articleCategoriesHref} from "../../utils/snewsConstants";
+import moment from "moment";
+import {filter, map, tap} from "rxjs";
+import {UserService} from "../../core/user-service/user.service";
 
 @Component({
   selector: 'app-article',
@@ -11,7 +14,16 @@ import {articleCategories, articleCategoriesHref} from "../../utils/snewsConstan
 })
 export class ArticleComponent implements OnInit {
 
-  article!: Article;
+  article: Article = {
+    articleTags: [],
+    author: "",
+    content: [],
+    heading: "",
+    href: "",
+    picture: "",
+    pictureSource: "",
+    published: ""
+  };
   articleTags: ArticleTag[] = [];
 
   //todo replace with proper implementation; Count must be multiple of 2
@@ -43,26 +55,42 @@ export class ArticleComponent implements OnInit {
   ]
 
   isOldArticle: boolean = false
+  isShortArticle: boolean = false
   oldArticleWarning: string = '';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private articleService: ArticleService) {
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private articleService: ArticleService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.checkIfOldArticle();
-
-
     let articleHref = this.activatedRoute.snapshot.paramMap.get('articleHref');
+
     this.articleService.getArticle$(articleHref!).subscribe(article => {
       this.article = article;
+
+      if (this.article.content.length === 1) {
+        this.isShortArticle = true;
+      }
+
+      this.article.published = moment(this.article.published).locale('bg').format('DD MMMM YYYY');
+      this.checkIfOldArticle();
 
       for (let inputTag of article.articleTags) {
         this.articleTags.push({
           href: articleCategoriesHref[inputTag],
           tag: articleCategories[inputTag]
-        })
+        });
       }
     });
+
+    this.router.events.pipe(
+      filter((e): e is NavigationStart => e instanceof NavigationStart),
+      tap(() => {
+        this.userService.setUrlBeforeLogin('/' + this.activatedRoute.snapshot.url.join('/'));
+      })
+    ).subscribe();
   }
 
   onNavigate(href: string) {
@@ -70,11 +98,20 @@ export class ArticleComponent implements OnInit {
   }
 
   checkIfOldArticle() {
-    //todo implement - check if article is older than 1/3/6/12 months and show warning
-    // Тази статия е публикувана преди повече от 3 месеца.
-    // Тази статия е публикувана преди повече от 1 година.
+    let articleDate = this.article.published;
+    let now = moment(new Date());
 
-    this.isOldArticle = true;
-    this.oldArticleWarning = 'Тази статия е публикувана преди повече от 3 месеца.'
+    if (now.isAfter(moment(articleDate, 'YYYY-MM-DD HH:mm:ss').add(1, "month"))) {
+      this.isOldArticle = true;
+      this.oldArticleWarning = 'Тази статия е публикувана преди повече от месец.';
+
+      if (now.isAfter(moment(articleDate, 'YYYY-MM-DD HH:mm:ss').add(1, 'year'))) {
+        this.oldArticleWarning = 'Тази статия е публикувана преди повече от година.';
+      } else if (now.isAfter(moment(articleDate, 'YYYY-MM-DD HH:mm:ss').add(6, 'month'))) {
+        this.oldArticleWarning = 'Тази статия е публикувана преди повече от 6 месеца.';
+      } else if (now.isAfter(moment(articleDate, 'YYYY-MM-DD HH:mm:ss').add(3, 'month'))) {
+        this.oldArticleWarning = 'Тази статия е публикувана преди повече 3 месеца';
+      }
+    }
   }
 }
