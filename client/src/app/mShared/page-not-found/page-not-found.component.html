@@ -1,1 +1,12 @@
-<p>page-not-found works!</p>
+<div class="form-content">
+  <h1>Страницата не е намерена!</h1>
+  <div class="form-button-wrapper">
+    <app-text-button
+      [buttonText]="'Начална страница'"
+      class="home-button"
+      (click)="onHomeButtonClick()"></app-text-button>
+  </div>
+  <img src="assets/shared/404.png"
+       alt="page not found image"
+       class="tree">
+</div>
