@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {ArticleService} from "../../core/article-service/article.service";
+import {ArticleOverviewData} from "../../utils/types";
 
 @Component({
   selector: 'app-home',
@@ -7,10 +9,14 @@ import {Router} from "@angular/router";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  articleOverviews: ArticleOverviewData[] = [];
 
-  constructor(private router:Router) { }
+  constructor(private router: Router,
+              private articleService: ArticleService) {
+  }
 
   ngOnInit(): void {
+    this.articleService.getHomeArticles$().subscribe(e => this.articleOverviews = e);
   }
 
   onNavigate(targetUrl:string){

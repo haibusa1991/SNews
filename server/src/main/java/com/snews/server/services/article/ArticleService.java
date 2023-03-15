@@ -1,6 +1,7 @@
 package com.snews.server.services.article;
 
 import com.snews.server.dto.ArticleDto;
+import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.dto.NewArticleDto;
 import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
@@ -15,4 +16,6 @@ public interface ArticleService {
     String[] getArticleCategories();
 
     ArticleDto getArticle(String articleUrl);
+
+    ArticleOverviewDto[] getRecentArticles(int articleCount);
 }

@@ -31,25 +31,25 @@ export class ArticleComponent implements OnInit {
     {
       heading: '"Вектор за атака1". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
-      publishDate: '02 Февруари 2023 17:33',
+      published: '02 Февруари 2023 17:33',
       thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
     },
     {
       heading: '"Вектор за атака2". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
-      publishDate: '02 Февруари 2023 17:33',
+      published: '02 Февруари 2023 17:33',
       thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
     },
     {
       heading: '"Вектор за атака3". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
-      publishDate: '02 Февруари 2023 17:33',
+      published: '02 Февруари 2023 17:33',
       thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
     },
     {
       heading: '"Вектор за атака4". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
-      publishDate: '02 Февруари 2023 17:33',
+      published: '02 Февруари 2023 17:33',
       thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
     },
   ]
@@ -69,13 +69,11 @@ export class ArticleComponent implements OnInit {
 
     this.articleService.getArticle$(articleHref!).subscribe(article => {
       this.article = article;
+      this.checkIfOldArticle();
 
       if (this.article.content.length === 1) {
         this.isShortArticle = true;
       }
-
-      this.article.published = moment(this.article.published).locale('bg').format('DD MMMM YYYY');
-      this.checkIfOldArticle();
 
       for (let inputTag of article.articleTags) {
         this.articleTags.push({

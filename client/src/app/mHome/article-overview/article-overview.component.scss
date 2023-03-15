@@ -1,13 +1,20 @@
 @import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/shadows';
 
 .content {
 
   .large-tile {
     text-decoration: none;
 
-    img{
+    img {
+      margin-left: auto;
+      margin-right: auto;
+      width: 240px;
+      height: 160px;
+      object-fit: cover;
       border-radius: 5px;
       margin-top: 0.5rem;
+      filter: drop-shadow (map-get($shadows, MORE-MENU));
     }
 
     h3 {
@@ -21,8 +28,8 @@
       font-weight: 200;
     }
 
-    .headings{
-      h3{
+    .headings {
+      h3 {
         display: none;
       }
     }
@@ -49,10 +56,12 @@
 
     .thumbnail {
       display: inline-block;
+      min-width: 30%;
       max-width: 30%;
 
       img {
         border-radius: 3px;
+        object-fit: cover;
       }
 
       h3 {
