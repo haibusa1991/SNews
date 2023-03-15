@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 
 @Service
@@ -138,9 +139,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDto getArticle(String href) {
         ArticleEntity article = this.articleRepository.getArticleEntityByHref(href);
 
-        ArticleDto dto = this.modelMapper.map(article, ArticleDto.class);
-
-        return dto;
+        return this.modelMapper.map(article, ArticleDto.class);
     }
 
     @Override
@@ -164,5 +163,26 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         return dtos;
+    }
+
+    @Override
+    public ArticleOverviewDto[] getTodayArticles() {
+        LocalDateTime now = LocalDateTime.now();
+
+        int dayOfMonth = now.getDayOfMonth();
+        Month month = now.getMonth();
+        int year = now.getYear();
+
+        LocalDateTime today = LocalDateTime.of(year, month, dayOfMonth, 0, 0, 0);
+
+        List<ArticleEntity> todayArticles = this.articleRepository.findAllByPublishedAfterOrderByPublishedDesc(today);
+
+        if (todayArticles.isEmpty()) {
+            return new ArticleOverviewDto[0];
+        }
+
+        return todayArticles.stream()
+                .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
+                .toArray(ArticleOverviewDto[]::new);
     }
 }

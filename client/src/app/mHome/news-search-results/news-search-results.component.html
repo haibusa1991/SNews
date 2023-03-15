@@ -1,0 +1,18 @@
+<section class="more-news">
+<!--  todo fix heading-->
+  <h1>Днес</h1>
+  <div class="results-wrapper">
+    <app-article-overview
+      class="article"
+      *ngFor="let article of articles"
+      [articleOverviewData]="article"
+      [isSmallHeading]="true"></app-article-overview>
+  </div>
+
+  <div class="form-button-wrapper">
+    <app-text-button
+      class="more-news-button"
+      (click)="onNavigate('news/today')"
+      [buttonText]="'Вижте всичко от деня'"></app-text-button>
+  </div>
+</section>

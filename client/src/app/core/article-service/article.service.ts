@@ -84,4 +84,15 @@ export class ArticleService {
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }
+
+  getArticlesByCategory$(category:string):Observable<ArticleOverviewData[]>{
+    return new Observable<ArticleOverviewData[]>(res => {
+      this.http.get(`${articleEndpoints['articleByCategory']}/${category}`,{responseType:'text'})
+        .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
+    })
+  }
+
+  getTodayArticles$():Observable<ArticleOverviewData[]>{
+    return this.getArticlesByCategory$('today')
+  }
 }

@@ -18,4 +18,7 @@ public interface ArticleService {
     ArticleDto getArticle(String articleUrl);
 
     ArticleOverviewDto[] getRecentArticles(int articleCount);
+
+    ArticleOverviewDto[] getTodayArticles();
+
 }

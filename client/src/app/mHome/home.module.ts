@@ -5,6 +5,7 @@ import {ArticleOverviewComponent} from './article-overview/article-overview.comp
 import {RouterModule} from "@angular/router";
 import {SharedModule} from "../mShared/shared.module";
 import {ArticleComponent} from './article/article.component';
+import { NewsSearchResultsComponent } from './news-search-results/news-search-results.component';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import {ArticleComponent} from './article/article.component';
     HomeComponent,
     ArticleOverviewComponent,
     ArticleComponent,
+    NewsSearchResultsComponent,
   ],
   imports: [
     CommonModule,

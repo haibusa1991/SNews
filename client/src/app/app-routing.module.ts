@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from "./mShared/page-not-found/page-not-found.component";
 import {HomeComponent} from "./mHome/home/home.component";
 import {ArticleComponent} from "./mHome/article/article.component";
+import {NewsSearchResultsComponent} from "./mHome/news-search-results/news-search-results.component";
 
 const routes: Routes = [
   {
@@ -10,7 +11,10 @@ const routes: Routes = [
     pathMatch: "full",
     component: HomeComponent
   },
-
+  {
+    path: 'news/:category',
+    component: NewsSearchResultsComponent
+  },
   {
     path: 'article/:articleHref',
     component: ArticleComponent

@@ -27,7 +27,8 @@ export const articleEndpoints = {
   'newArticle': '/api/article/new-article',
   'articleCategories':'api/article/article-categories',
   'articles':'/api/api/article',
-  'homePageArticles':'/api/api/article/home-articles'
+  'homePageArticles':'/api/api/article/home-articles',
+  'articleByCategory':'/api/news'
 }
 
 
