@@ -4,11 +4,11 @@
      routerLink="{{articleOverviewData.href}}">
     <div class="thumbnail">
       <img src="{{articleOverviewData.thumbnailUrl}}" alt="Article thumbnail">
-      <h3>{{articleOverviewData.publishDate}}</h3>
+      <h3>{{articleOverviewData.published | datetime}}</h3>
     </div>
     <div class="headings">
       <h2 class="clickable">{{articleOverviewData.heading}}</h2>
-      <h3>{{articleOverviewData.publishDate}}</h3>
+      <h3>{{articleOverviewData.published | datetime}}</h3>
     </div>
   </a>
 </div>

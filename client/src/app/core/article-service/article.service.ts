@@ -5,7 +5,8 @@ import {Observable, switchMap} from "rxjs";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {FormGroup} from "@angular/forms";
 import {articleCategories} from "../../utils/snewsConstants";
-import {Article} from "../../utils/types";
+import {Article, ArticleOverviewData} from "../../utils/types";
+import {ArticleOverviewComponent} from "../../mHome/article-overview/article-overview.component";
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,12 @@ export class ArticleService {
     return new Observable<Article>(res => {
       this.http.get(`${articleEndpoints['articles']}/${href}`).subscribe(article => res.next(article as Article))
     })
+  }
 
+  getHomeArticles$():Observable<ArticleOverviewData[]>{
+    return new Observable<ArticleOverviewData[]>(res => {
+      this.http.get(articleEndpoints['homePageArticles'],{responseType:'text'})
+        .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
+    })
   }
 }

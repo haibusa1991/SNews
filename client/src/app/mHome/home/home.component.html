@@ -2,30 +2,19 @@
   <section class="heading-news">
     <h1 style="text-align: center">Водещите новини</h1>
     <div class="heading-news-wrapper">
-      <app-article-overview></app-article-overview>
-      <app-article-overview></app-article-overview>
-      <app-article-overview></app-article-overview>
-      <app-article-overview></app-article-overview>
-      <app-article-overview></app-article-overview>
-      <app-article-overview></app-article-overview>
+      <app-article-overview
+        *ngFor="let article of articleOverviews.slice(0,6)"
+        [articleOverviewData]="article"></app-article-overview>
     </div>
   </section>
 
   <section class="more-news">
     <h1 style="text-align: center">Още от деня</h1>
     <div class="more-news-wrapper">
-      <app-article-overview
-        [isSmallHeading]="true"></app-article-overview>
-      <app-article-overview
-        [isSmallHeading]="true"></app-article-overview>
-      <app-article-overview
-        [isSmallHeading]="true"></app-article-overview>
-      <app-article-overview
-        [isSmallHeading]="true"></app-article-overview>
-      <app-article-overview
-        [isSmallHeading]="true"></app-article-overview>
-      <app-article-overview
-        [isSmallHeading]="true"></app-article-overview>
+            <app-article-overview
+              *ngFor="let article of articleOverviews.slice(6)"
+              [articleOverviewData]="article"
+              [isSmallHeading]="true"></app-article-overview>
     </div>
 
     <div class="more-news-button-wrapper">

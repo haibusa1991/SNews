@@ -3,7 +3,7 @@
 
     <div class="article-header">
       <h1>{{article.heading}}</h1>
-      <h3>{{article.published}}</h3>
+      <h3>{{article.published | datetime}}</h3>
       <app-warning-label
         class="warning-label"
         *ngIf="isOldArticle"

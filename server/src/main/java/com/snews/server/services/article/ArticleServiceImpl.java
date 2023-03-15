@@ -1,6 +1,7 @@
 package com.snews.server.services.article;
 
 import com.snews.server.dto.ArticleDto;
+import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.dto.NewArticleDto;
 import com.snews.server.entities.ArticleEntity;
 import com.snews.server.entities.ArticleTagEntity;
@@ -14,10 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -41,7 +39,8 @@ public class ArticleServiceImpl implements ArticleService {
         String pictureLink;
         try {
             byte[] file = dto.getPictureFile().getBytes();
-            pictureLink = this.fileService.saveFile(file);
+            pictureLink = this.fileService.savePictureToDisk(file);
+            this.fileService.generateThumbnail(file, pictureLink);
         } catch (Exception e) {
             throw new InternalServerErrorException("Unable to save image");
         }
@@ -142,5 +141,28 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleDto dto = this.modelMapper.map(article, ArticleDto.class);
 
         return dto;
+    }
+
+    @Override
+    public ArticleOverviewDto[] getRecentArticles(int articleCount) {
+        List<ArticleEntity> topArticles = this.articleRepository.getTopArticles(articleCount);
+        if (topArticles.isEmpty()) {
+            return new ArticleOverviewDto[0];
+        }
+
+        ArticleOverviewDto[] dtos = topArticles.stream()
+                .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
+                .toArray(ArticleOverviewDto[]::new);
+
+
+        if (dtos.length < articleCount) {
+            ArticleOverviewDto[] filledDtos = new ArticleOverviewDto[articleCount];
+            for (int i = 0; i < articleCount; i++) {
+                filledDtos[i] = dtos[i % dtos.length];
+            }
+            return filledDtos;
+        }
+
+        return dtos;
     }
 }

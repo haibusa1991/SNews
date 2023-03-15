@@ -1,6 +1,7 @@
 package com.snews.server.controllers;
 
 import com.snews.server.dto.ArticleDto;
+import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.services.article.ArticleService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +59,11 @@ public class ApiController {
         }
 
         return article;
+    }
+
+    @GetMapping("article/home-articles")
+    public ArticleOverviewDto[] getRecentArticles(){
+        return this.articleService.getRecentArticles(12);
     }
 
 

@@ -16,7 +16,7 @@ export type ArticleTag = {
 export type ArticleOverviewData = {
   href: string,
   thumbnailUrl: string,
-  publishDate: string
+  published: string
   heading: string
 }
 

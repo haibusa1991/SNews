@@ -17,9 +17,8 @@ export class ArticleOverviewComponent implements OnInit {
   articleOverviewData: ArticleOverviewData = {
     heading: '"Вектор за атака". Как София даде милиони за китайски камери в градския транспорт',
     href: '/articles/article-url-goes-here',
-    publishDate: '02 Февруари 2023 17:33',
+    published: '02 Февруари 2023 17:33',
     thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
-
   };
 
   constructor() {
