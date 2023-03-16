@@ -86,7 +86,7 @@ export class ArticleComponent implements OnInit {
     this.router.events.pipe(
       filter((e): e is NavigationStart => e instanceof NavigationStart),
       tap(() => {
-        this.userService.setUrlBeforeLogin('/' + this.activatedRoute.snapshot.url.join('/'));
+        this.userService.setUrlBeforeLogin('/news/' + this.activatedRoute.snapshot.url.join('/'));
       })
     ).subscribe();
   }

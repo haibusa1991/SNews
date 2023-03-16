@@ -52,7 +52,7 @@ public class ModelMapperConfiguration {
                 "assets/storage/articles/thumbnails/" + context.getSource() + "_thumb";
 
         Converter<String, String> articleOverviewDtoSetHref = context ->
-                "/article/" + context.getSource();
+                "/news/article/" + context.getSource();
 
         modelMapper.createTypeMap(ArticleEntity.class, ArticleOverviewDto.class)
                 .addMappings(m -> m.using(articleOverviewDtoSetHref).map(ArticleEntity::getHref, ArticleOverviewDto::setHref))

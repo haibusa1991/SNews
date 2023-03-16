@@ -21,4 +21,5 @@ public interface ArticleService {
 
     ArticleOverviewDto[] getTodayArticles();
 
+    ArticleOverviewDto[] getArticlesByCategory(String category);
 }

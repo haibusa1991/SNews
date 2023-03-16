@@ -2,12 +2,13 @@ export const articleCategories: { [k: string]: string } = {
   'ANALYSIS': 'Анализи',
   'POLITICS': 'Политика',
   'BUSINESS': 'Бизнес',
-  'SPORT': 'Спорт'
+  'SPORT': 'Спорт',
+  'TODAY': 'днес'
 };
 
 export const articleCategoriesHref: { [k: string]: string } = {
-  'ANALYSIS': '/article/analysis',
-  'POLITICS': '/article/politics',
-  'BUSINESS': '/article/business',
-  'SPORT': '/article/sport'
+  'ANALYSIS': '/news/analysis',
+  'POLITICS': '/news/politics',
+  'BUSINESS': '/news/business',
+  'SPORT': '/news/sport'
 }

@@ -1,6 +1,7 @@
 package com.snews.server.repositories;
 
 import com.snews.server.entities.ArticleEntity;
+import com.snews.server.entities.ArticleTagEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,6 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, UUID> {
 
 
     List<ArticleEntity> findAllByPublishedAfterOrderByPublishedDesc(LocalDateTime date);
+
+    List<ArticleEntity> findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(ArticleTagEntity tag);
 }

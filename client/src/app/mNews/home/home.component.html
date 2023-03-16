@@ -1,6 +1,9 @@
 <div class="content">
   <section class="heading-news">
     <h1 style="text-align: center">Водещите новини</h1>
+    <app-component-spinner
+    class="component-loading-spinner"
+    *ngIf="isLoading"></app-component-spinner>
     <div class="heading-news-wrapper">
       <app-article-overview
         *ngFor="let article of articleOverviews.slice(0,6)"
@@ -10,6 +13,9 @@
 
   <section class="more-news">
     <h1>Още от деня</h1>
+    <app-component-spinner
+      class="component-loading-spinner"
+      *ngIf="isLoading"></app-component-spinner>
     <div class="more-news-wrapper">
             <app-article-overview
               *ngFor="let article of articleOverviews.slice(6)"

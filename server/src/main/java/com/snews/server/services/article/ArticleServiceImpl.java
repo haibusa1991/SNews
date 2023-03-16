@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 
+import static com.snews.server.enumeration.ArticleTagEnum.*;
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
@@ -182,6 +184,26 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         return todayArticles.stream()
+                .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
+                .toArray(ArticleOverviewDto[]::new);
+    }
+
+    @Override
+    public ArticleOverviewDto[] getArticlesByCategory(String category) {
+        boolean isValidTag = Arrays.stream(ArticleTagEnum.values())
+                .map(Enum::name)
+                .anyMatch(e->e.equalsIgnoreCase(category));
+
+        if(!isValidTag) {
+            return new ArticleOverviewDto[0];
+        }
+
+        ArticleTagEnum tagEnum = ArticleTagEnum.valueOf(category.toUpperCase());
+        ArticleTagEntity tag = this.articleTagService.getTag(tagEnum);
+
+        List<ArticleEntity> articles = this.articleRepository.findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(tag);
+
+        return articles.stream()
                 .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
                 .toArray(ArticleOverviewDto[]::new);
     }
