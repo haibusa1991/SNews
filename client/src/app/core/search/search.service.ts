@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
+import {Observable, switchMap} from "rxjs";
+import {apiEndpoints, articleEndpoints} from "../../../environments/environment";
+import {ArticleOverviewData} from "../../utils/types";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  //todo implement - returns json with article ids
-  doSearch(searchPhrase:string) : string {
-    return `result for search query "${searchPhrase}" goes here`
+  doSearch(searchPhrase:string) : Observable<ArticleOverviewData[]> {
+      return new Observable<ArticleOverviewData[]>(res => {
+        this.http.get(`${apiEndpoints['search']}/${searchPhrase}`,{responseType:'text'})
+          .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
+      })
   }
 }

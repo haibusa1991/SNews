@@ -91,8 +91,4 @@ export class ArticleService {
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }
-
-  getTodayArticles$():Observable<ArticleOverviewData[]>{
-    return this.getArticlesByCategory$('today')
-  }
 }

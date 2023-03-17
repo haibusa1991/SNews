@@ -48,6 +48,7 @@ h1 {
 
     app-article-overview {
       border-bottom: unset;
+      min-width: 40%;
       max-width: 40%;
     }
   }
@@ -85,9 +86,10 @@ h1 {
     .more-news-wrapper {
       flex-direction: row;
       flex-wrap: wrap;
-
+//todo DRY candidate
       app-article-overview {
         border-bottom: unset;
+        min-width: 40%;
         max-width: 40%;
       }
 

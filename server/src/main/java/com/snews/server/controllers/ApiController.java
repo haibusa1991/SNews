@@ -3,6 +3,7 @@ package com.snews.server.controllers;
 import com.snews.server.dto.ArticleDto;
 import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.services.article.ArticleService;
+import com.snews.server.services.query.QueryService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class ApiController {
 
     private final ArticleService articleService;
+    private final QueryService queryService;
 
-    public ApiController(ArticleService articleService) {
+    public ApiController(ArticleService articleService, QueryService queryService) {
         this.articleService = articleService;
+        this.queryService = queryService;
     }
 
 
@@ -62,9 +65,13 @@ public class ApiController {
     }
 
     @GetMapping("article/home-articles")
-    public ArticleOverviewDto[] getRecentArticles(){
+    public ArticleOverviewDto[] getRecentArticles() {
         return this.articleService.getRecentArticles(12);
     }
 
+    @GetMapping("search/{query}")
+    public ArticleOverviewDto[] getSearchResults(@PathVariable String query) {
+        return this.queryService.articleSearch(query);
+    }
 
 }

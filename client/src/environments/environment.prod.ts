@@ -5,7 +5,8 @@ export const environment = {
 export const apiEndpoints = {
   'articleContent': 'http://localhost:8080/api/articleContent',
   'csrf': 'http://localhost:8080/api/csrf',
-  'testPost': 'http://localhost:8080/api/testPost'
+  'testPost': 'http://localhost:8080/api/testPost',
+  'search': 'http://localhost:8080/api/search',
 }
 
 export const userEndpoints = {

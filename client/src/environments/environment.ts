@@ -9,6 +9,7 @@ export const environment = {
 export const apiEndpoints = {
   'articleContent': 'api/api/articleContent',
   'csrf': 'api/api/csrf',
+  'search': 'api/api/search',
   'testPost': 'api/api/testPost'
 }
 

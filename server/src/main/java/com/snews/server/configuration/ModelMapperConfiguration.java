@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Configuration
 public class ModelMapperConfiguration {
 
-    @Bean
+    @Bean(name = "ModelMapper")
     public ModelMapper getModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
