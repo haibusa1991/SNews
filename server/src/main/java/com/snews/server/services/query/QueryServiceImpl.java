@@ -5,11 +5,7 @@ import com.snews.server.entities.ArticleEntity;
 import com.snews.server.repositories.ArticleRepository;
 import com.snews.server.utils.Utils;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -18,15 +14,17 @@ import java.util.*;
 public class QueryServiceImpl implements QueryService {
 
     private final ArticleRepository articleRepository;
-    private final ModelMapper modelMapper;
 
-    public QueryServiceImpl(ArticleRepository articleRepository, ModelMapper modelMapper) {
+    public QueryServiceImpl(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
     public ArticleOverviewDto[] articleSearch(String query) {
+
+        if (query.length() <= 3) {
+            return new ArticleOverviewDto[0];
+        }
 
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.M.yyyy H:m:s");
@@ -35,56 +33,37 @@ public class QueryServiceImpl implements QueryService {
         } catch (Exception ignored) {
         }
 
-        HashSet<String> anymatch = new HashSet<>();
-        String[] keywords = query.split(" ");
-
-//TODO get all headings that have any matching keyword
-//    rate all the keywords by occurrence count
-//    sort results by rating first, then by publish date
-//    convert results to dtos
-//    implement pagination if required
+        String queryKeywords = query.replace(' ', '|');
+        List<ArticleEntity> articlesByKeywords = this.articleRepository.getArticlesByKeywords(queryKeywords);
 
 
-        Set<String> testRepo = new HashSet<>();
-        for (String keyword : keywords) {
-            List<String> headings = this.articleRepository.getAllHeadingsByKeywordMatch(keyword);
-            testRepo.addAll(headings);
-        }
-
-        System.out.println();
-        for (String keyword : keywords) {
-            anymatch.addAll(
-                    this.articleRepository
-                            .findAllByHeadingContainingIgnoreCase(keyword)
-                            .stream()
-                            .map(ArticleEntity::getHeading)
-                            .toList()
-            );
-        }
-
-        HashMap<String, Integer> articlesWithRelevance = new HashMap<>();
-        for (String article : anymatch) {
-            int relevanceRating = 0;
-            for (String keyword : keywords) {
-                if (article.toLowerCase().contains(keyword.toLowerCase())) {
-                    relevanceRating++;
-                }
-            }
-            articlesWithRelevance.put(article, relevanceRating);
-        }
-
-//        articlesWithRelevance.entrySet().stream()
-
-        Pageable pageable = PageRequest.of(10, 2);
-
-        List<ArticleEntity> articles = this.articleRepository.findAllByOrderByPublishedDesc(pageable);
-
-        return articles.stream().map(e -> this.modelMapper.map(e, ArticleOverviewDto.class)).toArray(ArticleOverviewDto[]::new);
+        return Utils.convertToDtoArray(articlesByKeywords
+                .stream()
+                .map(article -> rateArticle(article, query))
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(Map.Entry::getKey)
+                .toList());
     }
 
     private ArticleOverviewDto[] dateSearch(LocalDateTime date) {
         List<ArticleEntity> all = this.articleRepository.findAllByPublishedBetweenOrderByPublishedDesc(date, date.plusDays(1));
         return Utils.convertToDtoArray(all);
+    }
+
+    private Map.Entry<ArticleEntity, Integer> rateArticle(ArticleEntity article, String query) {
+        String[] headingWords = article.getHeading().split(" ");
+        String[] keywords = query.split(" ");
+
+        int relevanceRating = 0;
+
+        for (String headingWord : headingWords) {
+            for (String keyword : keywords) {
+                if (headingWord.equalsIgnoreCase(keyword)) {
+                    relevanceRating++;
+                }
+            }
+        }
+        return Map.entry(article, relevanceRating);
     }
 }
 

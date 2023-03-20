@@ -7,6 +7,7 @@ import {SharedModule} from "../mShared/shared.module";
 import {ArticleComponent} from './article/article.component';
 import { NewsCategory } from './news-category/news-category.component';
 import {RouterConfiguration} from "../configuration/RouterConfiguration";
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 const moduleRoutes: Routes = [
@@ -23,6 +24,10 @@ const moduleRoutes: Routes = [
     path: 'article/:articleHref',
     component: ArticleComponent
   },
+  {
+    path: 'search-results/:keywords',
+    component: SearchResultsComponent
+  },
 ];
 
 
@@ -32,6 +37,7 @@ const moduleRoutes: Routes = [
     ArticleOverviewComponent,
     ArticleComponent,
     NewsCategory,
+    SearchResultsComponent,
   ],
   imports: [
     CommonModule,

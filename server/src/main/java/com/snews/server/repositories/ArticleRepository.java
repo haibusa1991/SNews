@@ -43,4 +43,15 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, UUID> {
             WHERE ae.heading LIKE %:keyword%
             """)
     List<String> getAllHeadingsByKeywordMatch(String keyword);
+
+    ArticleEntity getArticleEntityByHeading(String heading);
+
+    @Query(value = """
+            SELECT *
+            FROM articles
+            WHERE heading REGEXP :keywords
+            LIMIT 50
+            """,nativeQuery = true)
+    List<ArticleEntity> getArticlesByKeywords(String keywords);
 }
+

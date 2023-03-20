@@ -1,0 +1,27 @@
+<section class="more-news form-content">
+  <h1>Резултати от търсенето</h1>
+
+  <app-component-spinner
+    class="component-loading-spinner"
+    *ngIf="isLoading"></app-component-spinner>
+
+  <div class="no-news"
+       *ngIf="hasNoResults">
+    <h2>Няма новини по критериите за търсене</h2>
+  </div>
+
+  <div class="results-wrapper">
+    <app-article-overview
+      class="article"
+      *ngFor="let article of articles"
+      [articleOverviewData]="article"
+      [isSmallHeading]="true"></app-article-overview>
+  </div>
+
+  <div class="form-button-wrapper">
+    <app-text-button
+      class="more-news-button"
+      (click)="onNavigate('/')"
+      [buttonText]="'Начална страница'"></app-text-button>
+  </div>
+</section>
