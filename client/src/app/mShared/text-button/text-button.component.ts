@@ -20,6 +20,8 @@ export class TextButtonComponent implements OnInit {
   isOpen!: boolean;
   @Input()
   isDisabled: boolean = false;
+  @Input()
+  href:String='';
 
   constructor() {
   }

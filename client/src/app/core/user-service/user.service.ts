@@ -1,5 +1,5 @@
 import {Injectable, isDevMode} from '@angular/core';
-import {Observable, Subject} from "rxjs";
+import {catchError, Observable, Subject, switchMap} from "rxjs";
 import {RegisterResponse, User} from "../../utils/types";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Endpoints} from "../../utils/endpoints";
@@ -29,60 +29,50 @@ export class UserService {
     form.append('username', email);
     form.append('password', password);
 
-    //todo try refactoring
+    let httpPostRequest = this.http.post(userEndpoints['login'], form, {
+      responseType: 'text' as const,
+      withCredentials: true
+    });
+
+    let currentUser = this.http.get(userEndpoints['getUser'], {responseType: 'text', withCredentials: true});
 
     return new Observable<boolean>(result => {
-      this.getToken$().subscribe(() => {
-        this.http.post(userEndpoints['login'], form, {
-          responseType: 'text' as const,
-          withCredentials: true,
-          observe: 'response'
-        }).subscribe({
-
-          next: () => {
-            this.getCurrentUser$().subscribe(currentUser => {
-              let user: User = JSON.parse(currentUser);
-              if (user.username == 'anonymousUser') {
-                result.next(false);
-                return;
-              }
-              this.currentUser = user;
-              this.currentUserSubject.next(this.currentUser);
-              result.next(true);
-            });
-          },
-
-          error: () => {
-            // todo isDevMode
-            if (isDevMode()) {
-              this.getCurrentUser$().subscribe(currentUser => {
-                let user: User = JSON.parse(currentUser);
-                if (user.username == 'anonymousUser') {
-                  result.next(false);
-                  return;
-                }
-                this.currentUser = user;
-                this.currentUserSubject.next(this.currentUser);
-                result.next(true);
-              });
-            }
+      httpPostRequest.pipe(
+        catchError(() => httpPostRequest),
+        switchMap(() => httpPostRequest),
+        catchError(() => currentUser),
+      ).subscribe({
+        next: n => {
+          let user: User = JSON.parse(n);
+          if (user.username == 'anonymousUser') {
             result.next(false);
+            return;
           }
-        });
-      });
+          this.currentUser = user;
+          this.currentUserSubject.next(this.currentUser);
+          result.next(true);
+        }
+      })
     });
   }
 
+
 //todo refactor to remove getUser$
-  getUser$(): Observable<User | null> {
+  getUser$()
+    :
+    Observable<User | null> {
     return this.currentUserSubject.asObservable();
   }
 
-  getCurrentUser$(): Observable<string> {
+  getCurrentUser$()
+    :
+    Observable<string> {
     return this.http.get(userEndpoints['getUser'], {responseType: 'text', withCredentials: true});
   }
 
-  validateSession(): void {
+  validateSession()
+    :
+    void {
     this.getCurrentUser$().subscribe(currentUser => {
       let user: User = JSON.parse(currentUser);
       if (user.username == 'anonymousUser') {
@@ -93,7 +83,15 @@ export class UserService {
     })
   }
 
-  register$(email: string, username: string, password: string): Observable<RegisterResponse> {
+  register$(email
+              :
+              string, username
+              :
+              string, password
+              :
+              string
+  ):
+    Observable<RegisterResponse> {
     // let body = new FormData();
     // body.append('email',email);
     // body.append('username',username);
@@ -124,20 +122,36 @@ export class UserService {
     );
   }
 
-  logout$(): Observable<void> {
+//
+// logout$(): Observable<void> {
+//   return new Observable<void>(() => {
+//     this.getToken$().subscribe({
+//       next: () => {
+//         this.http.post(userEndpoints['logout'], {}, {responseType: 'text'}).subscribe();
+//         this.currentUser = null;
+//         this.urlBeforeLogin = '/';
+//         this.currentUserSubject.next(this.currentUser);
+//       }
+//     })
+//   });
+// }
+
+  logout$()
+    :
+    Observable<void> {
     return new Observable<void>(() => {
-      this.getToken$().subscribe({
-        next: () => {
-          this.http.post(userEndpoints['logout'], {}, {responseType: 'text'}).subscribe();
-          this.currentUser = null;
-          this.urlBeforeLogin = '/';
-          this.currentUserSubject.next(this.currentUser);
-        }
-      })
-    });
+      this.http.post(userEndpoints['logout'], {}, {responseType: 'text'}).subscribe();
+      this.currentUser = null;
+      this.urlBeforeLogin = '/';
+      this.currentUserSubject.next(this.currentUser);
+    })
   }
 
-  recoverPassword$(emailAddress: string): Observable<void> {
+  recoverPassword$(emailAddress
+                     :
+                     string
+  ):
+    Observable<void> {
     return new Observable(() => {
       this.getToken$().subscribe(() => {
         this.http.post(userEndpoints['forgottenPassword'], {'email': emailAddress}, {
@@ -148,7 +162,13 @@ export class UserService {
     })
   }
 
-  resetPassword$(password: string, token: string): Observable<boolean> {
+  resetPassword$(password
+                   :
+                   string, token
+                   :
+                   string
+  ):
+    Observable<boolean> {
     return new Observable(response => {
       this.getToken$().subscribe(() => {
         this.http.post(userEndpoints['passwordReset'],
@@ -169,11 +189,16 @@ export class UserService {
     })
   }
 
-  setUrlBeforeLogin(url: string) {
+  setUrlBeforeLogin(url
+                      :
+                      string
+  ) {
     this.urlBeforeLogin = url;
   }
 
-  getUrlBeforeLogin(): string | null {
+  getUrlBeforeLogin()
+    :
+    string | null {
     return this.urlBeforeLogin;
   }
 }

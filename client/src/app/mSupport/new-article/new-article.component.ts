@@ -62,7 +62,7 @@ export class NewArticleComponent implements OnInit {
   }
 
   onSubmit() {
-    this.articleService.postNewArticle$(this.newArticleForm, this.pictureFile!).subscribe(link => this.router.navigateByUrl(`/article/${link}`));
+    this.articleService.postNewArticle$(this.newArticleForm, this.pictureFile!).subscribe(link => this.router.navigateByUrl(`/news/article/${link}`));
   }
 
   onFileChange(e: any) {
