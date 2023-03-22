@@ -26,18 +26,18 @@ export class HeaderComponent implements OnInit {
   }
 
   endpoints: { [k: string]: string } = {
-    'todayNews': 'news/today',
-    'analyses': 'news/analyses',
-    'politics': 'news/politics',
-    'business': 'news/business',
-    'sport': 'news/sport',
+    'todayNews': '/news/today',
+    'analyses': '/news/analysis',
+    'politics': '/news/politics',
+    'business': '/news/business',
+    'sport': '/news/sport',
 
-    'login': 'user/login',
-    'register': 'user/register',
-    'settings': 'user/settings',
-    'moderation': 'user/moderation',
-    'administration': 'support/new-article',
-    'logout': 'user/logout'
+    'login': '/user/login',
+    'register': '/user/register',
+    'settings': '/user/settings',
+    'moderation': '/user/moderation',
+    'administration': '/support/new-article',
+    'logout': '/user/logout'
   }
 
   texts: { [k: string]: string } = {

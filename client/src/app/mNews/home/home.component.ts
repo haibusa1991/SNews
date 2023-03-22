@@ -10,16 +10,20 @@ import {ArticleOverviewData} from "../../utils/types";
 })
 export class HomeComponent implements OnInit {
   articleOverviews: ArticleOverviewData[] = [];
+  isLoading: boolean = true;
 
   constructor(private router: Router,
               private articleService: ArticleService) {
   }
 
   ngOnInit(): void {
-    this.articleService.getHomeArticles$().subscribe(e => this.articleOverviews = e);
+    this.articleService.getHomeArticles$().subscribe(e => {
+      this.articleOverviews = e
+      this.isLoading = false;
+    });
   }
 
-  onNavigate(targetUrl:string){
+  onNavigate(targetUrl: string) {
     this.router.navigateByUrl(targetUrl);
   }
 

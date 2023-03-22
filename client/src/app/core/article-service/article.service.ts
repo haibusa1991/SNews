@@ -6,7 +6,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 import {FormGroup} from "@angular/forms";
 import {articleCategories} from "../../utils/snewsConstants";
 import {Article, ArticleOverviewData} from "../../utils/types";
-import {ArticleOverviewComponent} from "../../mHome/article-overview/article-overview.component";
+import {ArticleOverviewComponent} from "../../mNews/article-overview/article-overview.component";
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +81,13 @@ export class ArticleService {
   getHomeArticles$():Observable<ArticleOverviewData[]>{
     return new Observable<ArticleOverviewData[]>(res => {
       this.http.get(articleEndpoints['homePageArticles'],{responseType:'text'})
+        .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
+    })
+  }
+
+  getArticlesByCategory$(category:string):Observable<ArticleOverviewData[]>{
+    return new Observable<ArticleOverviewData[]>(res => {
+      this.http.get(`${articleEndpoints['articleByCategory']}/${category}`,{responseType:'text'})
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }

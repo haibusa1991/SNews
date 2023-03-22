@@ -9,6 +9,7 @@ export const environment = {
 export const apiEndpoints = {
   'articleContent': 'api/api/articleContent',
   'csrf': 'api/api/csrf',
+  'search': 'api/api/search',
   'testPost': 'api/api/testPost'
 }
 
@@ -27,7 +28,8 @@ export const articleEndpoints = {
   'newArticle': '/api/article/new-article',
   'articleCategories':'api/article/article-categories',
   'articles':'/api/api/article',
-  'homePageArticles':'/api/api/article/home-articles'
+  'homePageArticles':'/api/api/article/home-articles',
+  'articleByCategory':'/api/api/news'
 }
 
 

@@ -5,7 +5,8 @@ export const environment = {
 export const apiEndpoints = {
   'articleContent': 'http://localhost:8080/api/articleContent',
   'csrf': 'http://localhost:8080/api/csrf',
-  'testPost': 'http://localhost:8080/api/testPost'
+  'testPost': 'http://localhost:8080/api/testPost',
+  'search': 'http://localhost:8080/api/search',
 }
 
 export const userEndpoints = {
@@ -23,7 +24,8 @@ export const articleEndpoints = {
   'newArticle': 'http://localhost:8080/article/new-article',
   'articleCategories':'http://localhost:8080/article/article-categories',
   'articles':'http://localhost:8080/api/article',
-  'homePageArticles':'http://localhost:8080/api/article/home-articles'
+  'homePageArticles':'http://localhost:8080/api/article/home-articles',
+  'articleByCategory':'http://localhost:8080/api/news'
 }
 
 

@@ -1,19 +1,16 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {PageNotFoundComponent} from "./mShared/page-not-found/page-not-found.component";
-import {HomeComponent} from "./mHome/home/home.component";
-import {ArticleComponent} from "./mHome/article/article.component";
 
 const routes: Routes = [
   {
-    path: '',
-    pathMatch: "full",
-    component: HomeComponent
+    path:'',
+    pathMatch: 'full',
+    redirectTo: 'news'
   },
-
   {
-    path: 'article/:articleHref',
-    component: ArticleComponent
+    path: 'news',
+    loadChildren: () => import('./mNews/news.module').then(m => m.NewsModule)
   },
   {
     path: 'support',
@@ -22,6 +19,10 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () => import('./mUser/user.module').then(m => m.UserModule)
+  },
+  {
+    path: '404',
+    component: PageNotFoundComponent
   },
   {
     path: '**',

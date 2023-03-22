@@ -18,6 +18,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatRippleModule} from "@angular/material/core";
 import {DateTimePipe} from "./pipes/date-time.pipe";
+import { ComponentSpinnerComponent } from './component-spinner/component-spinner.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -32,17 +34,19 @@ import {DateTimePipe} from "./pipes/date-time.pipe";
     SearchBarComponent,
     WarningLabelComponent,
     FilenamePipe,
-    DateTimePipe
+    DateTimePipe,
+    ComponentSpinnerComponent
   ],
-  exports: [
-    HeaderComponent,
-    FooterComponent,
-    BackgroundComponent,
-    TextButtonComponent,
-    WarningLabelComponent,
-    FilenamePipe,
-    DateTimePipe
-  ],
+    exports: [
+        HeaderComponent,
+        FooterComponent,
+        BackgroundComponent,
+        TextButtonComponent,
+        WarningLabelComponent,
+        FilenamePipe,
+        DateTimePipe,
+        ComponentSpinnerComponent
+    ],
   imports: [
     CommonModule,
     RouterModule,
@@ -51,7 +55,8 @@ import {DateTimePipe} from "./pipes/date-time.pipe";
     MatIconModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatRippleModule
+    MatRippleModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SharedModule {

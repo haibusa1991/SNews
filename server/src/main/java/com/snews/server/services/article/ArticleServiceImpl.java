@@ -15,7 +15,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
+
+import static com.snews.server.enumeration.ArticleTagEnum.*;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -138,9 +141,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDto getArticle(String href) {
         ArticleEntity article = this.articleRepository.getArticleEntityByHref(href);
 
-        ArticleDto dto = this.modelMapper.map(article, ArticleDto.class);
-
-        return dto;
+        return this.modelMapper.map(article, ArticleDto.class);
     }
 
     @Override
@@ -164,5 +165,46 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         return dtos;
+    }
+
+    @Override
+    public ArticleOverviewDto[] getTodayArticles() {
+        LocalDateTime now = LocalDateTime.now();
+
+        int dayOfMonth = now.getDayOfMonth();
+        Month month = now.getMonth();
+        int year = now.getYear();
+
+        LocalDateTime today = LocalDateTime.of(year, month, dayOfMonth, 0, 0, 0);
+
+        List<ArticleEntity> todayArticles = this.articleRepository.findAllByPublishedAfterOrderByPublishedDesc(today);
+
+        if (todayArticles.isEmpty()) {
+            return new ArticleOverviewDto[0];
+        }
+
+        return todayArticles.stream()
+                .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
+                .toArray(ArticleOverviewDto[]::new);
+    }
+
+    @Override
+    public ArticleOverviewDto[] getArticlesByCategory(String category) {
+        boolean isValidTag = Arrays.stream(ArticleTagEnum.values())
+                .map(Enum::name)
+                .anyMatch(e->e.equalsIgnoreCase(category));
+
+        if(!isValidTag) {
+            return new ArticleOverviewDto[0];
+        }
+
+        ArticleTagEnum tagEnum = ArticleTagEnum.valueOf(category.toUpperCase());
+        ArticleTagEntity tag = this.articleTagService.getTag(tagEnum);
+
+        List<ArticleEntity> articles = this.articleRepository.findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(tag);
+
+        return articles.stream()
+                .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
+                .toArray(ArticleOverviewDto[]::new);
     }
 }

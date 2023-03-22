@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventProviderService} from "../../core/event-provider/event-provider.service";
 import {SearchService} from "../../core/search/search.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {Router} from "@angular/router";
 
 const ANIMATION_DURATION = '50ms'
 const errorAnimation =  trigger('errorAnimation', [
@@ -46,7 +47,7 @@ export class SearchBarComponent implements OnInit {
   @ViewChild('searchField') searchField!: ElementRef;
 
   constructor(private eventProvider: EventProviderService,
-              private searchService: SearchService) {
+              private router:Router) {
   }
 
   ngOnInit(): void {
@@ -60,8 +61,8 @@ export class SearchBarComponent implements OnInit {
     }
 
     this.isQueryTooShort = false;
-    let result = this.searchService.doSearch(query);
-    console.log(result); //todo remove this
+    this.router.navigateByUrl('/news/search-results/'+query)
+    // console.log(result); //todo remove this
     this.searchField.nativeElement.blur();
     this.eventProvider.emitBackgroundClick();
     this.searchForm.reset();
