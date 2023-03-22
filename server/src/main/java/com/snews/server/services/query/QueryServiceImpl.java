@@ -4,11 +4,12 @@ import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.entities.ArticleEntity;
 import com.snews.server.repositories.ArticleRepository;
 import com.snews.server.utils.Utils;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class QueryServiceImpl implements QueryService {
@@ -22,7 +23,7 @@ public class QueryServiceImpl implements QueryService {
     @Override
     public ArticleOverviewDto[] articleSearch(String query) {
 
-        if (query.length() <= 3) {
+        if (query.length() < 3) {
             return new ArticleOverviewDto[0];
         }
 
@@ -33,16 +34,22 @@ public class QueryServiceImpl implements QueryService {
         } catch (Exception ignored) {
         }
 
-        String queryKeywords = query.replace(' ', '|');
-        List<ArticleEntity> articlesByKeywords = this.articleRepository.getArticlesByKeywords(queryKeywords);
-
-
-        return Utils.convertToDtoArray(articlesByKeywords
-                .stream()
-                .map(article -> rateArticle(article, query))
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(Map.Entry::getKey)
-                .toList());
+        try {
+            return Utils.convertToDtoArray(
+                    Arrays.stream(query.split(" "))
+                            .map(this.articleRepository::getArticleHeadingByKeywordPartialMatch)
+                            .flatMap(Collection::stream)
+                            .collect(Collectors.toSet())
+                            .stream()
+                            .map(this.articleRepository::getArticleEntityByHeading)
+                            .map(article -> rateArticle(article, query))
+                            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                            .map(Map.Entry::getKey)
+                            .toList()
+            );
+        } catch (Exception e) {
+            return new ArticleOverviewDto[0];
+        }
     }
 
     private ArticleOverviewDto[] dateSearch(LocalDateTime date) {

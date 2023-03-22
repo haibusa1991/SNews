@@ -71,6 +71,7 @@ public class SecurityConfiguration {
                 .logout()
                 .clearAuthentication(true)
                 .deleteCookies("XSRF-TOKEN")
+                .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
                 .logoutUrl("/user/logout")
                 .logoutSuccessUrl("/");

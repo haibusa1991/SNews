@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +41,7 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, UUID> {
             FROM ArticleEntity ae
             WHERE ae.heading LIKE %:keyword%
             """)
-    List<String> getAllHeadingsByKeywordMatch(String keyword);
+    List<String> getArticleHeadingByKeywordPartialMatch(String keyword);
 
     ArticleEntity getArticleEntityByHeading(String heading);
 
@@ -52,6 +51,6 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, UUID> {
             WHERE heading REGEXP :keywords
             LIMIT 50
             """,nativeQuery = true)
-    List<ArticleEntity> getArticlesByKeywords(String keywords);
+    List<ArticleEntity> getArticlesByKeywordsFullMatch(String keywords);
 }
 
