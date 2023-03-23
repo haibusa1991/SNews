@@ -12,4 +12,6 @@ public interface FileService {
     byte[] getPictureFromDisk(String image);
 
     byte[] getThumbnailFromDisk(String image);
+
+    byte[] getAvatarFromDisk(String avatar);
 }

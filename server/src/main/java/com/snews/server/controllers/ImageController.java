@@ -23,21 +23,25 @@ public class ImageController {
     }
 
     @GetMapping("images/{image}")
-    public ResponseEntity<Resource> getImage(@PathVariable String image) {
-        ByteArrayResource resource = new ByteArrayResource(this.fileService.getPictureFromDisk(image));
-
-        return ResponseEntity.ok()
-                .contentLength(resource.contentLength())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+    public ResponseEntity<byte[]> getImage(@PathVariable String image) {
+        return resourceResponse(this.fileService.getPictureFromDisk(image));
     }
 
     @GetMapping("thumbnails/{thumbnail}")
-    public ResponseEntity<Resource> getThumbnail(@PathVariable String thumbnail) {
-        ByteArrayResource resource = new ByteArrayResource(this.fileService.getThumbnailFromDisk(thumbnail));
+    public ResponseEntity<byte[]> getThumbnail(@PathVariable String thumbnail) {
+        return resourceResponse(this.fileService.getThumbnailFromDisk(thumbnail));
+    }
+
+    @GetMapping("avatars/{avatar}")
+    public ResponseEntity<byte[]> getAvatar(@PathVariable String avatar) {
+        return resourceResponse(this.fileService.getAvatarFromDisk(avatar));
+    }
+
+    private ResponseEntity<byte[]> resourceResponse(byte[] resource) {
+        ByteArrayResource content = new ByteArrayResource(resource);
 
         return ResponseEntity.ok()
-                .contentLength(resource.contentLength())
+                .contentLength(content.contentLength())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
