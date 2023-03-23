@@ -83,9 +83,11 @@ export class HeaderComponent implements OnInit {
     });
 
     this.eventProvider.backgroundClick$().subscribe(() => this.closeAllPanels());
-    this.userService.getUser$().subscribe(user => this.currentUser = user);
+    this.userService.getCurrentUser$().subscribe(user => this.currentUser = user);
 
 
+
+    // todo refactor
     //nasty :(
     this.router.events.pipe(
       filter(e => e instanceof NavigationStart),
