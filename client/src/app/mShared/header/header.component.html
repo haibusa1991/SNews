@@ -42,21 +42,21 @@
           *ngIf="!currentUser">
           <app-text-button
               [buttonText]="texts['login']"
-              (click)="navigateFromButton(endpoints['login'])">
+              [href]="endpoints['login']">
           </app-text-button>
           </li>
           <li class="text-button"
               *ngIf="!currentUser">
           <app-text-button
               [buttonText]="texts['register']"
-              (click)="navigateFromButton(endpoints['register'])">
+              [href]="endpoints['register']">
           </app-text-button>
           </li>
           <li class="text-button"
               *ngIf="currentUser">
           <app-text-button
               [buttonText]="texts['logout']"
-              (click)="onLogout()">
+              [href]="endpoints['logout']">
           </app-text-button>
           </li>
           <li class="text-button">
@@ -83,31 +83,31 @@
           <li class="text-button">
             <app-text-button
               [buttonText]="texts['todayNews']"
-              (click)="navigateFromButton(endpoints['todayNews'])">
+              [href]="endpoints['todayNews']">
             </app-text-button>
           </li>
           <li class="text-button">
             <app-text-button
               [buttonText]="texts['analyses']"
-              (click)="navigateFromButton(endpoints['analyses'])">
+              [href]="endpoints['analyses']">
             </app-text-button>
           </li>
           <li class="text-button">
             <app-text-button
               [buttonText]="texts['politics']"
-              (click)="navigateFromButton(endpoints['politics'])">
+              [href]="endpoints['politics']">
             </app-text-button>
           </li>
           <li class="text-button">
             <app-text-button
               [buttonText]="texts['business']"
-              (click)="navigateFromButton(endpoints['business'])">
+              [href]="endpoints['business']">
             </app-text-button>
           </li>
           <li class="text-button">
             <app-text-button
               [buttonText]="texts['sport']"
-              (click)="navigateFromButton(endpoints['sport'])">
+              [href]="endpoints['sport']">
             </app-text-button>
           </li>
           <li class="text-button">

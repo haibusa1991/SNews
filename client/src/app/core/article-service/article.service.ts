@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {articleEndpoints, userEndpoints} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Observable, switchMap} from "rxjs";
+import {catchError, Observable, switchMap} from "rxjs";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {FormGroup} from "@angular/forms";
 import {articleCategories} from "../../utils/snewsConstants";
@@ -21,7 +21,7 @@ export class ArticleService {
       {responseType: 'text', withCredentials: true},)
   }
 
-  postNewArticle$(inputForm: FormGroup, pictureFile: File):Observable<string> {
+  postNewArticle$(inputForm: FormGroup, pictureFile: File): Observable<string> {
     let body = new FormData();
     let input = inputForm.controls;
     body.append('heading', input['heading'].value);
@@ -46,15 +46,17 @@ export class ArticleService {
     body.append('categories', jsonCategories.toString());
     body.append('pictureFile', pictureFile);
 
+    let httpPostRequest = this.http.post(articleEndpoints['newArticle'], body,
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
     return new Observable<string>(result => {
       this.getToken$().pipe(
-        switchMap(() => {
-          return this.http.post(articleEndpoints['newArticle'], body, {
-            responseType: 'text' as const,
-            withCredentials: true
-          });
-        }),
-      ).subscribe(link => result.next(link))
+        switchMap(() => httpPostRequest),
+        catchError(() => httpPostRequest))
+        .subscribe(link => result.next(link))
     })
   }
 
@@ -72,22 +74,22 @@ export class ArticleService {
     });
   }
 
-  getArticle$(href:string):Observable<Article>{
+  getArticle$(href: string): Observable<Article> {
     return new Observable<Article>(res => {
       this.http.get(`${articleEndpoints['articles']}/${href}`).subscribe(article => res.next(article as Article))
     })
   }
 
-  getHomeArticles$():Observable<ArticleOverviewData[]>{
+  getHomeArticles$(): Observable<ArticleOverviewData[]> {
     return new Observable<ArticleOverviewData[]>(res => {
-      this.http.get(articleEndpoints['homePageArticles'],{responseType:'text'})
+      this.http.get(articleEndpoints['homePageArticles'], {responseType: 'text'})
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }
 
-  getArticlesByCategory$(category:string):Observable<ArticleOverviewData[]>{
+  getArticlesByCategory$(category: string): Observable<ArticleOverviewData[]> {
     return new Observable<ArticleOverviewData[]>(res => {
-      this.http.get(`${articleEndpoints['articleByCategory']}/${category}`,{responseType:'text'})
+      this.http.get(`${articleEndpoints['articleByCategory']}/${category}`, {responseType: 'text'})
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }

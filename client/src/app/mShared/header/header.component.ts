@@ -15,7 +15,7 @@ import {userEndpoints} from "../../../environments/environment";
 })
 export class HeaderComponent implements OnInit {
 
-  currentUser!:User|null;
+  currentUser!: User | null;
 
   headerFlags: { [k: string]: boolean } = {
     'search': false,
@@ -83,20 +83,7 @@ export class HeaderComponent implements OnInit {
     });
 
     this.eventProvider.backgroundClick$().subscribe(() => this.closeAllPanels());
-    this.userService.getUser$().subscribe(user => this.currentUser = user);
-
-
-    //nasty :(
-    this.router.events.pipe(
-      filter(e => e instanceof NavigationStart),
-      map(e => {
-        if ((e as NavigationStart).url == '/' + this.endpoints['logout']) {
-          this.userService.logout$().subscribe();
-          this.router.navigateByUrl('/');
-        }
-      })
-    ).subscribe();
-
+    this.userService.getCurrentUser$().subscribe(user => this.currentUser = user);
     this.userService.validateSession();
   }
 
@@ -134,10 +121,6 @@ export class HeaderComponent implements OnInit {
     this.headerFlags[toggleFlag] = !isOpen;
   }
 
-  navigateFromButton(endpoint: string) {
-    this.router.navigateByUrl(endpoint)
-  }
-
   getNewsMenu(): NamedLink[] {
     return [
       this.menuItems['todayNews'],
@@ -150,21 +133,7 @@ export class HeaderComponent implements OnInit {
 
   getProfileMenu(): NamedLink[] {
     let items: NamedLink[] = [];
-
-    //todo check if enum will be appropriate
-    if (this.currentUser) {
-      items.push(this.menuItems['settings']);
-
-      if (this.currentUser.roles.find(e=>e=='moderator')) {
-        items.push(this.menuItems['moderation']);
-      }
-
-      if (this.currentUser.roles.find(e=>e=='administrator')) {
-        items.push(this.menuItems['administration']);
-      }
-
-      items.push(this.menuItems['logout']);
-    }
+    items.push(...this.getUserButtons());
 
     if (!this.currentUser) {
       items.push(
@@ -178,31 +147,26 @@ export class HeaderComponent implements OnInit {
 
   getTabletMenu(): NamedLink[] {
     let items: NamedLink[] = [];
-
-    items.push(
-      this.menuItems['todayNews'],
-      this.menuItems['analyses'],
-      this.menuItems['politics'],
-      this.menuItems['business'],
-      this.menuItems['sport']
-    );
-
-    //todo refactor. DRY candidate
-    if (this.currentUser) {
-      items.push(this.menuItems['settings']);
-
-      if (this.currentUser.roles.find(e=>e=='moderator')) {
-        items.push(this.menuItems['moderation']);
-      }
-      if (this.currentUser.roles.find(e=>e=='administrator')) {
-        items.push(this.menuItems['administration']);
-      }
-    }
-
+    items.push(...this.getNewsMenu());
+    items.push(...this.getUserButtons());
     return items;
   }
 
-  onLogout(){
-    this.userService.logout$().subscribe();
+  getUserButtons(): NamedLink[] {
+    let items: NamedLink[] = [];
+
+    if (this.currentUser) {
+      items.push(this.menuItems['settings']);
+
+      if (this.currentUser.roles.find(e => e == 'moderator')) {
+        items.push(this.menuItems['moderation']);
+      }
+      if (this.currentUser.roles.find(e => e == 'administrator')) {
+        items.push(this.menuItems['administration']);
+      }
+
+      items.push(this.menuItems['logout']);
+    }
+    return items;
   }
 }

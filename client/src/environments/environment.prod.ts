@@ -25,7 +25,9 @@ export const articleEndpoints = {
   'articleCategories':'http://localhost:8080/article/article-categories',
   'articles':'http://localhost:8080/api/article',
   'homePageArticles':'http://localhost:8080/api/article/home-articles',
-  'articleByCategory':'http://localhost:8080/api/news'
+  'articleByCategory':'http://localhost:8080/api/news',
+  'thumbnailPath':'http://localhost:8080/thumbnails/',
+  'imagePath':'http://localhost:8080/images/',
 }
 
 

@@ -45,10 +45,10 @@ const moduleRoutes: Routes = [
     SharedModule
   ],
   providers:[
-    {
-      provide: RouteReuseStrategy,
-      useClass: RouterConfiguration
-    }
+    // {
+    //   provide: RouteReuseStrategy,
+    //   useClass: RouterConfiguration
+    // }
   ]
 })
 export class NewsModule {

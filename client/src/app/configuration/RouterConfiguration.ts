@@ -14,7 +14,7 @@ export class RouterConfiguration implements BaseRouteReuseStrategy {
   }
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    return false;
+    return true;
   }
 
   store(route: ActivatedRouteSnapshot, detachedTree: DetachedRouteHandle): void;

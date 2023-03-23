@@ -1,8 +1,11 @@
 package com.snews.server.controllers;
 
+import com.snews.server.services.file.FileService;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 

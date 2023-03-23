@@ -13,7 +13,7 @@
 
     <div class="article-picture">
       <div class="img-wrapper">
-        <img src="assets/storage/articles/{{article.picture}}" alt="Article image">
+        <img src="{{picturePath}}{{article.picture}}" alt="Article image">
         <p>Източник: {{article.pictureSource}}</p>
       </div>
     </div>
@@ -21,11 +21,11 @@
     <div class="article">
       <p *ngFor="let paragraph of article.content">{{paragraph}}</p>
       <p class="article-author"
-         *ngIf="!isShortArticle">Автор: {{article.author}}</p>
+         *ngIf="currentUser">Автор: {{article.author}}</p>
     </div>
 
     <div class="unregistered-user"
-    *ngIf="isShortArticle">
+    *ngIf="!currentUser">
       <h2>Благодаря, че четете SNews!</h2>
 <!--      todo DRY candidate - links should come from a central place-->
       <p>За да прочетете цялата статия, моля <a routerLink="/user/login"><strong>влезте</strong></a> или се <a routerLink="/user/register"><strong>регистрирайте</strong></a>.</p>
@@ -45,7 +45,7 @@
       <div class="form-button-wrapper">
         <app-text-button
           class="button"
-          (click)="onNavigate(article.href +'/comments')"
+          [href]="'comments'"
           [buttonText]="'Коментари'"></app-text-button>
       </div>
     </div>
@@ -60,15 +60,5 @@
         [articleOverviewData]=data>
       </app-article-overview>
     </div>
-
-
-    <!--    todo Not feeling cute, might delete later-->
-
-    <!--    <div class="button-wrapper">-->
-    <!--      <app-text-button-->
-    <!--        class="button"-->
-    <!--        (click)="onNavigate('news/today')"-->
-    <!--        [buttonText]="'Още по темата'"></app-text-button>-->
-    <!--    </div>-->
   </section>
 </div>

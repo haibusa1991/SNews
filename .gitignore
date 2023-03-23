@@ -1,4 +1,5 @@
 /.idea/
+/storage/
 /client/.angular/
 /client/.vscode/
 /client/node_modules/

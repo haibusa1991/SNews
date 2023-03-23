@@ -60,3 +60,12 @@ div {
     fill: map-get(palette.$elements-palette, GRAY);
   }
 }
+
+.href {
+  text-decoration: none;
+  width: 100%;
+}
+
+.href-disabled {
+  pointer-events: none;
+}

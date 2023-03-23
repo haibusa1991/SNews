@@ -49,7 +49,8 @@ public class ModelMapperConfiguration {
 
 
         Converter<String, String> articleOverviewDtoSetThumbnail = context ->
-                "assets/storage/articles/thumbnails/" + context.getSource() + "_thumb";
+//                "assets/storage/articles/thumbnails/" + context.getSource() + "_thumb";
+                context.getSource();
 
         Converter<String, String> articleOverviewDtoSetHref = context ->
                 "/news/article/" + context.getSource();

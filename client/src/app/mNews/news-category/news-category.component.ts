@@ -29,6 +29,9 @@ export class NewsCategory implements OnInit {
 
     this.activatedRoute.paramMap.pipe(
       switchMap(paramMap => {
+        this.isLoading = true;
+        this.articles = [];
+        this.noNews = ''
         let category: string = paramMap.get('category')!
 
         let isValidCategory: boolean = Object.keys(articleCategories).join('|').toUpperCase().includes(category.toUpperCase());
@@ -48,9 +51,5 @@ export class NewsCategory implements OnInit {
           this.noNews = this.NO_NEWS_TEXT;
         }
       });
-  }
-
-  onNavigate(url: string) {
-    this.router.navigateByUrl(url);
   }
 }

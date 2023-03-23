@@ -11,6 +11,7 @@ import {ForgottenPasswordComponent} from './forgotten-password/forgotten-passwor
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import { LogoutComponent } from './logout/logout.component';
 
 const moduleRoutes: Routes = [
   {
@@ -21,6 +22,10 @@ const moduleRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent
   },
   {
     path: 'register',
@@ -43,6 +48,7 @@ const moduleRoutes: Routes = [
     RegisterComponent,
     ForgottenPasswordComponent,
     PasswordResetComponent,
+    LogoutComponent,
   ],
   imports: [
     CommonModule,
