@@ -3,7 +3,7 @@
      [matRippleDisabled]="isDisabled"
      class="wrapper"
      [ngClass]="{'disabled' :isDisabled}">
-  <a href="{{href}}"
+  <a routerLink="{{href}}"
      class="href"
      [ngClass]="{'href-disabled' : isDropdown || isDisabled || !href}">
     <p [style.font-size]="fontSize"
