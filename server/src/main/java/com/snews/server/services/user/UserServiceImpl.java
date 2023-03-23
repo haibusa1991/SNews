@@ -16,12 +16,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -131,7 +129,11 @@ public class UserServiceImpl implements UserService {
     private String getPasswordResetToken(UserEntity user) {
         ResetPasswordTokenEntity passwordResetToken = new ResetPasswordTokenEntity();
 
-        String token = Base64.getEncoder().encodeToString(UUID.randomUUID().toString().getBytes());
+        Random r = new SecureRandom();
+        byte[] bytes = new byte[33];
+        r.nextBytes(bytes);
+
+        String token = Base64.getUrlEncoder().encodeToString(bytes);
 
         passwordResetToken.setToken(token)
                 .setCreated(LocalDateTime.now())

@@ -29,7 +29,9 @@ export const articleEndpoints = {
   'articleCategories':'api/article/article-categories',
   'articles':'/api/api/article',
   'homePageArticles':'/api/api/article/home-articles',
-  'articleByCategory':'/api/api/news'
+  'articleByCategory':'/api/api/news',
+  'thumbnailPath':'/api/thumbnails/',
+  'imagePath':'/api/images/',
 }
 
 

@@ -5,6 +5,7 @@ import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.services.article.ArticleService;
 import com.snews.server.services.query.QueryService;
 import jakarta.servlet.http.HttpServletRequest;
+import jdk.jfr.ContentType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -71,6 +72,7 @@ public class ApiController {
     }
 
     @GetMapping("search/{query}")
+
     //todo update all endpoints
     public ResponseEntity<ArticleOverviewDto[]> getSearchResults(@PathVariable String query) {
         ArticleOverviewDto[] result = this.queryService.articleSearch(query);

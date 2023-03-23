@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent} from "@angular/router";
-import {Article, ArticleOverviewData, ArticleTag} from "../../utils/types";
+import {Article, ArticleOverviewData, ArticleTag, User} from "../../utils/types";
 import {ArticleService} from "../../core/article-service/article.service";
 import {articleCategories, articleCategoriesHref} from "../../utils/snewsConstants";
 import moment from "moment";
 import {filter, map, tap} from "rxjs";
 import {UserService} from "../../core/user-service/user.service";
+import {articleEndpoints} from "../../../environments/environment";
 
 @Component({
   selector: 'app-article',
@@ -20,11 +21,12 @@ export class ArticleComponent implements OnInit {
     content: [],
     heading: "",
     href: "",
-    picture: "",
+    picture: "placeholder",
     pictureSource: "",
     published: ""
   };
   articleTags: ArticleTag[] = [];
+  picturePath = articleEndpoints['imagePath']
 
   //todo replace with proper implementation; Count must be multiple of 2
   relatedArticles: ArticleOverviewData[] = [
@@ -32,30 +34,30 @@ export class ArticleComponent implements OnInit {
       heading: '"Вектор за атака1". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
       published: '02 Февруари 2023 17:33',
-      thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
+      thumbnailUrl: "placeholder"
     },
     {
       heading: '"Вектор за атака2". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
       published: '02 Февруари 2023 17:33',
-      thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
+      thumbnailUrl: "placeholder"
     },
     {
       heading: '"Вектор за атака3". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
       published: '02 Февруари 2023 17:33',
-      thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
+      thumbnailUrl: "placeholder"
     },
     {
       heading: '"Вектор за атака4". Как София даде милиони за китайски камери в градския транспорт',
       href: '/articles/article-url-goes-here',
       published: '02 Февруари 2023 17:33',
-      thumbnailUrl: '/assets/placeholders/article-overview-placeholder.png'
+      thumbnailUrl: "placeholder"
     },
   ]
 
   isOldArticle: boolean = false
-  isShortArticle: boolean = false
+  currentUser: User | null = null;
   oldArticleWarning: string = '';
 
   constructor(private router: Router,
@@ -71,10 +73,6 @@ export class ArticleComponent implements OnInit {
       this.article = article;
       this.checkIfOldArticle();
 
-      if (this.article.content.length === 1) {
-        this.isShortArticle = true;
-      }
-
       for (let inputTag of article.articleTags) {
         this.articleTags.push({
           href: articleCategoriesHref[inputTag],
@@ -82,6 +80,9 @@ export class ArticleComponent implements OnInit {
         });
       }
     });
+
+    this.userService.validateSession();
+    this.userService.getCurrentUser$().subscribe(user => this.currentUser = user);
 
     this.router.events.pipe(
       filter((e): e is NavigationStart => e instanceof NavigationStart),
