@@ -55,7 +55,7 @@ public class FileServiceImpl implements FileService {
         ByteArrayOutputStream fileOutputStream = new ByteArrayOutputStream();
 
         Thumbnails.of(new ByteArrayInputStream(file))
-                .size(240, 180)
+                .size(400, 240)
                 .keepAspectRatio(true)
                 .outputQuality(0.8)
                 .toOutputStream(fileOutputStream);

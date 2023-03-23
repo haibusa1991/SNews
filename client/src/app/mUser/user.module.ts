@@ -1,22 +1,26 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserPanelComponent} from './user-panel/user-panel.component';
-import { RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {MatIconModule} from "@angular/material/icon";
 import {SharedModule} from "../mShared/shared.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ForgottenPasswordComponent} from './forgotten-password/forgotten-password.component';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
+import {PasswordResetComponent} from './password-reset/password-reset.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import { LogoutComponent } from './logout/logout.component';
+import {LogoutComponent} from './logout/logout.component';
 
 const moduleRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    component: UserPanelComponent
+  },
+  {
+    path: 'settings',
     component: UserPanelComponent
   },
   {

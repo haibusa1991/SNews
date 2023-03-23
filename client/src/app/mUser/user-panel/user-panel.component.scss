@@ -1,0 +1,69 @@
+@import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
+
+h1 {
+  padding-top: 1rem;
+}
+
+.user-summary {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 90%;
+  max-width: map-get($content-width, DESKTOP);
+  margin: 2rem auto 0;
+}
+
+.avatar-section {
+  width: 40%;
+}
+
+.vertical-divider {
+  width: 2px;
+  background-color: map-get($elements-palette, GREEN);
+}
+
+.info-section {
+  width: 50%;
+}
+
+.default-avatar {
+  text-align: center;
+  height: 6rem;
+  max-height: 6rem;
+}
+
+
+$avatar-size: 2.5rem;
+
+.avatar-background {
+  display: inline-block;
+  background-color: darkslateblue;
+  border-radius: 50%;
+  margin-top: 1rem;
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
+
+  p {
+    font-size: $avatar-size;
+    width: calc($avatar-size * 2);
+    height: calc($avatar-size * 2);
+    color: white;
+    line-height: calc($avatar-size * 2);
+    text-align: center;
+  }
+}
+
+.image-avatar {
+  margin-top: 1rem;
+  display: inline-block;
+
+  img {
+    border-radius: 50%;
+    width: calc($avatar-size * 2);
+    height: calc($avatar-size * 2);
+    object-fit: cover;
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
+  }
+}

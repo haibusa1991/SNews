@@ -27,6 +27,13 @@
   max-width: map-get($content-width, DESKTOP);
 }
 
+.content-gray {
+  background-color: map-get($elements-palette, BACKGROUND-GRAY);
+}
+
+.content-green {
+  background-color: map-get($elements-palette, BACKGROUND-GREEN);
+}
 
 html {
   scroll-behavior: smooth;
