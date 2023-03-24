@@ -11,11 +11,11 @@ export class UserPanelComponent implements OnInit {
   noFileChosen: string = 'Не е избран файл.'
   imageFilename: string = this.noFileChosen;
 
-  swap: boolean = false;
+  hasCustomAvatar: boolean = false;
   private imageFile: File | null = null;
   isChangePassButtonDisabled: boolean = true
 
-  uploadAvatarFormShown: boolean = false;
+  uploadAvatarFormShown: boolean = true;
 
   passwordErrorMessages: { [key: string]: string } = {
     minlength: "Паролата трябва да бъде с дължина минимум 8 символа.",

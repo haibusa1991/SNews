@@ -11,22 +11,89 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  width: 90%;
+  //width: 90%;
   max-width: map-get($content-width, DESKTOP);
   margin: 2rem auto 0;
-}
 
-.avatar-section {
-  width: 40%;
-}
+//todo refactor - merge classes
+  .avatar-section {
+    width: 40%;
 
-.vertical-divider {
-  width: 2px;
-  background-color: map-get($elements-palette, GREEN);
-}
+    .avatar-buttons {
+      display: flex;
+      margin: 2rem auto 0;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      justify-content: space-around;
 
-.info-section {
-  width: 50%;
+      .avatar-upload-button {
+        display: block;
+        min-width: 10rem;
+      }
+    }
+
+    .avatar-form-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+
+      .avatar-button-wrapper {
+        max-width: 10rem;
+      }
+    }
+
+    @media screen and (width >= map-get($content-width,MOBILE)) {
+      .avatar-buttons {
+        flex-direction: column;
+        max-width: 10rem;
+      }
+
+
+      .avatar-button-wrapper {
+        min-width: 10rem;
+        //width: 10rem;
+      }
+    }
+
+    @media screen and (width>= calc(map-get($content-width,TABLET)) + 0px) {
+      .avatar-buttons {
+        flex-direction: row;
+      }
+
+      .avatar-form-buttons {
+        flex-direction: column;
+      }
+    }
+
+    @media screen and (width>= calc(map-get($content-width,LAPTOP)) + 112px) {
+      .avatar-form-buttons {
+        flex-direction: row;
+      }
+    }
+  }
+
+  .vertical-divider {
+    width: 2px;
+    background-color: map-get($elements-palette, GREEN);
+  }
+
+  .info-section {
+    width: 50%;
+  }
+
+  @media screen and (width< map-get($content-width,MOBILE)) {
+    .avatar-section,
+    .info-section {
+      width: 100%;
+    }
+
+    .vertical-divider {
+      display: none
+    }
+
+  }
+
 }
 
 .default-avatar {
@@ -40,7 +107,7 @@ $avatar-size: 2.5rem;
 
 .avatar-background {
   display: inline-block;
-  background-color: darkslateblue;
+  background-color: rgba(72, 61, 139, 0.6);
   border-radius: 50%;
   margin-top: 1rem;
   filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));

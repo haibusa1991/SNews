@@ -1,4 +1,5 @@
 @import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
 @import 'src/assets/styles/shadows';
 
 .content {
@@ -14,6 +15,18 @@
       object-fit: cover;
       border-radius: 5px;
       margin-top: 0.5rem;
+    }
+
+    @media screen and (width<map-get($content-width,TABLET)) {
+      img {
+        height: 200px;
+      }
+    }
+
+    @media screen and (width<map-get($content-width,LAPTOP)) {
+      img {
+        height: 160px;
+      }
     }
 
     h3 {

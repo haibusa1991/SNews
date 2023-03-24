@@ -12,7 +12,7 @@
     </a>
     <nav>
       <p class="user-welcome"
-         *ngIf="currentUser">Здравейте, <span><a href="{{endpoints['settings']}}">{{currentUser.username}}</a></span></p>
+         *ngIf="currentUser">Здравейте, <span><a routerLink="{{endpoints['settings']}}">{{currentUser.username}}</a></span></p>
       <div class="mobile-nav">
         <ul role="list">
           <li class="icon-button">
