@@ -1,0 +1,19 @@
+<div class="content">
+  <p>{{data.message}}</p>
+
+  <div class="buttons">
+    <button type="button"
+            class="clickable button-native"
+            [mat-dialog-close]="result">
+      <app-text-button
+        class="button"
+        [buttonText]="'Да'">
+      </app-text-button>
+    </button>
+    <app-text-button
+      class="button"
+      (click)="onNoClick()"
+      [buttonText]="'Не'">
+    </app-text-button>
+  </div>
+</div>

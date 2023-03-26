@@ -53,6 +53,10 @@ export class UserService {
     return this.currentUserSubject.asObservable();
   }
 
+  getCurrentUsername(): string {
+    return this.currentUser?.username ? this.currentUser.username : '';
+  }
+
   validateSession(): void {
     this.http.get(userEndpoints['getUser'], {responseType: 'text', withCredentials: true})
       .subscribe(currentUser => {

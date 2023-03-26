@@ -17,7 +17,8 @@ export const userEndpoints = {
   'getUsername' : 'http://localhost:8080/user/username',
   'getUser':'http://localhost:8080/user/user',
   'forgottenPassword':'http://localhost:8080/user/forgotten-password',
-  'passwordReset':'http://localhost:8080/user/reset-password'
+  'passwordReset':'http://localhost:8080/user/reset-password',
+  'allUserComments':'http://localhost:8080/user/comments'
 }
 
 export const articleEndpoints = {

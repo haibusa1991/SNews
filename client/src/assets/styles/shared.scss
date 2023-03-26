@@ -27,11 +27,19 @@
   max-width: map-get($content-width, DESKTOP);
 }
 
-.content-gray {
+.content {
+  max-width: map-get($content-width, DESKTOP);
+}
+
+.centered {
+  margin: 0 auto;
+}
+
+.content-background-gray {
   background-color: map-get($elements-palette, BACKGROUND-GRAY);
 }
 
-.content-green {
+.content-background-green {
   background-color: map-get($elements-palette, BACKGROUND-GREEN);
 }
 

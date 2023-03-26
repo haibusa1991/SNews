@@ -1,0 +1,26 @@
+html{
+  width: 100%;
+}
+
+.content {
+  padding: 1rem;
+
+  .buttons {
+    margin-top: 1rem;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .button {
+    width: 40%;
+  }
+
+  .button-native {
+    @extend .button;
+    background: none;
+    border: unset;
+    padding: 0;
+  }
+}

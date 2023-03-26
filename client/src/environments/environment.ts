@@ -21,7 +21,8 @@ export const userEndpoints = {
   'getUsername' : '/api/user/username',
   'getUser':'/api/user/user',
   'forgottenPassword':'/api/user/forgotten-password',
-  'passwordReset':'/api/user/reset-password'
+  'passwordReset':'/api/user/reset-password',
+  'allUserComments':'/api/user/comments'
 }
 
 export const articleEndpoints = {

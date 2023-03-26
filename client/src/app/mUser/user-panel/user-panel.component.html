@@ -1,5 +1,5 @@
-<section class="header">
-  <div class="content-gray">
+<section class="content-background-gray">
+  <div class="content centered">
     <h1>Контролен панел</h1>
 
     <div class="user-summary">
@@ -7,7 +7,7 @@
         <h2>Аватар</h2>
         <div class="default-avatar">
           <div *ngIf="!hasCustomAvatar" class="avatar-background">
-            <p>S</p>
+            <p>{{username | slice:0:1 | uppercase}}</p>
           </div>
 
           <div *ngIf="hasCustomAvatar" class="image-avatar">
@@ -16,15 +16,16 @@
           </div>
         </div>
 
-        <!--        <div class="avatar-buttons avatar-form-buttons">-->
         <div>
           <form
-            *ngIf="uploadAvatarFormShown"
             [formGroup]="uploadAvatarForm"
             (submit)="onAvatarUpload()">
-            <p>{{imageFilename | filename}}</p>
-            <div class="avatar-buttons avatar-form-buttons">
-              <label class="avatar-upload-button avatar-button-wrapper" for="image">
+            <p *ngIf="isUploadAvatarFormShown"
+               class="file-info">{{imageFilename | filename}}</p>
+            <div class="avatar-buttons">
+              <label class="form-button-wrapper button"
+                     *ngIf="isUploadAvatarFormShown"
+                     for="image">
                 <app-text-button buttonText="Избор на изображение"></app-text-button>
               </label>
               <input style="display: none" type="file"
@@ -37,97 +38,123 @@
                       .png"
                      (change)="onFileChange($event)">
 
-              <div class="form-button-wrapper">
+              <div
+                class="form-button-wrapper button"
+                *ngIf="isUploadAvatarFormShown">
                 <button
                   type="submit"
-                  [disabled]="isChangePassButtonDisabled"
+                  [disabled]="isUploadAvatarButtonDisabled"
                   class="clickable form-clear-button-style">
                   <app-text-button
-                    [buttonText]="'Запази'"
-                    [isDisabled]="isChangePassButtonDisabled">
+                    [buttonText]="'Запазване'"
+                    [isDisabled]="isUploadAvatarButtonDisabled">
                   </app-text-button>
                 </button>
               </div>
 
-              <div class="avatar-upload-button">
+              <!--              dummy button-->
+              <div
+                class="form-button-wrapper button  limit-height"
+                *ngIf="isUploadAvatarFormShown">
+              </div>
+              <!--             end dummy button-->
+
+              <div
+                class="form-button-wrapper button  limit-height"
+                *ngIf="isUploadAvatarFormShown">
                 <app-text-button
                   buttonText="Отказ"
-                  (click)="uploadAvatarFormShown = !uploadAvatarFormShown"
+                  (click)="onAvatarChangeCancel()"
+                ></app-text-button>
+              </div>
+
+              <div
+                class="form-button-wrapper button"
+                *ngIf="!isUploadAvatarFormShown">
+                <app-text-button
+                  (click)="isUploadAvatarFormShown = !isUploadAvatarFormShown"
+                  buttonText="Промяна"
+                ></app-text-button>
+              </div>
+
+              <div
+                class="form-button-wrapper button"
+                *ngIf="!isUploadAvatarFormShown">
+                <app-text-button
+                  (click)="onRemoveAvatar()"
+                  buttonText="Премахване"
                 ></app-text-button>
               </div>
             </div>
           </form>
-
-        </div>
-        <div *ngIf="!uploadAvatarFormShown" class="avatar-buttons">
-          <div class="avatar-button-wrapper">
-            <app-text-button
-              (click)="uploadAvatarFormShown = !uploadAvatarFormShown"
-              buttonText="Промени"
-            ></app-text-button>
-          </div>
-
-          <div class="avatar-button-wrapper">
-            <app-text-button
-              (click)="hasCustomAvatar=!hasCustomAvatar"
-              buttonText="Премахни"
-            ></app-text-button>
-          </div>
         </div>
       </div>
 
-      <div class="vertical-divider"></div>
+      <div class="flex-divider"></div>
+
       <div class="info-section">
-        <p>Потребител: <span>Shashav</span></p>
-        <p>Регистриран от: 01.01.1970</p>
-        <p>Коментари: 365</p>
-        <div class="info-section-button-wrapper">
+        <p class="info-line">Потребител: <span>{{username}}</span></p>
+        <p class="info-line">Регистриран от: 01.01.1970</p>
+        <p class="info-line">Коментари: 365</p>
+        <div class="form-button-wrapper button info-button">
           <app-text-button
-            buttonText="Виж коментарите"
+            [href]=seeCommentsHref
+            buttonText="Вижте коментарите"
           ></app-text-button>
         </div>
       </div>
     </div>
 
     <app-warning-label
+      *ngIf="hasOffences"
       class="warning-label"
-      [warningText]="'Немаш право да се изказваш'"></app-warning-label>
+      [warningText]="'Поради нарушаване на правилата, нямате право да коментирате до 23:59:59 часа, 07.02.2023 г.'"></app-warning-label>
   </div>
 </section>
 
+<section
+  class="moderation content-background-green"
+  *ngIf="isModerator">
+  <div class="content centered">
+    <h2 class="offences-heading">Наказания</h2>
+    <div class="moderation-wrapper">
+      <div class="offence" *ngIf="hasOffences">
+        <p>На потребителя е забранено да коментира до 23:59:59 часа, 07.02.2023 г.</p>
+        <div class="remove-punishment">
+          <app-text-button
+            buttonText="Премахни наказание"
+          ></app-text-button>
+        </div>
+      </div>
 
-<section class="moderation content-green">
-  <h2>Наказания</h2>
-  <div class="offence">
-    <p>На потребителя е забранено да коментира до 23:59:59 часа, 07.02.2023 г.</p>
-  </div>
-  <!--todo verify class-->
-  <div class="info-section-button-wrapper">
-    <app-text-button
-      buttonText="Премахни наказание"
-    ></app-text-button>
-  </div>
-  <div class="punishment">
-    <p>Налагане на забрана за коментиране</p>
-    <div class="punishment-buttons">
-      <app-text-button
-        buttonText="1 ден"
-      ></app-text-button>
-      <app-text-button
-        buttonText="3 дни"
-      ></app-text-button>
-      <app-text-button
-        buttonText="7 дни"
-      ></app-text-button>
-      <app-text-button
-        buttonText="Завинаги"
-        class="red"
-      ></app-text-button>
+      <div class="flex-divider" *ngIf="hasOffences"></div>
+
+      <div class="punishment" [ngClass]="{'no-offences':!hasOffences}">
+        <p>Налагане на забрана за коментиране</p>
+        <div class="punishment-buttons">
+          <app-text-button
+            class="button"
+            buttonText="1 ден"
+          ></app-text-button>
+          <app-text-button
+            class="button"
+            buttonText="3 дни"
+          ></app-text-button>
+          <app-text-button
+            class="button"
+            buttonText="7 дни"
+          ></app-text-button>
+          <app-text-button
+            class="button red-button"
+            buttonText="Завинаги"
+          ></app-text-button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="security content-gray">
+<section class="security content-background-gray">
   <form
     [formGroup]="changePasswordForm"
     (submit)="onPasswordChange()">

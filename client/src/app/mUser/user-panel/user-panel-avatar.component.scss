@@ -1,8 +1,8 @@
-@import 'src/assets/styles/snews-palette';
-@import 'src/assets/styles/responsive';
+@import 'user-panel-shared.component';
 
-h1 {
-  padding-top: 1rem;
+.button {
+  min-width: 10rem;
+  max-width: 30%;
 }
 
 .user-summary {
@@ -11,75 +11,58 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  //width: 90%;
   max-width: map-get($content-width, DESKTOP);
   margin: 2rem auto 0;
 
-//todo refactor - merge classes
+  .file-info {
+    padding: 1rem 1rem 0;
+    text-align: center;
+  }
+
   .avatar-section {
-    width: 40%;
+    width: 45%;
+
+    .limit-height {
+      max-height: 40px;
+    }
 
     .avatar-buttons {
       display: flex;
-      margin: 2rem auto 0;
+      margin: 1rem 0.75rem 0;
       flex-direction: row;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       gap: 1rem;
       justify-content: space-around;
-
-      .avatar-upload-button {
-        display: block;
-        min-width: 10rem;
-      }
     }
 
-    .avatar-form-buttons {
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-
-      .avatar-button-wrapper {
-        max-width: 10rem;
-      }
-    }
 
     @media screen and (width >= map-get($content-width,MOBILE)) {
       .avatar-buttons {
         flex-direction: column;
-        max-width: 10rem;
-      }
-
-
-      .avatar-button-wrapper {
-        min-width: 10rem;
-        //width: 10rem;
       }
     }
 
-    @media screen and (width>= calc(map-get($content-width,TABLET)) + 0px) {
+    @media screen and (width>= map-get($content-width,TABLET)) {
       .avatar-buttons {
         flex-direction: row;
       }
 
-      .avatar-form-buttons {
-        flex-direction: column;
+      form {
+        max-width: 25rem;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
 
-    @media screen and (width>= calc(map-get($content-width,LAPTOP)) + 112px) {
+    @media screen and (width>= map-get($content-width,LAPTOP)) {
       .avatar-form-buttons {
         flex-direction: row;
       }
     }
   }
 
-  .vertical-divider {
-    width: 2px;
-    background-color: map-get($elements-palette, GREEN);
-  }
-
   .info-section {
-    width: 50%;
+    width: 45%;
   }
 
   @media screen and (width< map-get($content-width,MOBILE)) {
@@ -87,11 +70,6 @@ h1 {
     .info-section {
       width: 100%;
     }
-
-    .vertical-divider {
-      display: none
-    }
-
   }
 
 }
@@ -132,5 +110,28 @@ $avatar-size: 2.5rem;
     height: calc($avatar-size * 2);
     object-fit: cover;
     filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
+  }
+}
+
+.info-section {
+  .info-line {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .info-button {
+    min-width: 12rem;
+    margin: 1rem auto;
+  }
+
+  @media screen and (width >= map-get($content-width,MOBILE)) {
+    .info-line {
+      text-align: left;
+    }
+
+    .info-button {
+      margin: 1rem 0;
+    }
   }
 }

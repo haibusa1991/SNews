@@ -1,11 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PasswordValidators} from "../../utils/validators";
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
+import {UserService} from "../../core/user-service/user.service";
+import {userEndpoints} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user-panel',
   templateUrl: './user-panel.component.html',
-  styleUrls: ['./user-panel.component.scss']
+  styleUrls: [
+    './user-panel-shared.component.scss',
+    './user-panel-avatar.component.scss',
+    './user-panel-moderation.component.scss',
+    './user-panel-credentials.component.scss']
 })
 export class UserPanelComponent implements OnInit {
   noFileChosen: string = 'Не е избран файл.'
@@ -15,7 +23,16 @@ export class UserPanelComponent implements OnInit {
   private imageFile: File | null = null;
   isChangePassButtonDisabled: boolean = true
 
-  uploadAvatarFormShown: boolean = true;
+  isUploadAvatarFormShown: boolean = false;
+  isUploadAvatarButtonDisabled: boolean = true
+
+  username!: string;
+  seeCommentsHref!: string;
+  hasOffences: boolean = false;
+
+
+  // todo proper implementation with user roles
+  isModerator:boolean=false;
 
   passwordErrorMessages: { [key: string]: string } = {
     minlength: "Паролата трябва да бъде с дължина минимум 8 символа.",
@@ -37,7 +54,7 @@ export class UserPanelComponent implements OnInit {
   });
 
   uploadAvatarForm = new FormGroup({
-    imageFile: new FormControl()
+    imageFile: new FormControl('', Validators.required)
   })
 
   changeEmailForm = new FormGroup({
@@ -47,10 +64,13 @@ export class UserPanelComponent implements OnInit {
     ])
   });
 
-  constructor() {
+  constructor(public confirmationDialog: MatDialog, private userService: UserService) {
   }
 
   ngOnInit(): void {
+    this.uploadAvatarForm.statusChanges.subscribe(formStatus => this.isUploadAvatarButtonDisabled = formStatus != 'VALID');
+    this.username = this.userService.getCurrentUsername();
+    this.seeCommentsHref = `${userEndpoints['allUserComments']}/${this.username}`
 
     // this.changePasswordForm
     //   .statusChanges
@@ -64,14 +84,34 @@ export class UserPanelComponent implements OnInit {
   }
 
   onPasswordChange() {
-    console.log('changing password!')
+    console.log('changing password!');
   }
 
   onAvatarUpload() {
-    console.log('submitting avatar!')
+    console.log('submitting avatar!');
+    this.onAvatarChangeCancel();
   }
 
   onEmailChange() {
     console.log('changing email!')
+  }
+
+  onRemoveAvatar() {
+    let dialog = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      data: {message: 'Сигурни ли сте, че искате да премахнете аватара?'},
+      autoFocus: "dialog",
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Removing avatar!');
+      }
+    });
+  }
+
+  onAvatarChangeCancel() {
+    this.isUploadAvatarFormShown = !this.isUploadAvatarFormShown;
+    this.uploadAvatarForm.reset();
+    this.imageFilename = this.noFileChosen;
   }
 }

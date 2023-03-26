@@ -6,12 +6,14 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {MatIconModule} from "@angular/material/icon";
 import {SharedModule} from "../mShared/shared.module";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ForgottenPasswordComponent} from './forgotten-password/forgotten-password.component';
 import {PasswordResetComponent} from './password-reset/password-reset.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {LogoutComponent} from './logout/logout.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 const moduleRoutes: Routes = [
   {
@@ -53,6 +55,7 @@ const moduleRoutes: Routes = [
     ForgottenPasswordComponent,
     PasswordResetComponent,
     LogoutComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +64,9 @@ const moduleRoutes: Routes = [
     MatIconModule,
     MatButtonModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    MatDialogModule
   ]
 })
 export class UserModule {
