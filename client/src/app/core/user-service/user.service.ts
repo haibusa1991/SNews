@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {catchError, Observable, Subject, switchMap} from "rxjs";
 import {RegisterResponse, User} from "../../utils/types";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {userEndpoints} from "../../../environments/environment";
+import {articleEndpoints, userEndpoints} from "../../../environments/environment";
+import {FormGroup} from "@angular/forms";
+import {articleCategories} from "../../utils/snewsConstants";
 
 
 @Injectable({
@@ -159,6 +161,27 @@ export class UserService {
 
   getUrlBeforeLogin(): string | null {
     return this.urlBeforeLogin;
+  }
+
+  uploadAvatar$(avatar: File): Observable<void> {
+    let body = new FormData();
+    body.append('avatar', avatar);
+
+    let httpPostRequest = this.http.post(userEndpoints['uploadAvatar'], body,
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable<void>(() => {
+      httpPostRequest.pipe(
+        catchError(() => httpPostRequest)
+      ).subscribe(user => {
+        this.currentUser = JSON.parse(user);
+        this.currentUserSubject.next(this.currentUser);
+      })
+    });
   }
 }
 

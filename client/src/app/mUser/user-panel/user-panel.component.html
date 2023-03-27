@@ -1,246 +1,210 @@
 <section class="content-background-gray">
   <div class="content centered">
     <h1>Контролен панел</h1>
-
-    <div class="user-summary">
-      <div class="avatar-section">
-        <h2>Аватар</h2>
-        <div class="default-avatar">
-          <div *ngIf="!hasCustomAvatar" class="avatar-background">
-            <p>{{username | slice:0:1 | uppercase}}</p>
-          </div>
-
-          <div *ngIf="hasCustomAvatar" class="image-avatar">
-            <img
-              src="data:image/jpeg;base64,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"/>
-          </div>
-        </div>
-
-        <div>
-          <form
-            [formGroup]="uploadAvatarForm"
-            (submit)="onAvatarUpload()">
-            <p *ngIf="isUploadAvatarFormShown"
-               class="file-info">{{imageFilename | filename}}</p>
-            <div class="avatar-buttons">
-              <label class="form-button-wrapper button"
-                     *ngIf="isUploadAvatarFormShown"
-                     for="image">
-                <app-text-button buttonText="Избор на изображение"></app-text-button>
-              </label>
-              <input style="display: none" type="file"
-                     id="image"
-                     formControlName="imageFile"
-                     accept=".bmp,
-                      .jpg,
-                      .jpeg,
-                      .gif,
-                      .png"
-                     (change)="onFileChange($event)">
-
-              <div
-                class="form-button-wrapper button"
-                *ngIf="isUploadAvatarFormShown">
-                <button
-                  type="submit"
-                  [disabled]="isUploadAvatarButtonDisabled"
-                  class="clickable form-clear-button-style">
-                  <app-text-button
-                    [buttonText]="'Запазване'"
-                    [isDisabled]="isUploadAvatarButtonDisabled">
-                  </app-text-button>
-                </button>
-              </div>
-
-              <!--              dummy button-->
-              <div
-                class="form-button-wrapper button  limit-height"
-                *ngIf="isUploadAvatarFormShown">
-              </div>
-              <!--             end dummy button-->
-
-              <div
-                class="form-button-wrapper button  limit-height"
-                *ngIf="isUploadAvatarFormShown">
-                <app-text-button
-                  buttonText="Отказ"
-                  (click)="onAvatarChangeCancel()"
-                ></app-text-button>
-              </div>
-
-              <div
-                class="form-button-wrapper button"
-                *ngIf="!isUploadAvatarFormShown">
-                <app-text-button
-                  (click)="isUploadAvatarFormShown = !isUploadAvatarFormShown"
-                  buttonText="Промяна"
-                ></app-text-button>
-              </div>
-
-              <div
-                class="form-button-wrapper button"
-                *ngIf="!isUploadAvatarFormShown">
-                <app-text-button
-                  (click)="onRemoveAvatar()"
-                  buttonText="Премахване"
-                ></app-text-button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="flex-divider"></div>
-
-      <!--     todo move to moderation panel------------------------------------------------>
-      <div class="info-section" style="display: none">
-        <p class="info-line">Потребител: <span>{{username}}</span></p>
-        <p class="info-line">Регистриран от: 01.01.1970</p>
-        <p class="info-line">Коментари: 365</p>
-        <div class="form-button-wrapper button info-button">
-          <app-text-button
-            [href]=seeCommentsHref
-            buttonText="Вижте коментарите"
-          ></app-text-button>
-        </div>
-      </div>
-      <!--    end todo ------------------------------------------------------------------------>
-
-      <div class="credentials">
-        <div class="credentials-section">
-          <form
-            [formGroup]="changePasswordForm"
-            (submit)="onPasswordChange()"
-            class="credential-form"
-            *ngIf="isChangePasswordFormVisible">
-            <mat-form-field appearance="outline"
-                            class="form-centered-input-field
-                             form-white-input-field
-                             credential-field"
-                            [ngClass]="{'form-valid-field':changePasswordForm.controls.password.valid}">
-              <mat-label>Парола</mat-label>
-              <mat-error>{{passwordErrorMessage}}</mat-error>
-              <!--        <mat-hint *ngIf="isChangePasswordFormVisible">Изберете парола с най-малко 8 символа.</mat-hint>-->
-              <input matInput
-                     placeholder="Малки и главни букви, цифри"
-                     type="password"
-                     formControlName="password">
-              <mat-icon
-                matSuffix
-                mat-icon-button>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  class="form-input-field-svg">
-                  <path
-                    d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-
-            <div class="form-buttons" *ngIf="isChangePasswordFormVisible">
-              <div class="form-button-wrapper register-button">
-                <button
-                  type="submit"
-                  [disabled]="isChangePassButtonDisabled"
-                  class="clickable form-clear-button-style">
-                  <app-text-button
-                    [buttonText]="'Промени'"
-                    [isDisabled]="isChangePassButtonDisabled">
-                  </app-text-button>
-                </button>
-              </div>
-
-              <app-text-button
-                [buttonText]="'Отказ'"
-                class="button
-               centered
-               edit-credential-button"
-                (click)="onPasswordChangeCancel()"
-              ></app-text-button>
-            </div>
-          </form>
-        </div>
-
-        <div class="credential-section"
-             *ngIf="isChangeEmailFormVisible">
-          <form
-            [formGroup]="changeEmailForm"
-            (submit)="onEmailChange()">
-            <mat-form-field
-              appearance="outline"
-              class="form-centered-input-field
-             form-white-input-field"
-              [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">
-
-              <mat-label>Email адрес</mat-label>
-              <mat-error>Въведеният email адрес е невалиден.</mat-error>
-              <input matInput
-                     placeholder="Email адрес"
-                     formControlName="email">
-              <mat-icon
-                matSuffix
-                mat-icon-button>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 512 512"
-                     class="form-input-field-svg">
-                  <path
-                    d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
-                </svg>
-              </mat-icon>
-            </mat-form-field>
-
-            <div class="form-button-wrapper register-button">
-              <button
-                type="submit"
-                [disabled]="isChangePassButtonDisabled"
-                class="clickable form-clear-button-style">
-                <app-text-button
-                  [buttonText]="'Промени'"
-                  [isDisabled]="isChangePassButtonDisabled">
-                </app-text-button>
-              </button>
-            </div>
-
-            <app-text-button
-              [buttonText]="'Отказ'"
-              class="button
-               centered
-               edit-credential-button"
-              (click)="onEmailChangeCancel()"
-            ></app-text-button>
-          </form>
-        </div>
-
-        <div class="change-credentials-buttons-wrapper"
-             *ngIf="!isChangePasswordFormVisible && !isChangeEmailFormVisible">
-          <app-text-button
-            [buttonText]="'Промяна на парола'"
-            class="button
-               centered
-               edit-credential-button"
-            (click)="isChangePasswordFormVisible=true"
-            *ngIf="!isChangeEmailFormVisible"
-          ></app-text-button>
-
-          <app-text-button
-            [buttonText]="'Промяна на email'"
-            class="button
-               centered
-               edit-credential-button"
-            (click)="isChangeEmailFormVisible=true"
-            *ngIf="!isChangeEmailFormVisible"
-          ></app-text-button>
-        </div>
-      </div>
-    </div>
-
-    <app-warning-label
-      *ngIf="hasOffences"
-      class="warning-label"
-      [warningText]="'Поради нарушаване на правилата, нямате право да коментирате до 23:59:59 часа, 07.02.2023 г.'"></app-warning-label>
+    <app-user-panel-avatar></app-user-panel-avatar>
   </div>
-</section>
+<!--    <div class="user-summary">-->
+<!--      <app-user-panel-avatar></app-user-panel-avatar>-->
+
+<!--      <div class="flex-divider"></div>-->
+
+<!--      &lt;!&ndash;     todo move to moderation panel&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<!--      <div class="info-section" style="display: none">-->
+<!--        <p class="info-line">Потребител: <span>{{username}}</span></p>-->
+<!--        <p class="info-line">Регистриран от: 01.01.1970</p>-->
+<!--        <p class="info-line">Коментари: 365</p>-->
+<!--        <div class="form-button-wrapper button info-button">-->
+<!--          <app-text-button-->
+<!--            [href]=seeCommentsHref-->
+<!--            buttonText="Вижте коментарите"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash;    end todo &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--      <div class="credentials">-->
+<!--        <div class="credentials-section">-->
+<!--          <form-->
+<!--            [formGroup]="changePasswordForm"-->
+<!--            (submit)="onPasswordChange()"-->
+<!--            class="credential-form"-->
+<!--            *ngIf="isChangePasswordFormVisible">-->
+<!--            <mat-form-field appearance="outline"-->
+<!--                            class="form-white-input-field-->
+<!--                             credential-field"-->
+<!--                            [ngClass]="{'form-valid-field':changePasswordForm.controls.password.valid}">-->
+<!--              <mat-label>Парола</mat-label>-->
+<!--              <mat-error>{{passwordErrorMessage}}</mat-error>-->
+<!--              &lt;!&ndash;        <mat-hint *ngIf="isChangePasswordFormVisible">Изберете парола с най-малко 8 символа.</mat-hint>&ndash;&gt;-->
+<!--              <input matInput-->
+<!--                     placeholder="Малки и главни букви, цифри"-->
+<!--                     type="password"-->
+<!--                     formControlName="password">-->
+<!--              <mat-icon-->
+<!--                matSuffix-->
+<!--                mat-icon-button>-->
+<!--                <svg-->
+<!--                  xmlns="http://www.w3.org/2000/svg"-->
+<!--                  viewBox="0 0 512 512"-->
+<!--                  class="form-input-field-svg">-->
+<!--                  <path-->
+<!--                    d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>-->
+<!--                </svg>-->
+<!--              </mat-icon>-->
+<!--            </mat-form-field>-->
+
+<!--            <div class="form-buttons"-->
+<!--                 *ngIf="isChangePasswordFormVisible">-->
+<!--              <div class="button">-->
+<!--                <button-->
+<!--                  type="submit"-->
+<!--                  [disabled]="isChangePassButtonDisabled"-->
+<!--                  class="clickable form-clear-button-style">-->
+<!--                  <app-text-button-->
+<!--                    [buttonText]="'Промяна'"-->
+<!--                    [isDisabled]="isChangePassButtonDisabled">-->
+<!--                  </app-text-button>-->
+<!--                </button>-->
+<!--              </div>-->
+
+<!--              <app-text-button-->
+<!--                [buttonText]="'Отказ'"-->
+<!--                class="button"-->
+<!--                (click)="onPasswordChangeCancel()"-->
+<!--              ></app-text-button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--        <div class="credentials-section">-->
+<!--          <form-->
+<!--            [formGroup]="changeEmailForm"-->
+<!--            (submit)="onEmailChange()"-->
+<!--            class="credential-form"-->
+<!--            *ngIf="isChangeEmailFormVisible">-->
+<!--            <mat-form-field appearance="outline"-->
+<!--                            class="form-white-input-field-->
+<!--                             credential-field"-->
+<!--                            [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">-->
+<!--              <mat-label>Email адрес</mat-label>-->
+<!--              <mat-error>Въведеният email адрес е невалиден.</mat-error>-->
+<!--              <input matInput-->
+<!--                     placeholder="Email адрес"-->
+<!--                     formControlName="email">-->
+<!--              <mat-icon-->
+<!--                matSuffix-->
+<!--                mat-icon-button>-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg"-->
+<!--                     viewBox="0 0 512 512"-->
+<!--                     class="form-input-field-svg">-->
+<!--                  <path-->
+<!--                    d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>-->
+<!--                </svg>-->
+<!--              </mat-icon>-->
+<!--            </mat-form-field>-->
+
+<!--            <div class="form-buttons"-->
+<!--                 *ngIf="isChangeEmailFormVisible">-->
+<!--              <div class="button">-->
+<!--                <button-->
+<!--                  type="submit"-->
+<!--                  [disabled]="true"-->
+<!--                  class="clickable form-clear-button-style">-->
+<!--                  <app-text-button-->
+<!--                    [buttonText]="'Промяна'"-->
+<!--                    [isDisabled]="true">-->
+<!--                  </app-text-button>-->
+<!--                </button>-->
+<!--              </div>-->
+
+<!--              <app-text-button-->
+<!--                [buttonText]="'Отказ'"-->
+<!--                class="button"-->
+<!--                (click)="onEmailChangeCancel()"-->
+<!--              ></app-text-button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--&lt;!&ndash;        <div class="credential-section"&ndash;&gt;-->
+<!--&lt;!&ndash;             *ngIf="isChangeEmailFormVisible">&ndash;&gt;-->
+<!--&lt;!&ndash;          <form&ndash;&gt;-->
+<!--&lt;!&ndash;            [formGroup]="changeEmailForm"&ndash;&gt;-->
+<!--&lt;!&ndash;            (submit)="onEmailChange()">&ndash;&gt;-->
+<!--&lt;!&ndash;            <mat-form-field&ndash;&gt;-->
+<!--&lt;!&ndash;              appearance="outline"&ndash;&gt;-->
+<!--&lt;!&ndash;              class="form-centered-input-field&ndash;&gt;-->
+<!--&lt;!&ndash;             form-white-input-field"&ndash;&gt;-->
+<!--&lt;!&ndash;              [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <mat-label>Email адрес</mat-label>&ndash;&gt;-->
+<!--&lt;!&ndash;              <mat-error>Въведеният email адрес е невалиден.</mat-error>&ndash;&gt;-->
+<!--&lt;!&ndash;              <input matInput&ndash;&gt;-->
+<!--&lt;!&ndash;                     placeholder="Email адрес"&ndash;&gt;-->
+<!--&lt;!&ndash;                     formControlName="email">&ndash;&gt;-->
+<!--&lt;!&ndash;              <mat-icon&ndash;&gt;-->
+<!--&lt;!&ndash;                matSuffix&ndash;&gt;-->
+<!--&lt;!&ndash;                mat-icon-button>&ndash;&gt;-->
+<!--&lt;!&ndash;                <svg xmlns="http://www.w3.org/2000/svg"&ndash;&gt;-->
+<!--&lt;!&ndash;                     viewBox="0 0 512 512"&ndash;&gt;-->
+<!--&lt;!&ndash;                     class="form-input-field-svg">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <path&ndash;&gt;-->
+<!--&lt;!&ndash;                    d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </svg>&ndash;&gt;-->
+<!--&lt;!&ndash;              </mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;            </mat-form-field>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <div class="form-buttons">&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="button">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button&ndash;&gt;-->
+<!--&lt;!&ndash;                  type="submit"&ndash;&gt;-->
+<!--&lt;!&ndash;                  [disabled]="isChangePassButtonDisabled"&ndash;&gt;-->
+<!--&lt;!&ndash;                  class="clickable form-clear-button-style">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <app-text-button&ndash;&gt;-->
+<!--&lt;!&ndash;                    [buttonText]="'Промени'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    [isDisabled]="isChangePassButtonDisabled">&ndash;&gt;-->
+<!--&lt;!&ndash;                  </app-text-button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <app-text-button&ndash;&gt;-->
+<!--&lt;!&ndash;                [buttonText]="'Отказ'"&ndash;&gt;-->
+<!--&lt;!&ndash;                class="button&ndash;&gt;-->
+<!--&lt;!&ndash;               centered&ndash;&gt;-->
+<!--&lt;!&ndash;               edit-credential-button"&ndash;&gt;-->
+<!--&lt;!&ndash;                (click)="onEmailChangeCancel()"&ndash;&gt;-->
+<!--&lt;!&ndash;              ></app-text-button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </form>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+
+<!--        <div class="change-credentials-buttons-wrapper"-->
+<!--             *ngIf="!isChangePasswordFormVisible && !isChangeEmailFormVisible">-->
+<!--          <app-text-button-->
+<!--            [buttonText]="'Промяна на парола'"-->
+<!--            class="button-->
+<!--               edit-credential-button"-->
+<!--            (click)="isChangePasswordFormVisible=true"-->
+<!--            *ngIf="!isChangeEmailFormVisible"-->
+<!--          ></app-text-button>-->
+
+<!--          <app-text-button-->
+<!--            [buttonText]="'Промяна на email'"-->
+<!--            class="button-->
+<!--               edit-credential-button"-->
+<!--            (click)="isChangeEmailFormVisible=true"-->
+<!--            *ngIf="!isChangeEmailFormVisible"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <app-warning-label-->
+<!--      *ngIf="hasOffences"-->
+<!--      class="warning-label"-->
+<!--      [warningText]="'Поради нарушаване на правилата, нямате право да коментирате до 23:59:59 часа, 07.02.2023 г.'"></app-warning-label>-->
+<!--  </div>-->
+<!--</section>-->
 
 
 <!--todo section must be moved to separate component-->

@@ -22,7 +22,9 @@ export const userEndpoints = {
   'getUser':'/api/user/user',
   'forgottenPassword':'/api/user/forgotten-password',
   'passwordReset':'/api/user/reset-password',
-  'allUserComments':'/api/user/comments'
+  'allUserComments':'/api/user/comments',
+  'uploadAvatar':'/api/user/upload-avatar',
+  'removeAvatar':'/api/user/remove-avatar',
 }
 
 export const articleEndpoints = {

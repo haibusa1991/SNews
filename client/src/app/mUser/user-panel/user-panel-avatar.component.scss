@@ -1,4 +1,5 @@
 @import 'user-panel-shared.component';
+@import 'src/assets/styles/constants';
 
 .button {
   min-width: 10rem;
@@ -13,125 +14,35 @@
   gap: 1rem;
   max-width: map-get($content-width, DESKTOP);
   margin: 2rem auto 0;
+  min-height: calc(100vh - $header-height - $footer-height - 116px);
 
   .file-info {
     padding: 1rem 1rem 0;
     text-align: center;
   }
 
-  .avatar-section {
-    width: 45%;
-    max-width: 400px;
 
-    .limit-height {
-      max-height: 40px;
-    }
-
-    .avatar-buttons {
-      display: flex;
-      margin: 1rem 0.75rem 0;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: space-around;
-    }
-
-
-    @media screen and (width >= map-get($content-width,MOBILE)) {
-      .avatar-buttons {
-        flex-direction: row;
-      }
-    }
-
-    @media screen and (width>= map-get($content-width,MOBILE)) {
-      .avatar-buttons {
-        flex-direction: row;
-      }
-
-      form {
-        max-width: 25rem;
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
-
-    //@media screen and (width>= map-get($content-width,MOBILE)) {
-    //  .avatar-form-buttons {
-    //    flex-direction: row;
-    //  }
-    //}
-  }
-
-  //.info-section {
-  //  width: 45%;
-  //}
-
-  @media screen and (width< map-get($content-width,MOBILE)) {
-    .avatar-section {
-      //width: 100%;
-    }
-  }
-
-}
-
-.default-avatar {
-  text-align: center;
-  height: 6rem;
-  max-height: 6rem;
-}
-
-
-$avatar-size: 2.5rem;
-
-.avatar-background {
-  display: inline-block;
-  background-color: rgba(72, 61, 139, 0.6);
-  border-radius: 50%;
-  margin-top: 1rem;
-  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
-
-  p {
-    font-size: $avatar-size;
-    width: calc($avatar-size * 2);
-    height: calc($avatar-size * 2);
-    color: white;
-    line-height: calc($avatar-size * 2);
-    text-align: center;
-  }
-}
-
-.image-avatar {
-  margin-top: 1rem;
-  display: inline-block;
-
-  img {
-    border-radius: 50%;
-    width: calc($avatar-size * 2);
-    height: calc($avatar-size * 2);
-    object-fit: cover;
-    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
-  }
-}
-
-.info-section {
-  .info-line {
-    width: 100%;
-    text-align: center;
-    font-size: 1.1rem;
-  }
-
-  .info-button {
-    min-width: 12rem;
-    margin: 1rem auto;
-  }
-
-  @media screen and (width >= map-get($content-width,MOBILE)) {
+  .info-section {
     .info-line {
-      text-align: left;
+      width: 100%;
+      text-align: center;
+      font-size: 1.1rem;
     }
 
     .info-button {
-      margin: 1rem 0;
+      min-width: 12rem;
+      margin: 1rem auto;
+    }
+
+    @media screen and (width >= map-get($content-width,MOBILE)) {
+      .info-line {
+        text-align: left;
+      }
+
+      .info-button {
+        margin: 1rem 0;
+      }
     }
   }
 }
+

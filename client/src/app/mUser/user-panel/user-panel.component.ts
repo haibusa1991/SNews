@@ -20,7 +20,6 @@ export class UserPanelComponent implements OnInit {
   imageFilename: string = this.noFileChosen;
 
   hasCustomAvatar: boolean = false;
-  private imageFile: File | null = null;
   isChangePassButtonDisabled: boolean = true
 
   isUploadAvatarFormShown: boolean = false;
@@ -62,7 +61,7 @@ export class UserPanelComponent implements OnInit {
   })
 
   changeEmailForm = new FormGroup({
-    email: new FormControl('haibusa@abv.b', [
+    email: new FormControl('', [
       Validators.email,
       Validators.required
     ])
@@ -82,42 +81,16 @@ export class UserPanelComponent implements OnInit {
   }
 
 
-  onFileChange(e: any) {
-    this.imageFile = e.target.files[0];
-    this.imageFilename = this.imageFile ? this.imageFile.name : this.noFileChosen;
-  }
-
   onPasswordChange() {
     console.log('changing password!');
   }
 
-  onAvatarUpload() {
-    console.log('submitting avatar!');
-    this.onAvatarChangeCancel();
-  }
+
 
   onEmailChange() {
     console.log('changing email!')
   }
 
-  onRemoveAvatar() {
-    let dialog = this.confirmationDialog.open(ConfirmationDialogComponent, {
-      data: {message: 'Сигурни ли сте, че искате да премахнете аватара?'},
-      autoFocus: "dialog",
-    });
-
-    dialog.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Removing avatar!');
-      }
-    });
-  }
-
-  onAvatarChangeCancel() {
-    this.isUploadAvatarFormShown = false
-    this.uploadAvatarForm.reset();
-    this.imageFilename = this.noFileChosen;
-  }
 
   onPasswordChangeCancel() {
     this.isChangePasswordFormVisible = false;

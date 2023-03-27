@@ -18,7 +18,9 @@ export const userEndpoints = {
   'getUser':'http://localhost:8080/user/user',
   'forgottenPassword':'http://localhost:8080/user/forgotten-password',
   'passwordReset':'http://localhost:8080/user/reset-password',
-  'allUserComments':'http://localhost:8080/user/comments'
+  'allUserComments':'http://localhost:8080/user/comments',
+  'uploadAvatar':'http://localhost:8080/user/upload-avatar',
+  'removeAvatar':'http://localhost:8080/user/remove-avatar',
 }
 
 export const articleEndpoints = {
