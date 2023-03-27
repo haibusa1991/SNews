@@ -92,7 +92,8 @@
 
       <div class="flex-divider"></div>
 
-      <div class="info-section">
+      <!--     todo move to moderation panel------------------------------------------------>
+      <div class="info-section" style="display: none">
         <p class="info-line">Потребител: <span>{{username}}</span></p>
         <p class="info-line">Регистриран от: 01.01.1970</p>
         <p class="info-line">Коментари: 365</p>
@@ -100,6 +101,135 @@
           <app-text-button
             [href]=seeCommentsHref
             buttonText="Вижте коментарите"
+          ></app-text-button>
+        </div>
+      </div>
+      <!--    end todo ------------------------------------------------------------------------>
+
+      <div class="credentials">
+        <div class="credentials-section">
+          <form
+            [formGroup]="changePasswordForm"
+            (submit)="onPasswordChange()"
+            class="credential-form"
+            *ngIf="isChangePasswordFormVisible">
+            <mat-form-field appearance="outline"
+                            class="form-centered-input-field
+                             form-white-input-field
+                             credential-field"
+                            [ngClass]="{'form-valid-field':changePasswordForm.controls.password.valid}">
+              <mat-label>Парола</mat-label>
+              <mat-error>{{passwordErrorMessage}}</mat-error>
+              <!--        <mat-hint *ngIf="isChangePasswordFormVisible">Изберете парола с най-малко 8 символа.</mat-hint>-->
+              <input matInput
+                     placeholder="Малки и главни букви, цифри"
+                     type="password"
+                     formControlName="password">
+              <mat-icon
+                matSuffix
+                mat-icon-button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  class="form-input-field-svg">
+                  <path
+                    d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+
+            <div class="form-buttons" *ngIf="isChangePasswordFormVisible">
+              <div class="form-button-wrapper register-button">
+                <button
+                  type="submit"
+                  [disabled]="isChangePassButtonDisabled"
+                  class="clickable form-clear-button-style">
+                  <app-text-button
+                    [buttonText]="'Промени'"
+                    [isDisabled]="isChangePassButtonDisabled">
+                  </app-text-button>
+                </button>
+              </div>
+
+              <app-text-button
+                [buttonText]="'Отказ'"
+                class="button
+               centered
+               edit-credential-button"
+                (click)="onPasswordChangeCancel()"
+              ></app-text-button>
+            </div>
+          </form>
+        </div>
+
+        <div class="credential-section"
+             *ngIf="isChangeEmailFormVisible">
+          <form
+            [formGroup]="changeEmailForm"
+            (submit)="onEmailChange()">
+            <mat-form-field
+              appearance="outline"
+              class="form-centered-input-field
+             form-white-input-field"
+              [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">
+
+              <mat-label>Email адрес</mat-label>
+              <mat-error>Въведеният email адрес е невалиден.</mat-error>
+              <input matInput
+                     placeholder="Email адрес"
+                     formControlName="email">
+              <mat-icon
+                matSuffix
+                mat-icon-button>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 512 512"
+                     class="form-input-field-svg">
+                  <path
+                    d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
+                </svg>
+              </mat-icon>
+            </mat-form-field>
+
+            <div class="form-button-wrapper register-button">
+              <button
+                type="submit"
+                [disabled]="isChangePassButtonDisabled"
+                class="clickable form-clear-button-style">
+                <app-text-button
+                  [buttonText]="'Промени'"
+                  [isDisabled]="isChangePassButtonDisabled">
+                </app-text-button>
+              </button>
+            </div>
+
+            <app-text-button
+              [buttonText]="'Отказ'"
+              class="button
+               centered
+               edit-credential-button"
+              (click)="onEmailChangeCancel()"
+            ></app-text-button>
+          </form>
+        </div>
+
+        <div class="change-credentials-buttons-wrapper"
+             *ngIf="!isChangePasswordFormVisible && !isChangeEmailFormVisible">
+          <app-text-button
+            [buttonText]="'Промяна на парола'"
+            class="button
+               centered
+               edit-credential-button"
+            (click)="isChangePasswordFormVisible=true"
+            *ngIf="!isChangeEmailFormVisible"
+          ></app-text-button>
+
+          <app-text-button
+            [buttonText]="'Промяна на email'"
+            class="button
+               centered
+               edit-credential-button"
+            (click)="isChangeEmailFormVisible=true"
+            *ngIf="!isChangeEmailFormVisible"
           ></app-text-button>
         </div>
       </div>
@@ -112,6 +242,8 @@
   </div>
 </section>
 
+
+<!--todo section must be moved to separate component-->
 <section
   class="moderation content-background-green"
   *ngIf="isModerator">
@@ -152,86 +284,4 @@
       </div>
     </div>
   </div>
-</section>
-
-<section class="security content-background-gray">
-  <form
-    [formGroup]="changePasswordForm"
-    (submit)="onPasswordChange()">
-    <mat-form-field appearance="outline"
-                    class="form-centered-input-field
-                           form-white-input-field"
-                    [ngClass]="{'form-valid-field':changePasswordForm.controls.password.valid}">
-      <mat-label>Парола</mat-label>
-      <mat-error>{{passwordErrorMessage}}</mat-error>
-      <mat-hint *ngIf="!changePasswordForm.controls.password.valid">Изберете парола с най-малко 8 символа.</mat-hint>
-      <input matInput
-             placeholder="Малки и главни букви, цифри"
-             type="password"
-             formControlName="password">
-      <mat-icon
-        matSuffix
-        mat-icon-button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          class="form-input-field-svg">
-          <path
-            d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
-        </svg>
-      </mat-icon>
-    </mat-form-field>
-
-    <div class="form-button-wrapper register-button">
-      <button
-        type="submit"
-        [disabled]="isChangePassButtonDisabled"
-        class="clickable form-clear-button-style">
-        <app-text-button
-          [buttonText]="'Промени'"
-          [isDisabled]="isChangePassButtonDisabled">
-        </app-text-button>
-      </button>
-    </div>
-  </form>
-
-  <form
-    [formGroup]="changeEmailForm"
-    (submit)="onEmailChange()">
-    <mat-form-field
-      appearance="outline"
-      class="form-centered-input-field
-             form-white-input-field"
-      [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">
-
-      <mat-label>Email адрес</mat-label>
-      <mat-error>Въведеният email адрес е невалиден.</mat-error>
-      <input matInput
-             placeholder="Email адрес"
-             formControlName="email">
-      <mat-icon
-        matSuffix
-        mat-icon-button>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 512 512"
-             class="form-input-field-svg">
-          <path
-            d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
-        </svg>
-      </mat-icon>
-    </mat-form-field>
-
-    <div class="form-button-wrapper register-button">
-      <button
-        type="submit"
-        [disabled]="isChangePassButtonDisabled"
-        class="clickable form-clear-button-style">
-        <app-text-button
-          [buttonText]="'Промени'"
-          [isDisabled]="isChangePassButtonDisabled">
-        </app-text-button>
-      </button>
-    </div>
-  </form>
-
 </section>

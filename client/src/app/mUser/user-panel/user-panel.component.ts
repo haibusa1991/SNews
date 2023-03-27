@@ -30,9 +30,13 @@ export class UserPanelComponent implements OnInit {
   seeCommentsHref!: string;
   hasOffences: boolean = false;
 
+  isChangePasswordFormVisible: boolean = false
+  isChangeEmailFormVisible: boolean = false
+
 
   // todo proper implementation with user roles
-  isModerator:boolean=false;
+  // todo move section to moderation panel
+  isModerator: boolean = false;
 
   passwordErrorMessages: { [key: string]: string } = {
     minlength: "Паролата трябва да бъде с дължина минимум 8 символа.",
@@ -44,7 +48,7 @@ export class UserPanelComponent implements OnInit {
   passwordErrorMessage = this.passwordErrorMessages['minlength'];
 
   changePasswordForm = new FormGroup({
-    password: new FormControl('totally not the password', [
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
       PasswordValidators.uppercase(),
@@ -110,8 +114,19 @@ export class UserPanelComponent implements OnInit {
   }
 
   onAvatarChangeCancel() {
-    this.isUploadAvatarFormShown = !this.isUploadAvatarFormShown;
+    this.isUploadAvatarFormShown = false
     this.uploadAvatarForm.reset();
     this.imageFilename = this.noFileChosen;
   }
+
+  onPasswordChangeCancel() {
+    this.isChangePasswordFormVisible = false;
+    this.changePasswordForm.reset();
+  }
+
+  onEmailChangeCancel() {
+    this.isChangeEmailFormVisible = false;
+    this.changeEmailForm.reset();
+  }
+
 }

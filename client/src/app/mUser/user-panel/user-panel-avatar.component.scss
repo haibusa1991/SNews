@@ -21,6 +21,7 @@
 
   .avatar-section {
     width: 45%;
+    max-width: 400px;
 
     .limit-height {
       max-height: 40px;
@@ -38,11 +39,11 @@
 
     @media screen and (width >= map-get($content-width,MOBILE)) {
       .avatar-buttons {
-        flex-direction: column;
+        flex-direction: row;
       }
     }
 
-    @media screen and (width>= map-get($content-width,TABLET)) {
+    @media screen and (width>= map-get($content-width,MOBILE)) {
       .avatar-buttons {
         flex-direction: row;
       }
@@ -54,21 +55,20 @@
       }
     }
 
-    @media screen and (width>= map-get($content-width,LAPTOP)) {
-      .avatar-form-buttons {
-        flex-direction: row;
-      }
-    }
+    //@media screen and (width>= map-get($content-width,MOBILE)) {
+    //  .avatar-form-buttons {
+    //    flex-direction: row;
+    //  }
+    //}
   }
 
-  .info-section {
-    width: 45%;
-  }
+  //.info-section {
+  //  width: 45%;
+  //}
 
   @media screen and (width< map-get($content-width,MOBILE)) {
-    .avatar-section,
-    .info-section {
-      width: 100%;
+    .avatar-section {
+      //width: 100%;
     }
   }
 

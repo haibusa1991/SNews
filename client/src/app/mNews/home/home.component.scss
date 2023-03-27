@@ -1,17 +1,17 @@
 @import 'src/assets/styles/snews-palette';
 @import 'src/assets/styles/responsive';
 
-.content {
-  background-color: map-get($elements-palette, BACKGROUND-GRAY);
-}
+//.content {
+//  background-color: map-get($elements-palette, BACKGROUND-GRAY);
+//}
 
-.heading-news {
-  background-color: map-get($elements-palette, BACKGROUND-GREEN);
-}
-
-.more-news {
-  background-color: map-get($elements-palette, BACKGROUND-GREEN);
-}
+//.heading-news {
+//  background-color: map-get($elements-palette, BACKGROUND-GREEN);
+//}
+//
+//.more-news {
+//  background-color: map-get($elements-palette, BACKGROUND-GREEN);
+//}
 
 h1 {
   padding: 1rem 0;
