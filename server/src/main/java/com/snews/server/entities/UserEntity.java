@@ -24,6 +24,10 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoleEntity> userRoles;
 
+    private String avatarId;
+
+    private String defaultAvatarColor;
+
     public UUID getId() {
         return id;
     }
@@ -70,5 +74,23 @@ public class UserEntity {
 
     public boolean remove(UserRoleEntity userRoleEntity){
         return this.userRoles.remove(userRoleEntity);
+    }
+
+    public String getAvatarId() {
+        return avatarId;
+    }
+
+    public UserEntity setAvatarId(String avatarId) {
+        this.avatarId = avatarId;
+        return this;
+    }
+
+    public String getDefaultAvatarColor() {
+        return defaultAvatarColor;
+    }
+
+    public UserEntity setDefaultAvatarColor(String defaultAvatarColor) {
+        this.defaultAvatarColor = defaultAvatarColor;
+        return this;
     }
 }

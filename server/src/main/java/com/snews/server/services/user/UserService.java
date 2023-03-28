@@ -1,10 +1,10 @@
 package com.snews.server.services.user;
 
-import com.snews.server.dto.ResetPasswordDto;
-import com.snews.server.dto.ResetPasswordRequestDto;
-import com.snews.server.dto.RegisterDto;
-import com.snews.server.dto.UserDto;
+import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface UserService{
     UserEntity getUserByEmail(String email);
@@ -20,4 +20,8 @@ public interface UserService{
     boolean validatePasswordResetToken(String token);
 
     void changePassword(ResetPasswordDto dto);
+
+    void addAvatar(MultipartFile image) throws IOException;
+
+    UserDto getUserDto();
 }

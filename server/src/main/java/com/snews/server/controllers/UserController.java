@@ -1,21 +1,26 @@
 package com.snews.server.controllers;
 
-import com.snews.server.dto.ResetPasswordRequestDto;
-import com.snews.server.dto.RegisterDto;
-import com.snews.server.dto.ResetPasswordDto;
-import com.snews.server.dto.UserDto;
+import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
+import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
+import com.snews.server.services.file.FileService;
 import com.snews.server.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,13 +28,10 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/user")
 public class UserController {
 
-    //    private final UserRoleService userRoleService;
     private final UserService userService;
 
     public UserController(
-//            UserRoleService userRoleService,
             UserService userService) {
-//        this.userRoleService = userRoleService;
         this.userService = userService;
     }
 
@@ -38,12 +40,6 @@ public class UserController {
                             BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
 
         if (bindingResult.hasErrors()) {
-//            String errorMessages = bindingResult
-//                    .getAllErrors()
-//                    .stream()
-//                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-//                    .collect(Collectors.joining(System.lineSeparator()));
-//            throw new MalformedDataException(errorMessages);
             throw getMalformedDataException(bindingResult);
         }
 
@@ -95,23 +91,8 @@ public class UserController {
 
     @GetMapping("/user")
     public UserDto getUser() {
-        UserDto userDto = new UserDto();
-
-        userDto.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
-        Set<String> roles = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .map(e -> e.replaceAll("ROLE_", ""))
-                .map(String::toLowerCase)
-                .collect(Collectors.toSet());
-
-        userDto.setRoles(roles);
-
-        return userDto;
+       return this.userService.getUserDto();
+//        return userDto;
 
     }
 
@@ -125,4 +106,14 @@ public class UserController {
         return new MalformedDataException(errorMessages);
     }
 
+    @PostMapping(path = "/upload-avatar", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<String> publishArticle(MultipartFile image) {
+        System.out.println();
+        try {
+            this.userService.addAvatar(image);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

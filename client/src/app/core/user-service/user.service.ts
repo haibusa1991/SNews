@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {catchError, Observable, Subject, switchMap} from "rxjs";
+import {catchError, Observable, Subject, switchMap, tap} from "rxjs";
 import {RegisterResponse, User} from "../../utils/types";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {articleEndpoints, userEndpoints} from "../../../environments/environment";
@@ -165,7 +165,7 @@ export class UserService {
 
   uploadAvatar$(avatar: File): Observable<void> {
     let body = new FormData();
-    body.append('avatar', avatar);
+    body.append('image', avatar);
 
     let httpPostRequest = this.http.post(userEndpoints['uploadAvatar'], body,
       {
@@ -176,12 +176,18 @@ export class UserService {
 
     return new Observable<void>(() => {
       httpPostRequest.pipe(
-        catchError(() => httpPostRequest)
+        tap(e=> console.log(e)),
+        catchError(() => httpPostRequest),
+        tap(e=> console.log(e)),
       ).subscribe(user => {
         this.currentUser = JSON.parse(user);
         this.currentUserSubject.next(this.currentUser);
       })
     });
+  }
+
+  getCurrentUser():User|null{
+    return this.currentUser;
   }
 }
 

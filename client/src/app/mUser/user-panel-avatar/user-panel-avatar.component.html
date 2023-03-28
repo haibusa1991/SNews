@@ -1,7 +1,7 @@
 <h2>Аватар</h2>
 <div class="avatar-layout">
   <div class="default-avatar">
-    <div *ngIf="!hasCustomAvatar" class="avatar-background">
+    <div *ngIf="!hasCustomAvatar" class="avatar-background" [ngStyle]="{'background-color':currentUser.defaultAvatarColor}">
       <p>{{username | slice:0:1 | uppercase }}</p>
     </div>
 

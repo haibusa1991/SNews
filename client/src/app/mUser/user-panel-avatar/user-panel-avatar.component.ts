@@ -31,13 +31,19 @@ export class UserPanelAvatarComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploadAvatarForm.statusChanges.subscribe(formStatus => this.isUploadAvatarButtonDisabled = formStatus != 'VALID');
-    this.username = this.userService.getCurrentUsername()
     this.userService.getCurrentUser$().subscribe(user => this.currentUser != user);
+
+    this.currentUser = this.userService.getCurrentUser()!;
+    // this.username = this.userService.getCurrentUsername();
+    this.username = this.currentUser.username;
+
   }
 
   onAvatarUpload() {
     console.log('submitting avatar!');
-    this.onAvatarChangeCancel();
+    this.userService.uploadAvatar$(this.imageFile!).subscribe(()=>{
+      this.onAvatarChangeCancel();
+    })
   }
 
   onRemoveAvatar() {

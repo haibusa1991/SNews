@@ -14,4 +14,6 @@ public interface FileService {
     byte[] getThumbnailFromDisk(String image);
 
     byte[] getAvatarFromDisk(String avatar);
+
+    String saveAvatarToDisk(byte[] file) throws IOException;
 }

@@ -37,7 +37,9 @@ export type User = {
     'user',
     'moderator',
     'administrator',
-  ]
+  ],
+  avatarId:string,
+  defaultAvatarColor:string;
 }
 
 export type RegisterResponse = {

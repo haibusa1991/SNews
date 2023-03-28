@@ -1,9 +1,6 @@
 package com.snews.server.services.user;
 
-import com.snews.server.dto.ResetPasswordDto;
-import com.snews.server.dto.ResetPasswordRequestDto;
-import com.snews.server.dto.RegisterDto;
-import com.snews.server.dto.UserDto;
+import com.snews.server.dto.*;
 import com.snews.server.entities.ResetPasswordTokenEntity;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
@@ -11,15 +8,24 @@ import com.snews.server.enumeration.UserRoleEnum;
 import com.snews.server.repositories.PasswordResetTokenRepository;
 import com.snews.server.repositories.UserRepository;
 import com.snews.server.services.email.EmailService;
+import com.snews.server.services.file.FileService;
 import com.snews.server.services.userRole.UserRoleService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordResetTokenRepository tokenRepository;
 
     private final UserRoleService userRoleService;
+    private final FileService fileService;
     private final EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;
@@ -36,12 +43,14 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository,
                            PasswordResetTokenRepository tokenRepository,
                            UserRoleService userRoleService,
+                           FileService fileService,
                            PasswordEncoder passwordEncoder,
                            ModelMapper modelMapper,
                            EmailService emailService) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.userRoleService = userRoleService;
+        this.fileService = fileService;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
         this.emailService = emailService;
@@ -67,7 +76,8 @@ public class UserServiceImpl implements UserService {
         userEntity.setUsername(candidateUsername)
                 .setEmail(candidateEmail)
                 .setUserRoles(Set.of(role))
-                .setPassword(this.passwordEncoder.encode(dto.getPassword()));
+                .setPassword(this.passwordEncoder.encode(dto.getPassword()))
+                .setDefaultAvatarColor(getRandomAvatarColor());
 
         UserEntity registeredUserEntity = this.userRepository.save(userEntity);
 
@@ -110,7 +120,8 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setUsername(username)
                 .setEmail(username + "@abv.bg")
-                .setPassword(this.passwordEncoder.encode("123456Aa"));
+                .setPassword(this.passwordEncoder.encode("123456Aa"))
+                .setDefaultAvatarColor(getRandomAvatarColor());
         return userEntity;
     }
 
@@ -171,5 +182,36 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(this.passwordEncoder.encode(dto.getPassword()));
         this.userRepository.save(user);
+    }
+
+    @Override
+    public void addAvatar(MultipartFile image) throws IOException {
+        String avatar = fileService.saveAvatarToDisk(image.getBytes());
+        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        UserEntity user = this.userRepository.getUserByUsername(username);
+
+    }
+
+    @Override
+    public UserDto getUserDto() {
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity currentUser = this.userRepository.getUserByUsername(currentUsername);
+
+        try {
+            return this.modelMapper.map(currentUser, UserDto.class);
+        } catch (Exception e) {
+            return new UserDto().setUsername("anonymousUser");
+        }
+    }
+
+    private String getRandomAvatarColor() {
+        Random r = new Random();
+
+        StringBuilder color = new StringBuilder(7);
+        color.append("#");
+        for (int i = 0; i < 3; i++) {
+            color.append(Integer.toHexString(r.nextInt(96) + 64));
+        }
+        return color.toString();
     }
 }
