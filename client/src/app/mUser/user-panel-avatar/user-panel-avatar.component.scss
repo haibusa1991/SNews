@@ -10,6 +10,7 @@
 
   .default-avatar {
     $avatar-size: 2.5rem;
+    max-height: calc($avatar-size * 2);;
 
     .avatar-background {
       display: inline-block;

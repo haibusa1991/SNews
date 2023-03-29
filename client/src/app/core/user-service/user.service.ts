@@ -196,7 +196,7 @@ export class UserService {
     return this.currentUser;
   }
 
-  removeAvatar$(): Observable<void> {
+  removeAvatar$(): Observable<boolean> {
     let httpPostRequest = this.http.post(userEndpoints['removeAvatar'], {},
       {
         responseType: 'text' as const,
@@ -204,10 +204,10 @@ export class UserService {
       }
     );
 
-    return new Observable<void>(() => {
+    return new Observable<boolean>(isSuccessful => {
       httpPostRequest.pipe(
         catchError(() => httpPostRequest),
-      ).subscribe(() => {
+      ).subscribe(() => { isSuccessful.next(true);
       });
     });
   }

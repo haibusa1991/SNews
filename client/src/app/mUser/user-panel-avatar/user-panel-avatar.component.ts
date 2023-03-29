@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
 import {User} from "../../utils/types";
 import {userEndpoints} from "../../../environments/environment";
+import {Observable, of, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-user-panel-avatar',
@@ -63,14 +64,18 @@ export class UserPanelAvatarComponent implements OnInit {
       autoFocus: "dialog",
     });
 
-    dialog.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.removeAvatar$().subscribe();
-        this.userService.validateSession();
-        this.hasCustomAvatar = false;
-        this.avatarPreview = '';
-      }
-    });
+    dialog.afterClosed().pipe(
+      switchMap(shouldRemoveAvatar => {
+        if (shouldRemoveAvatar) {
+          return this.userService.removeAvatar$()
+        }
+        return of('');
+      })
+    ).subscribe(() => {
+      this.hasCustomAvatar = false;
+      this.avatarPreview = '';
+      this.userService.validateSession();
+    })
   }
 
   onAvatarChangeCancel() {
