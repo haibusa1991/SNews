@@ -27,11 +27,11 @@
     }
 
     .image-avatar {
-      margin-top: 1rem;
       display: inline-block;
 
       img {
         border-radius: 50%;
+        min-width: calc($avatar-size * 2);
         width: calc($avatar-size * 2);
         height: calc($avatar-size * 2);
         object-fit: cover;
@@ -52,6 +52,7 @@
 
 
   p.file-info {
+    margin-top: 1rem;
     text-align: center;
   }
 
@@ -72,6 +73,22 @@
   height: 40px;
   max-height: 40px;
   margin: unset;
+}
+
+.no-text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100vw - 2rem - 100px);
+}
+
+@media screen and (width <= map-get($content-width,MOBILE)) {
+  .no-text-overflow {
+    //todo check if max-width is valid
+    max-width: 100vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @media screen and (width >= map-get($content-width,MOBILE)) {

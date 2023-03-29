@@ -64,6 +64,8 @@ export class UserService {
       .subscribe(currentUser => {
         let user: User = JSON.parse(currentUser);
         if (user.username == 'anonymousUser') {
+          // this.currentUser = null;
+          // this.currentUserSubject.next(this.currentUser);
           return;
         }
         this.currentUser = user;
@@ -163,7 +165,7 @@ export class UserService {
     return this.urlBeforeLogin;
   }
 
-  uploadAvatar$(avatar: File): Observable<void> {
+  uploadAvatar$(avatar: File): Observable<boolean> {
     let body = new FormData();
     body.append('image', avatar);
 
@@ -174,20 +176,40 @@ export class UserService {
       }
     );
 
-    return new Observable<void>(() => {
+    return new Observable<boolean>(isSuccessful => {
       httpPostRequest.pipe(
-        tap(e=> console.log(e)),
         catchError(() => httpPostRequest),
-        tap(e=> console.log(e)),
-      ).subscribe(user => {
-        this.currentUser = JSON.parse(user);
-        this.currentUserSubject.next(this.currentUser);
+      ).subscribe({
+        next: () => {
+          this.validateSession();
+          isSuccessful.next(true)
+        },
+        error: () => {
+          isSuccessful.next(false);
+        }
       })
     });
   }
 
-  getCurrentUser():User|null{
+  getCurrentUser(): User | null {
+    this.validateSession();
     return this.currentUser;
+  }
+
+  removeAvatar$(): Observable<void> {
+    let httpPostRequest = this.http.post(userEndpoints['removeAvatar'], {},
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable<void>(() => {
+      httpPostRequest.pipe(
+        catchError(() => httpPostRequest),
+      ).subscribe(() => {
+      });
+    });
   }
 }
 

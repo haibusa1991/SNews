@@ -25,6 +25,7 @@ export const userEndpoints = {
   'allUserComments':'/api/user/comments',
   'uploadAvatar':'/api/user/upload-avatar',
   'removeAvatar':'/api/user/remove-avatar',
+  'downloadAvatar':'/api/avatars/',
 }
 
 export const articleEndpoints = {

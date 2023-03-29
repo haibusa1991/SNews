@@ -4,6 +4,7 @@ import {UserService} from "../../core/user-service/user.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
 import {User} from "../../utils/types";
+import {userEndpoints} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user-panel-avatar',
@@ -11,13 +12,18 @@ import {User} from "../../utils/types";
   styleUrls: ['./user-panel-avatar.component.scss']
 })
 export class UserPanelAvatarComponent implements OnInit {
+  protected readonly userEndpoints = userEndpoints;
+
   hasCustomAvatar: boolean = false;
   isUploadAvatarButtonDisabled: boolean = true;
-  isUploadAvatarFormShown: boolean = true;
+  isUploadAvatarFormShown: boolean = false;
+  hasErrorUploading: boolean = false;
+
 
   noFileChosen: string = 'Не е избран файл.'
   imageFilename: string = this.noFileChosen;
-  private imageFile: File | null = null;
+  imageFile: File | null = null;
+  avatarPreview: string = '';
 
   currentUser!: User;
   username!: string;
@@ -31,19 +37,24 @@ export class UserPanelAvatarComponent implements OnInit {
 
   ngOnInit(): void {
     this.uploadAvatarForm.statusChanges.subscribe(formStatus => this.isUploadAvatarButtonDisabled = formStatus != 'VALID');
-    this.userService.getCurrentUser$().subscribe(user => this.currentUser != user);
+    this.userService.getCurrentUser$().subscribe(user => {
+      this.currentUser = user!;
+      this.hasCustomAvatar = !!this.currentUser.avatarId;
+    });
 
     this.currentUser = this.userService.getCurrentUser()!;
-    // this.username = this.userService.getCurrentUsername();
     this.username = this.currentUser.username;
 
   }
 
   onAvatarUpload() {
-    console.log('submitting avatar!');
-    this.userService.uploadAvatar$(this.imageFile!).subscribe(()=>{
+    this.userService.uploadAvatar$(this.imageFile!).subscribe(isSuccessful => {
+      if (!isSuccessful) {
+        this.hasErrorUploading = true;
+        return;
+      }
       this.onAvatarChangeCancel();
-    })
+    });
   }
 
   onRemoveAvatar() {
@@ -54,7 +65,10 @@ export class UserPanelAvatarComponent implements OnInit {
 
     dialog.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Removing avatar!');
+        this.userService.removeAvatar$().subscribe();
+        this.userService.validateSession();
+        this.hasCustomAvatar = false;
+        this.avatarPreview = '';
       }
     });
   }
@@ -63,11 +77,21 @@ export class UserPanelAvatarComponent implements OnInit {
     this.isUploadAvatarFormShown = false
     this.uploadAvatarForm.reset();
     this.imageFilename = this.noFileChosen;
+    this.hasErrorUploading = false;
+    this.avatarPreview = '';
   }
 
   onFileChange(e: any) {
     this.imageFile = e.target.files[0];
     this.imageFilename = this.imageFile ? this.imageFile.name : this.noFileChosen;
-  }
 
+    if (!this.imageFile) {
+      this.avatarPreview = '';
+      return;
+    }
+
+    let reader = new FileReader();
+    reader.onload = () => this.avatarPreview = reader.result as string;
+    reader.readAsDataURL(this.imageFile);
+  }
 }

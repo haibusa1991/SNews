@@ -27,6 +27,9 @@ spring:
   web:
     resources:
       static-locations: classpath:/static
+  servlet:
+    multipart:
+      max-file-size: 1MB
 #  mail:
 #    username: noreply@snews.com
 logging:

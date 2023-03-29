@@ -186,22 +186,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addAvatar(MultipartFile image) throws IOException {
-        String avatar = fileService.saveAvatarToDisk(image.getBytes());
+        String avatarId = fileService.saveAvatarToDisk(image.getBytes());
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserEntity user = this.userRepository.getUserByUsername(username);
 
+        user.setAvatarId(avatarId);
+        this.userRepository.save(user);
     }
 
     @Override
     public UserDto getUserDto() {
-        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        UserEntity currentUser = this.userRepository.getUserByUsername(currentUsername);
+        UserEntity currentUser = getCurrentUser();
 
         try {
             return this.modelMapper.map(currentUser, UserDto.class);
         } catch (Exception e) {
             return new UserDto().setUsername("anonymousUser");
         }
+    }
+
+    @Override
+    public void removeAvatar() {
+        UserEntity currentUser = getCurrentUser();
+        currentUser.setAvatarId(null);
+        this.userRepository.save(currentUser);
     }
 
     private String getRandomAvatarColor() {
@@ -213,5 +221,10 @@ public class UserServiceImpl implements UserService {
             color.append(Integer.toHexString(r.nextInt(96) + 64));
         }
         return color.toString();
+    }
+
+    private UserEntity getCurrentUser() {
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        return this.userRepository.getUserByUsername(currentUsername);
     }
 }

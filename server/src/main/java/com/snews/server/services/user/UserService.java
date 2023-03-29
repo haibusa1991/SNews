@@ -24,4 +24,6 @@ public interface UserService{
     void addAvatar(MultipartFile image) throws IOException;
 
     UserDto getUserDto();
+
+    void removeAvatar();
 }

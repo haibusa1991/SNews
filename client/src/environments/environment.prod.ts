@@ -21,6 +21,7 @@ export const userEndpoints = {
   'allUserComments':'http://localhost:8080/user/comments',
   'uploadAvatar':'http://localhost:8080/user/upload-avatar',
   'removeAvatar':'http://localhost:8080/user/remove-avatar',
+  'downloadAvatar':'http://localhost:8080/api/avatars/',
 }
 
 export const articleEndpoints = {

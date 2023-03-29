@@ -107,13 +107,18 @@ public class UserController {
     }
 
     @PostMapping(path = "/upload-avatar", consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<String> publishArticle(MultipartFile image) {
-        System.out.println();
+    public ResponseEntity<String> uploadAvatar(MultipartFile image) {
         try {
             this.userService.addAvatar(image);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping(path = "/remove-avatar")
+    public ResponseEntity<String> removeAvatar() {
+        this.userService.removeAvatar();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
