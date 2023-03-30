@@ -22,6 +22,8 @@ export const userEndpoints = {
   'uploadAvatar':'http://localhost:8080/user/upload-avatar',
   'removeAvatar':'http://localhost:8080/user/remove-avatar',
   'downloadAvatar':'http://localhost:8080/avatars/',
+  'changePassword':'http://localhost:8080/user/change-password',
+  'changeEmail':'http://localhost:8080/user/change-email',
 }
 
 export const articleEndpoints = {

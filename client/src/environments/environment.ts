@@ -26,6 +26,8 @@ export const userEndpoints = {
   'uploadAvatar':'/api/user/upload-avatar',
   'removeAvatar':'/api/user/remove-avatar',
   'downloadAvatar':'/api/avatars/',
+  'changePassword':'/api/user/change-password',
+  'changeEmail':'/api/user/change-email',
 }
 
 export const articleEndpoints = {

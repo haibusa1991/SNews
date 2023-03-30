@@ -35,7 +35,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     WarningLabelComponent,
     FilenamePipe,
     DateTimePipe,
-    ComponentSpinnerComponent
+    ComponentSpinnerComponent,
   ],
     exports: [
         HeaderComponent,

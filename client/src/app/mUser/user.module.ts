@@ -15,6 +15,8 @@ import {LogoutComponent} from './logout/logout.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { UserPanelAvatarComponent } from './user-panel-avatar/user-panel-avatar.component';
+import { UserPanelChangePasswordComponent } from './user-panel-change-password/user-panel-change-password.component';
+import { PasswordReenterDialogComponent } from './password-reenter-dialog/password-reenter-dialog.component';
 
 const moduleRoutes: Routes = [
   {
@@ -57,7 +59,9 @@ const moduleRoutes: Routes = [
     PasswordResetComponent,
     LogoutComponent,
     ConfirmationDialogComponent,
-    UserPanelAvatarComponent
+    UserPanelAvatarComponent,
+    UserPanelChangePasswordComponent,
+    PasswordReenterDialogComponent
   ],
   imports: [
     CommonModule,
