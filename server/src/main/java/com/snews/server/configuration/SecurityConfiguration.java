@@ -47,7 +47,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password", "/user/remove-avatar").permitAll()
 //                .requestMatchers(HttpMethod.POST, "/article/new-article").hasRole(UserRoleEnum.ADMINISTRATOR.name())
                 //todo update with proper rights
-                .requestMatchers(HttpMethod.POST, "/article/new-article","/user/upload-avatar").permitAll()
+                .requestMatchers(HttpMethod.POST, "/article/new-article","/user/upload-avatar","/user/change-password").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/testpost").hasRole(UserRoleEnum.ADMINISTRATOR.name())
 
                 .and()

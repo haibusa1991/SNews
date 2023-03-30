@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {catchError, Observable, Subject, switchMap, tap} from "rxjs";
+import {catchError, observable, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
 import {RegisterResponse, User} from "../../utils/types";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {articleEndpoints, userEndpoints} from "../../../environments/environment";
@@ -207,7 +207,27 @@ export class UserService {
     return new Observable<boolean>(isSuccessful => {
       httpPostRequest.pipe(
         catchError(() => httpPostRequest),
-      ).subscribe(() => { isSuccessful.next(true);
+      ).subscribe(() => {
+        isSuccessful.next(true);
+      });
+    });
+  }
+
+  //todo make server side
+  makePostRequest$(endpoint: string, payload: FormData): Observable<boolean> {
+    let httpPostRequest = this.http.post(endpoint, payload,
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable(isSuccessful => {
+      httpPostRequest.pipe(
+        catchError(()=>httpPostRequest)
+      ).subscribe({
+        next: ()=>isSuccessful.next(true),
+        error: ()=>isSuccessful.next(false)
       });
     });
   }

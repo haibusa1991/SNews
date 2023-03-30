@@ -37,6 +37,7 @@ export class UserPanelChangePasswordComponent implements OnInit {
 
 
   constructor(public verifyPasswordDialog: MatDialog, private confirmationSnackbar: MatSnackBar) {
+
   }
 
   ngOnInit(): void {
@@ -63,11 +64,11 @@ export class UserPanelChangePasswordComponent implements OnInit {
     });
 
     dialog.afterClosed().subscribe(hasChangedPassword => {
-      this.confirmationSnackbar.open('Паролата е променена успешно.','Ок',)
       if (hasChangedPassword) {
-        //show snackbar
-        // return;
+        this.confirmationSnackbar.open('Паролата е променена успешно.', 'ОK', {duration: 3000});
       }
+
+      this.onPasswordChangeCancel();
     });
   }
 
@@ -87,7 +88,7 @@ export class UserPanelChangePasswordComponent implements OnInit {
 
   onPasswordEdit() {
     this.isChangePasswordFormVisible = true;
-    this.changePasswordForm.reset();
     this.changePasswordForm.controls.password.enable();
+    this.changePasswordForm.reset();
   }
 }

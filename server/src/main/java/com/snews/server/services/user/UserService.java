@@ -4,6 +4,7 @@ import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.AuthenticationException;
 import java.io.IOException;
 
 public interface UserService{
@@ -20,6 +21,8 @@ public interface UserService{
     boolean validatePasswordResetToken(String token);
 
     void changePassword(ResetPasswordDto dto);
+
+    void changePassword(NewPasswordDto dto) throws AuthenticationException;
 
     void addAvatar(MultipartFile image) throws IOException;
 

@@ -11,21 +11,19 @@ import com.snews.server.services.email.EmailService;
 import com.snews.server.services.file.FileService;
 import com.snews.server.services.userRole.UserRoleService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.AuthenticationException;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -182,6 +180,22 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(this.passwordEncoder.encode(dto.getPassword()));
         this.userRepository.save(user);
+    }
+
+    @Override
+    public void changePassword(NewPasswordDto dto) throws AuthenticationException {
+        UserEntity currentUser = getCurrentUser();
+        if (currentUser == null) {
+            throw new AuthenticationException("Not a user");
+        }
+
+
+        if (!this.passwordEncoder.matches(dto.getCurrentPassword(),currentUser.getPassword())) {
+            throw new AuthenticationException("Invalid password");
+        }
+
+        currentUser.setPassword(this.passwordEncoder.encode(dto.getNewPassword()));
+        this.userRepository.save(currentUser);
     }
 
     @Override

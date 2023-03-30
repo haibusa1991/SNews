@@ -2,26 +2,20 @@ package com.snews.server.controllers;
 
 import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
-import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
-import com.snews.server.services.file.FileService;
 import com.snews.server.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -91,7 +85,7 @@ public class UserController {
 
     @GetMapping("/user")
     public UserDto getUser() {
-       return this.userService.getUserDto();
+        return this.userService.getUserDto();
 //        return userDto;
 
     }
@@ -120,5 +114,15 @@ public class UserController {
     public ResponseEntity<String> removeAvatar() {
         this.userService.removeAvatar();
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/change-password")
+    public ResponseEntity<String> changePassword(NewPasswordDto dto) {
+        try {
+            this.userService.changePassword(dto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
     }
 }

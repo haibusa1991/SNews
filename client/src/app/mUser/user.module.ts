@@ -17,6 +17,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { UserPanelAvatarComponent } from './user-panel-avatar/user-panel-avatar.component';
 import { UserPanelChangePasswordComponent } from './user-panel-change-password/user-panel-change-password.component';
 import { PasswordReenterDialogComponent } from './password-reenter-dialog/password-reenter-dialog.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const moduleRoutes: Routes = [
   {
@@ -61,7 +62,8 @@ const moduleRoutes: Routes = [
     ConfirmationDialogComponent,
     UserPanelAvatarComponent,
     UserPanelChangePasswordComponent,
-    PasswordReenterDialogComponent
+    PasswordReenterDialogComponent,
+
   ],
   imports: [
     CommonModule,
@@ -72,7 +74,8 @@ const moduleRoutes: Routes = [
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ]
 })
 export class UserModule {
