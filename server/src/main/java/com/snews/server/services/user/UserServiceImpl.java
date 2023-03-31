@@ -14,7 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -240,5 +239,21 @@ public class UserServiceImpl implements UserService {
     private UserEntity getCurrentUser() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         return this.userRepository.getUserByUsername(currentUsername);
+    }
+
+    @Override
+    public void changeEmail(NewEmailDto dto) throws AuthenticationException {
+        UserEntity currentUser = getCurrentUser();
+        if (currentUser == null) {
+            throw new AuthenticationException("Not a user");
+        }
+
+
+        if (!this.passwordEncoder.matches(dto.getCurrentPassword(),currentUser.getPassword())) {
+            throw new AuthenticationException("Invalid password");
+        }
+
+        currentUser.setEmail(dto.getNewEmail());
+        this.userRepository.save(currentUser);
     }
 }

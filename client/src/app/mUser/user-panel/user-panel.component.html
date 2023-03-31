@@ -2,8 +2,10 @@
   <div class="content centered">
     <h1>Контролен панел</h1>
 <!--    <app-user-panel-avatar></app-user-panel-avatar>-->
-    <app-user-panel-change-password></app-user-panel-change-password>
+<!--    <app-user-panel-change-password></app-user-panel-change-password>-->
+    <app-user-panel-change-email></app-user-panel-change-email>
   </div>
+</section>
 <!--    <div class="user-summary">-->
 <!--      <app-user-panel-avatar></app-user-panel-avatar>-->
 
@@ -208,45 +210,45 @@
 <!--</section>-->
 
 
-<!--todo section must be moved to separate component-->
-<section
-  class="moderation content-background-green"
-  *ngIf="isModerator">
-  <div class="content centered">
-    <h2 class="offences-heading">Наказания</h2>
-    <div class="moderation-wrapper">
-      <div class="offence" *ngIf="hasOffences">
-        <p>На потребителя е забранено да коментира до 23:59:59 часа, 07.02.2023 г.</p>
-        <div class="remove-punishment">
-          <app-text-button
-            buttonText="Премахни наказание"
-          ></app-text-button>
-        </div>
-      </div>
+<!--&lt;!&ndash;todo section must be moved to separate component&ndash;&gt;-->
+<!--<section-->
+<!--  class="moderation content-background-green"-->
+<!--  *ngIf="isModerator">-->
+<!--  <div class="content centered">-->
+<!--    <h2 class="offences-heading">Наказания</h2>-->
+<!--    <div class="moderation-wrapper">-->
+<!--      <div class="offence" *ngIf="hasOffences">-->
+<!--        <p>На потребителя е забранено да коментира до 23:59:59 часа, 07.02.2023 г.</p>-->
+<!--        <div class="remove-punishment">-->
+<!--          <app-text-button-->
+<!--            buttonText="Премахни наказание"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div class="flex-divider" *ngIf="hasOffences"></div>
+<!--      <div class="flex-divider" *ngIf="hasOffences"></div>-->
 
-      <div class="punishment" [ngClass]="{'no-offences':!hasOffences}">
-        <p>Налагане на забрана за коментиране</p>
-        <div class="punishment-buttons">
-          <app-text-button
-            class="button"
-            buttonText="1 ден"
-          ></app-text-button>
-          <app-text-button
-            class="button"
-            buttonText="3 дни"
-          ></app-text-button>
-          <app-text-button
-            class="button"
-            buttonText="7 дни"
-          ></app-text-button>
-          <app-text-button
-            class="button red-button"
-            buttonText="Завинаги"
-          ></app-text-button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<!--      <div class="punishment" [ngClass]="{'no-offences':!hasOffences}">-->
+<!--        <p>Налагане на забрана за коментиране</p>-->
+<!--        <div class="punishment-buttons">-->
+<!--          <app-text-button-->
+<!--            class="button"-->
+<!--            buttonText="1 ден"-->
+<!--          ></app-text-button>-->
+<!--          <app-text-button-->
+<!--            class="button"-->
+<!--            buttonText="3 дни"-->
+<!--          ></app-text-button>-->
+<!--          <app-text-button-->
+<!--            class="button"-->
+<!--            buttonText="7 дни"-->
+<!--          ></app-text-button>-->
+<!--          <app-text-button-->
+<!--            class="button red-button"-->
+<!--            buttonText="Завинаги"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->

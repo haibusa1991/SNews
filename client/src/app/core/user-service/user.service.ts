@@ -1,10 +1,8 @@
 import {Injectable} from '@angular/core';
-import {catchError, observable, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
+import {catchError, Observable, Subject, switchMap} from "rxjs";
 import {RegisterResponse, User} from "../../utils/types";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {articleEndpoints, userEndpoints} from "../../../environments/environment";
-import {FormGroup} from "@angular/forms";
-import {articleCategories} from "../../utils/snewsConstants";
+import {userEndpoints} from "../../../environments/environment";
 
 
 @Injectable({
@@ -51,7 +49,18 @@ export class UserService {
     });
   }
 
-  getCurrentUser$(): Observable<User | null> {
+  getCurrentUser$(forceRefresh?:boolean): Observable<User | null> {
+    if(forceRefresh) {
+      return new Observable<User>(result => {
+        this.http.get(userEndpoints['getUser'], {responseType: 'text', withCredentials: true})
+          .subscribe(currentUser => {
+            this.currentUser = JSON.parse(currentUser);
+            this.currentUserSubject.next(this.currentUser);
+            this.currentUserSubject.next(this.currentUser);
+            result.next(this.currentUser ? this.currentUser : undefined);
+          });
+      });
+    }
     return this.currentUserSubject.asObservable();
   }
 

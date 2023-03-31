@@ -125,4 +125,14 @@ public class UserController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
+
+    @PostMapping(path = "/change-email")
+    public ResponseEntity<String> changeEmail(NewEmailDto dto) {
+        try {
+            this.userService .changeEmail(dto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+        }
+    }
 }

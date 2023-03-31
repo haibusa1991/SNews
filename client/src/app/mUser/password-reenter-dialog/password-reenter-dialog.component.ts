@@ -2,7 +2,6 @@ import {Component, Inject, OnInit} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../core/user-service/user.service";
-import {observable} from "rxjs";
 
 @Component({
   selector: 'app-password-reenter-dialog',

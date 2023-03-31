@@ -40,6 +40,7 @@ export type User = {
   ],
   avatarId:string,
   defaultAvatarColor:string;
+  email:string
 }
 
 export type RegisterResponse = {

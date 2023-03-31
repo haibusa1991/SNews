@@ -18,6 +18,7 @@ import { UserPanelAvatarComponent } from './user-panel-avatar/user-panel-avatar.
 import { UserPanelChangePasswordComponent } from './user-panel-change-password/user-panel-change-password.component';
 import { PasswordReenterDialogComponent } from './password-reenter-dialog/password-reenter-dialog.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { UserPanelChangeEmailComponent } from './user-panel-change-email/user-panel-change-email.component';
 
 const moduleRoutes: Routes = [
   {
@@ -63,6 +64,7 @@ const moduleRoutes: Routes = [
     UserPanelAvatarComponent,
     UserPanelChangePasswordComponent,
     PasswordReenterDialogComponent,
+    UserPanelChangeEmailComponent,
 
   ],
   imports: [

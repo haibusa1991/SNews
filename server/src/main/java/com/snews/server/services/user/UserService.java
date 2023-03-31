@@ -29,4 +29,6 @@ public interface UserService{
     UserDto getUserDto();
 
     void removeAvatar();
+
+    void changeEmail(NewEmailDto dto) throws AuthenticationException;
 }
