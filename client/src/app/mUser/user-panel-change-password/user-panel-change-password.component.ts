@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {PasswordValidators} from "../../utils/validators";
 import {MatDialog} from "@angular/material/dialog";
@@ -12,6 +12,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./user-panel-change-password.component.scss']
 })
 export class UserPanelChangePasswordComponent implements OnInit {
+  @Input()
+  isVisible: boolean = true;
+
+  @Output() isActive = new EventEmitter<boolean>();
+
   isChangePasswordFormVisible: boolean = false
   isValidForm: boolean = false;
 
@@ -77,6 +82,7 @@ export class UserPanelChangePasswordComponent implements OnInit {
     this.changePasswordForm.reset();
     this.changePasswordForm.controls.password.setValue(this.passwordPlaceholder)
     this.changePasswordForm.controls.password.disable();
+    this.isActive.emit(false);
   }
 
   updatePasswordError() {
@@ -90,5 +96,6 @@ export class UserPanelChangePasswordComponent implements OnInit {
     this.isChangePasswordFormVisible = true;
     this.changePasswordForm.controls.password.enable();
     this.changePasswordForm.reset();
+    this.isActive.emit(true);
   }
 }

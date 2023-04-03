@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -12,6 +12,11 @@ import {UserService} from "../../core/user-service/user.service";
   styleUrls: ['./user-panel-change-email.component.scss']
 })
 export class UserPanelChangeEmailComponent implements OnInit {
+  @Input()
+  isVisible: boolean = true;
+
+  @Output() isActive = new EventEmitter<boolean>();
+
   private userEmail: string = '';
   isChangeEmailFormVisible: boolean = false
   isValidForm: boolean = false;
@@ -67,10 +72,12 @@ export class UserPanelChangeEmailComponent implements OnInit {
     this.changeEmailForm.reset();
     this.changeEmailForm.controls.email.setValue(this.userEmail)
     this.changeEmailForm.controls.email.disable();
+    this.isActive.emit(false);
   }
 
   onEmailEdit() {
     this.isChangeEmailFormVisible = true;
+    this.isActive.emit(true);
     this.changeEmailForm.controls.email.enable();
     this.changeEmailForm.reset();
   }

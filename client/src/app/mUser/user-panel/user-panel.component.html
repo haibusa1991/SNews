@@ -1,9 +1,25 @@
-<section class="content-background-gray">
+<section class="content-background-gray form-content">
   <div class="content centered">
     <h1>Контролен панел</h1>
-<!--    <app-user-panel-avatar></app-user-panel-avatar>-->
-<!--    <app-user-panel-change-password></app-user-panel-change-password>-->
-    <app-user-panel-change-email></app-user-panel-change-email>
+    <div class="controls">
+      <app-user-panel-avatar></app-user-panel-avatar>
+      <div class="flex-divider"></div>
+      <div class="credentials">
+        <h2>Достъп</h2>
+        <div class="credential-fields">
+          <app-user-panel-change-password
+            class="full-width"
+            (isActive)="onPasswordEdit($event)"
+            [isVisible]="isEditPasswordVisible"
+          ></app-user-panel-change-password>
+          <app-user-panel-change-email
+            class="full-width"
+            (isActive)="onEmailEdit($event)"
+            [isVisible]="isEditEmailVisible"
+          ></app-user-panel-change-email>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <!--    <div class="user-summary">-->

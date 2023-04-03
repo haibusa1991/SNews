@@ -6,6 +6,7 @@ import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-d
 import {User} from "../../utils/types";
 import {userEndpoints} from "../../../environments/environment";
 import {Observable, of, switchMap, tap} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-user-panel-avatar',
@@ -33,7 +34,9 @@ export class UserPanelAvatarComponent implements OnInit {
     imageFile: new FormControl('', Validators.required)
   })
 
-  constructor(public confirmationDialog: MatDialog, private userService: UserService) {
+  constructor(public confirmationDialog: MatDialog,
+              private userService: UserService,
+              private confirmationSnackbar: MatSnackBar,) {
   }
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class UserPanelAvatarComponent implements OnInit {
         this.hasErrorUploading = true;
         return;
       }
+      this.confirmationSnackbar.open('Аватарът е променен успешно.', 'ОK', {duration: 3000});
       this.onAvatarChangeCancel();
     });
   }
@@ -67,7 +71,8 @@ export class UserPanelAvatarComponent implements OnInit {
     dialog.afterClosed().pipe(
       switchMap(shouldRemoveAvatar => {
         if (shouldRemoveAvatar) {
-          return this.userService.removeAvatar$()
+          this.confirmationSnackbar.open('Аватарът е премахнат успешно.', 'ОK', {duration: 3000});
+          return this.userService.removeAvatar$();
         }
         return of('');
       })
@@ -75,6 +80,7 @@ export class UserPanelAvatarComponent implements OnInit {
       this.hasCustomAvatar = false;
       this.avatarPreview = '';
       this.userService.validateSession();
+
     })
   }
 
