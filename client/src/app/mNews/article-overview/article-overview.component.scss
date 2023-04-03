@@ -1,4 +1,5 @@
 @import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
 @import 'src/assets/styles/shadows';
 
 .content {
@@ -9,12 +10,23 @@
     img {
       margin-left: auto;
       margin-right: auto;
-      width: 240px;
-      height: 160px;
+      height: 240px;
+      width: 400px;
       object-fit: cover;
       border-radius: 5px;
       margin-top: 0.5rem;
-      filter: drop-shadow (map-get($shadows, MORE-MENU));
+    }
+
+    @media screen and (width<map-get($content-width,TABLET)) {
+      img {
+        height: 200px;
+      }
+    }
+
+    @media screen and (width<map-get($content-width,LAPTOP)) {
+      img {
+        height: 160px;
+      }
     }
 
     h3 {

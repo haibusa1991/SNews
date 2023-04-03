@@ -20,6 +20,7 @@ import {MatRippleModule} from "@angular/material/core";
 import {DateTimePipe} from "./pipes/date-time.pipe";
 import { ComponentSpinnerComponent } from './component-spinner/component-spinner.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { FullscreenSpinnerComponent } from './fullscreen-spinner/fullscreen-spinner.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     WarningLabelComponent,
     FilenamePipe,
     DateTimePipe,
-    ComponentSpinnerComponent
+    ComponentSpinnerComponent,
+    FullscreenSpinnerComponent,
   ],
     exports: [
         HeaderComponent,
@@ -45,7 +47,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
         WarningLabelComponent,
         FilenamePipe,
         DateTimePipe,
-        ComponentSpinnerComponent
+        ComponentSpinnerComponent,
+        FullscreenSpinnerComponent
     ],
   imports: [
     CommonModule,

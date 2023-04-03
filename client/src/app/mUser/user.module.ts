@@ -1,22 +1,33 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {UserPanelComponent} from './user-panel/user-panel.component';
-import { RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {MatIconModule} from "@angular/material/icon";
 import {SharedModule} from "../mShared/shared.module";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ForgottenPasswordComponent} from './forgotten-password/forgotten-password.component';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
+import {PasswordResetComponent} from './password-reset/password-reset.component';
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import { LogoutComponent } from './logout/logout.component';
+import {LogoutComponent} from './logout/logout.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { UserPanelAvatarComponent } from './user-panel-avatar/user-panel-avatar.component';
+import { UserPanelChangePasswordComponent } from './user-panel-change-password/user-panel-change-password.component';
+import { PasswordReenterDialogComponent } from './password-reenter-dialog/password-reenter-dialog.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { UserPanelChangeEmailComponent } from './user-panel-change-email/user-panel-change-email.component';
 
 const moduleRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    component: UserPanelComponent
+  },
+  {
+    path: 'settings',
     component: UserPanelComponent
   },
   {
@@ -49,6 +60,12 @@ const moduleRoutes: Routes = [
     ForgottenPasswordComponent,
     PasswordResetComponent,
     LogoutComponent,
+    ConfirmationDialogComponent,
+    UserPanelAvatarComponent,
+    UserPanelChangePasswordComponent,
+    PasswordReenterDialogComponent,
+    UserPanelChangeEmailComponent,
+
   ],
   imports: [
     CommonModule,
@@ -57,7 +74,10 @@ const moduleRoutes: Routes = [
     MatIconModule,
     MatButtonModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    MatDialogModule,
+    MatSnackBarModule
   ]
 })
 export class UserModule {

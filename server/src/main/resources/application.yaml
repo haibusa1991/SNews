@@ -27,6 +27,9 @@ spring:
   web:
     resources:
       static-locations: classpath:/static
+  servlet:
+    multipart:
+      max-file-size: 1MB
 #  mail:
 #    username: noreply@snews.com
 logging:
@@ -39,3 +42,9 @@ server:
     session:
       cookie:
         secure: true
+#  ssl:
+#    key-store: keystore/snews.p12
+#    key-store-type: PKCS12
+#    key-alias: snews
+#    enabled: true
+#    key-store-password:

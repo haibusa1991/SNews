@@ -41,12 +41,13 @@ public class SecurityConfiguration {
 
         CsrfTokenRequestHandler requestHandler = delegate::handle;
 
-
+//------------------original config----------------------
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password").permitAll()
+                .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password", "/user/remove-avatar").permitAll()
 //                .requestMatchers(HttpMethod.POST, "/article/new-article").hasRole(UserRoleEnum.ADMINISTRATOR.name())
-                .requestMatchers(HttpMethod.POST, "/article/new-article").permitAll()
+                //todo update with proper rights
+                .requestMatchers(HttpMethod.POST, "/article/new-article","/user/upload-avatar","/user/change-password", "/user/change-email").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/testpost").hasRole(UserRoleEnum.ADMINISTRATOR.name())
 
                 .and()
@@ -79,6 +80,48 @@ public class SecurityConfiguration {
                 .logoutUrl("/user/logout")
                 .logoutSuccessUrl("/");
         return http.build();
+
+        //------------------ end original config----------------------
+
+
+//        ------------------------HTTPS configuration--------------------------------
+//        http.requiresChannel()
+//                .requestMatchers(HttpMethod.GET, "/**").requiresSecure()
+//                .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password").requiresSecure()
+//                .requestMatchers(HttpMethod.POST, "/article/new-article").requiresSecure()
+//                .requestMatchers(HttpMethod.POST, "/api/testpost").requiresSecure()
+//
+//                .and()
+//                .formLogin()
+//                .loginPage("/user/login")
+//                .failureHandler((request, response, exception) -> response.sendError(403))
+//
+////                .and().cors().disable().csrf().disable()
+//
+//
+//                .and()
+//                .csrf()
+//                .csrfTokenRepository(tokenRepository)
+//                .csrfTokenRequestHandler(requestHandler)
+//
+//                .and()
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+//
+//                .and()
+//                .cors()
+//                .configurationSource(s -> new CorsConfiguration().applyPermitDefaultValues())
+//
+//                .and()
+//                .logout()
+//                .clearAuthentication(true)
+//                .deleteCookies("XSRF-TOKEN")
+//                .deleteCookies("JSESSIONID")
+//                .invalidateHttpSession(true)
+//                .logoutUrl("/user/logout")
+//                .logoutSuccessUrl("/");
+//        return http.build();
+        //        ------------------------end HTTPS configuration--------------------------------
     }
 
     @Bean

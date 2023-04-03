@@ -1,0 +1,114 @@
+@import 'src/assets/styles/snews-palette';
+@import 'src/assets/styles/responsive';
+
+.avatar-layout {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  .default-avatar {
+    $avatar-size: 2.5rem;
+    max-height: calc($avatar-size * 2);;
+
+    .avatar-background {
+      display: inline-block;
+      border-radius: 50%;
+      filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3)) opacity(0.75);
+
+      p {
+        font-size: $avatar-size;
+        width: calc($avatar-size * 2);
+        height: calc($avatar-size * 2);
+        color: white;
+        line-height: calc($avatar-size * 2);
+        text-align: center;
+      }
+    }
+
+    .image-avatar {
+      display: inline-block;
+
+      img {
+        border-radius: 50%;
+        min-width: calc($avatar-size * 2);
+        width: calc($avatar-size * 2);
+        height: calc($avatar-size * 2);
+        object-fit: cover;
+        filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.3));
+      }
+    }
+  }
+
+  .modify-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+
+  p.file-info {
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .upload-avatar-buttons-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0 1rem;
+  }
+}
+
+.button {
+  width: 140px;
+  max-width: 140px;
+  height: 40px;
+  max-height: 40px;
+  margin: unset;
+}
+
+.no-text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100vw - 2rem - 100px);
+}
+
+@media screen and (width <= map-get($content-width,MOBILE)) {
+  .no-text-overflow {
+    //todo check if max-width is valid
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width:calc(100vw - 2rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media screen and (width >= map-get($content-width,TABLET)) {
+  .no-text-overflow {
+    max-width: 192px;
+  }
+}
+
+@media screen and (width >= map-get($content-width,MOBILE)) {
+  .avatar-layout {
+    flex-direction: row;
+  }
+}
+
+
+
+
+

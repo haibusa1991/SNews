@@ -15,17 +15,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String savePictureToDisk(byte[] file) {
-        String fileName = UUID.randomUUID().toString();
-        try {
-            Path storagePath = Path.of(getRootPath() + ARTICLE_IMAGES_FILEPATH);
-            Path filepath = Path.of(storagePath + "/" + fileName);
-            Files.createDirectories(storagePath);
-            Files.createFile(filepath);
-            Files.write(filepath, file);
-            return fileName;
-        } catch (Exception e) {
-            return null;
-        }
+        return saveToDisk(file, ARTICLE_IMAGES_FILEPATH);
     }
 
     private String getCurrentPath() {
@@ -51,11 +41,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+//    todo return some value to confirm persistence
     public void generateThumbnail(byte[] file, String pictureName) throws IOException {
         ByteArrayOutputStream fileOutputStream = new ByteArrayOutputStream();
 
         Thumbnails.of(new ByteArrayInputStream(file))
-                .size(240, 180)
+                .size(400, 240)
                 .keepAspectRatio(true)
                 .outputQuality(0.8)
                 .toOutputStream(fileOutputStream);
@@ -95,6 +86,33 @@ public class FileServiceImpl implements FileService {
             return Files.readAllBytes(Path.of(getRootPath() + AVATAR_FILEPATH + avatar));
         } catch (IOException e) {
             return new byte[0];
+        }
+    }
+
+    @Override
+    public String saveAvatarToDisk(byte[] file) throws IOException {
+        ByteArrayOutputStream fileOutputStream = new ByteArrayOutputStream();
+
+        Thumbnails.of(new ByteArrayInputStream(file))
+                .size(100, 100)
+                .keepAspectRatio(true)
+                .outputQuality(0.8)
+                .toOutputStream(fileOutputStream);
+
+       return saveToDisk(fileOutputStream.toByteArray(), AVATAR_FILEPATH);
+    }
+
+    private String saveToDisk(byte[] file, String path) {
+        String fileName = UUID.randomUUID().toString();
+        try {
+            Path storagePath = Path.of(getRootPath() + path);
+            Path filepath = Path.of(storagePath + "/" + fileName);
+            Files.createDirectories(storagePath);
+            Files.createFile(filepath);
+            Files.write(filepath, file);
+            return fileName;
+        } catch (Exception e) {
+            return null;
         }
     }
 }

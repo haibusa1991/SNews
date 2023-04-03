@@ -1,1 +1,270 @@
-<p>userEntity-panel works!</p>
+<section class="content-background-gray form-content">
+  <div class="content centered">
+    <h1>Контролен панел</h1>
+    <div class="controls">
+      <app-user-panel-avatar></app-user-panel-avatar>
+      <div class="flex-divider"></div>
+      <div class="credentials">
+        <h2>Достъп</h2>
+        <div class="credential-fields">
+          <app-user-panel-change-password
+            class="full-width"
+            (isActive)="onPasswordEdit($event)"
+            [isVisible]="isEditPasswordVisible"
+          ></app-user-panel-change-password>
+          <app-user-panel-change-email
+            class="full-width"
+            (isActive)="onEmailEdit($event)"
+            [isVisible]="isEditEmailVisible"
+          ></app-user-panel-change-email>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--    <div class="user-summary">-->
+<!--      <app-user-panel-avatar></app-user-panel-avatar>-->
+
+<!--      <div class="flex-divider"></div>-->
+
+<!--      &lt;!&ndash;     todo move to moderation panel&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+<!--      <div class="info-section" style="display: none">-->
+<!--        <p class="info-line">Потребител: <span>{{username}}</span></p>-->
+<!--        <p class="info-line">Регистриран от: 01.01.1970</p>-->
+<!--        <p class="info-line">Коментари: 365</p>-->
+<!--        <div class="form-button-wrapper button info-button">-->
+<!--          <app-text-button-->
+<!--            [href]=seeCommentsHref-->
+<!--            buttonText="Вижте коментарите"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash;    end todo &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&ndash;&gt;-->
+
+<!--      <div class="credentials">-->
+<!--        <div class="credentials-section">-->
+<!--          <form-->
+<!--            [formGroup]="changePasswordForm"-->
+<!--            (submit)="onPasswordChange()"-->
+<!--            class="credential-form"-->
+<!--            *ngIf="isChangePasswordFormVisible">-->
+<!--            <mat-form-field appearance="outline"-->
+<!--                            class="form-white-input-field-->
+<!--                             credential-field"-->
+<!--                            [ngClass]="{'form-valid-field':changePasswordForm.controls.password.valid}">-->
+<!--              <mat-label>Парола</mat-label>-->
+<!--              <mat-error>{{passwordErrorMessage}}</mat-error>-->
+<!--              &lt;!&ndash;        <mat-hint *ngIf="isChangePasswordFormVisible">Изберете парола с най-малко 8 символа.</mat-hint>&ndash;&gt;-->
+<!--              <input matInput-->
+<!--                     placeholder="Малки и главни букви, цифри"-->
+<!--                     type="password"-->
+<!--                     formControlName="password">-->
+<!--              <mat-icon-->
+<!--                matSuffix-->
+<!--                mat-icon-button>-->
+<!--                <svg-->
+<!--                  xmlns="http://www.w3.org/2000/svg"-->
+<!--                  viewBox="0 0 512 512"-->
+<!--                  class="form-input-field-svg">-->
+<!--                  <path-->
+<!--                    d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>-->
+<!--                </svg>-->
+<!--              </mat-icon>-->
+<!--            </mat-form-field>-->
+
+<!--            <div class="form-buttons"-->
+<!--                 *ngIf="isChangePasswordFormVisible">-->
+<!--              <div class="button">-->
+<!--                <button-->
+<!--                  type="submit"-->
+<!--                  [disabled]="isChangePassButtonDisabled"-->
+<!--                  class="clickable form-clear-button-style">-->
+<!--                  <app-text-button-->
+<!--                    [buttonText]="'Промяна'"-->
+<!--                    [isDisabled]="isChangePassButtonDisabled">-->
+<!--                  </app-text-button>-->
+<!--                </button>-->
+<!--              </div>-->
+
+<!--              <app-text-button-->
+<!--                [buttonText]="'Отказ'"-->
+<!--                class="button"-->
+<!--                (click)="onPasswordChangeCancel()"-->
+<!--              ></app-text-button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--        <div class="credentials-section">-->
+<!--          <form-->
+<!--            [formGroup]="changeEmailForm"-->
+<!--            (submit)="onEmailChange()"-->
+<!--            class="credential-form"-->
+<!--            *ngIf="isChangeEmailFormVisible">-->
+<!--            <mat-form-field appearance="outline"-->
+<!--                            class="form-white-input-field-->
+<!--                             credential-field"-->
+<!--                            [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">-->
+<!--              <mat-label>Email адрес</mat-label>-->
+<!--              <mat-error>Въведеният email адрес е невалиден.</mat-error>-->
+<!--              <input matInput-->
+<!--                     placeholder="Email адрес"-->
+<!--                     formControlName="email">-->
+<!--              <mat-icon-->
+<!--                matSuffix-->
+<!--                mat-icon-button>-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg"-->
+<!--                     viewBox="0 0 512 512"-->
+<!--                     class="form-input-field-svg">-->
+<!--                  <path-->
+<!--                    d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>-->
+<!--                </svg>-->
+<!--              </mat-icon>-->
+<!--            </mat-form-field>-->
+
+<!--            <div class="form-buttons"-->
+<!--                 *ngIf="isChangeEmailFormVisible">-->
+<!--              <div class="button">-->
+<!--                <button-->
+<!--                  type="submit"-->
+<!--                  [disabled]="true"-->
+<!--                  class="clickable form-clear-button-style">-->
+<!--                  <app-text-button-->
+<!--                    [buttonText]="'Промяна'"-->
+<!--                    [isDisabled]="true">-->
+<!--                  </app-text-button>-->
+<!--                </button>-->
+<!--              </div>-->
+
+<!--              <app-text-button-->
+<!--                [buttonText]="'Отказ'"-->
+<!--                class="button"-->
+<!--                (click)="onEmailChangeCancel()"-->
+<!--              ></app-text-button>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+
+<!--&lt;!&ndash;        <div class="credential-section"&ndash;&gt;-->
+<!--&lt;!&ndash;             *ngIf="isChangeEmailFormVisible">&ndash;&gt;-->
+<!--&lt;!&ndash;          <form&ndash;&gt;-->
+<!--&lt;!&ndash;            [formGroup]="changeEmailForm"&ndash;&gt;-->
+<!--&lt;!&ndash;            (submit)="onEmailChange()">&ndash;&gt;-->
+<!--&lt;!&ndash;            <mat-form-field&ndash;&gt;-->
+<!--&lt;!&ndash;              appearance="outline"&ndash;&gt;-->
+<!--&lt;!&ndash;              class="form-centered-input-field&ndash;&gt;-->
+<!--&lt;!&ndash;             form-white-input-field"&ndash;&gt;-->
+<!--&lt;!&ndash;              [ngClass]="{'form-valid-field':changeEmailForm.controls.email.valid}">&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <mat-label>Email адрес</mat-label>&ndash;&gt;-->
+<!--&lt;!&ndash;              <mat-error>Въведеният email адрес е невалиден.</mat-error>&ndash;&gt;-->
+<!--&lt;!&ndash;              <input matInput&ndash;&gt;-->
+<!--&lt;!&ndash;                     placeholder="Email адрес"&ndash;&gt;-->
+<!--&lt;!&ndash;                     formControlName="email">&ndash;&gt;-->
+<!--&lt;!&ndash;              <mat-icon&ndash;&gt;-->
+<!--&lt;!&ndash;                matSuffix&ndash;&gt;-->
+<!--&lt;!&ndash;                mat-icon-button>&ndash;&gt;-->
+<!--&lt;!&ndash;                <svg xmlns="http://www.w3.org/2000/svg"&ndash;&gt;-->
+<!--&lt;!&ndash;                     viewBox="0 0 512 512"&ndash;&gt;-->
+<!--&lt;!&ndash;                     class="form-input-field-svg">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <path&ndash;&gt;-->
+<!--&lt;!&ndash;                    d="M256 64C150 64 64 150 64 256s86 192 192 192c17.7 0 32 14.3 32 32s-14.3 32-32 32C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256v32c0 53-43 96-96 96c-29.3 0-55.6-13.2-73.2-33.9C320 371.1 289.5 384 256 384c-70.7 0-128-57.3-128-128s57.3-128 128-128c27.9 0 53.7 8.9 74.7 24.1c5.7-5 13.1-8.1 21.3-8.1c17.7 0 32 14.3 32 32v80 32c0 17.7 14.3 32 32 32s32-14.3 32-32V256c0-106-86-192-192-192zm64 192a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                </svg>&ndash;&gt;-->
+<!--&lt;!&ndash;              </mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;            </mat-form-field>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <div class="form-buttons">&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="button">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button&ndash;&gt;-->
+<!--&lt;!&ndash;                  type="submit"&ndash;&gt;-->
+<!--&lt;!&ndash;                  [disabled]="isChangePassButtonDisabled"&ndash;&gt;-->
+<!--&lt;!&ndash;                  class="clickable form-clear-button-style">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <app-text-button&ndash;&gt;-->
+<!--&lt;!&ndash;                    [buttonText]="'Промени'"&ndash;&gt;-->
+<!--&lt;!&ndash;                    [isDisabled]="isChangePassButtonDisabled">&ndash;&gt;-->
+<!--&lt;!&ndash;                  </app-text-button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </button>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <app-text-button&ndash;&gt;-->
+<!--&lt;!&ndash;                [buttonText]="'Отказ'"&ndash;&gt;-->
+<!--&lt;!&ndash;                class="button&ndash;&gt;-->
+<!--&lt;!&ndash;               centered&ndash;&gt;-->
+<!--&lt;!&ndash;               edit-credential-button"&ndash;&gt;-->
+<!--&lt;!&ndash;                (click)="onEmailChangeCancel()"&ndash;&gt;-->
+<!--&lt;!&ndash;              ></app-text-button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </form>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+
+<!--        <div class="change-credentials-buttons-wrapper"-->
+<!--             *ngIf="!isChangePasswordFormVisible && !isChangeEmailFormVisible">-->
+<!--          <app-text-button-->
+<!--            [buttonText]="'Промяна на парола'"-->
+<!--            class="button-->
+<!--               edit-credential-button"-->
+<!--            (click)="isChangePasswordFormVisible=true"-->
+<!--            *ngIf="!isChangeEmailFormVisible"-->
+<!--          ></app-text-button>-->
+
+<!--          <app-text-button-->
+<!--            [buttonText]="'Промяна на email'"-->
+<!--            class="button-->
+<!--               edit-credential-button"-->
+<!--            (click)="isChangeEmailFormVisible=true"-->
+<!--            *ngIf="!isChangeEmailFormVisible"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <app-warning-label-->
+<!--      *ngIf="hasOffences"-->
+<!--      class="warning-label"-->
+<!--      [warningText]="'Поради нарушаване на правилата, нямате право да коментирате до 23:59:59 часа, 07.02.2023 г.'"></app-warning-label>-->
+<!--  </div>-->
+<!--</section>-->
+
+
+<!--&lt;!&ndash;todo section must be moved to separate component&ndash;&gt;-->
+<!--<section-->
+<!--  class="moderation content-background-green"-->
+<!--  *ngIf="isModerator">-->
+<!--  <div class="content centered">-->
+<!--    <h2 class="offences-heading">Наказания</h2>-->
+<!--    <div class="moderation-wrapper">-->
+<!--      <div class="offence" *ngIf="hasOffences">-->
+<!--        <p>На потребителя е забранено да коментира до 23:59:59 часа, 07.02.2023 г.</p>-->
+<!--        <div class="remove-punishment">-->
+<!--          <app-text-button-->
+<!--            buttonText="Премахни наказание"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="flex-divider" *ngIf="hasOffences"></div>-->
+
+<!--      <div class="punishment" [ngClass]="{'no-offences':!hasOffences}">-->
+<!--        <p>Налагане на забрана за коментиране</p>-->
+<!--        <div class="punishment-buttons">-->
+<!--          <app-text-button-->
+<!--            class="button"-->
+<!--            buttonText="1 ден"-->
+<!--          ></app-text-button>-->
+<!--          <app-text-button-->
+<!--            class="button"-->
+<!--            buttonText="3 дни"-->
+<!--          ></app-text-button>-->
+<!--          <app-text-button-->
+<!--            class="button"-->
+<!--            buttonText="7 дни"-->
+<!--          ></app-text-button>-->
+<!--          <app-text-button-->
+<!--            class="button red-button"-->
+<!--            buttonText="Завинаги"-->
+<!--          ></app-text-button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</section>-->

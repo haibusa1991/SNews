@@ -17,7 +17,13 @@ export const userEndpoints = {
   'getUsername' : 'http://localhost:8080/user/username',
   'getUser':'http://localhost:8080/user/user',
   'forgottenPassword':'http://localhost:8080/user/forgotten-password',
-  'passwordReset':'http://localhost:8080/user/reset-password'
+  'passwordReset':'http://localhost:8080/user/reset-password',
+  'allUserComments':'http://localhost:8080/user/comments',
+  'uploadAvatar':'http://localhost:8080/user/upload-avatar',
+  'removeAvatar':'http://localhost:8080/user/remove-avatar',
+  'downloadAvatar':'http://localhost:8080/avatars/',
+  'changePassword':'http://localhost:8080/user/change-password',
+  'changeEmail':'http://localhost:8080/user/change-email',
 }
 
 export const articleEndpoints = {

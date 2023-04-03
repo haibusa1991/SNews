@@ -12,6 +12,7 @@ div {
   p {
     display: block;
     flex-grow: 1;
+    line-height: 1;
     color: map-get(palette.$elements-palette, WHITE);
     padding: 0.5rem;
     text-align: center;
@@ -48,8 +49,8 @@ div {
 
 .disabled {
   background-color: unset;
-  //border: 2px solid map-get(palette.$elements-palette, GRAY);
-  outline: map-get(palette.$elements-palette, GRAY) solid 2px;
+  border: 2px solid map-get(palette.$elements-palette, GRAY);
+  //outline: map-get(palette.$elements-palette, GRAY) solid 2px;
   //cursor: not-allowed;
 
   p {

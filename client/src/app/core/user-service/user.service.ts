@@ -49,8 +49,23 @@ export class UserService {
     });
   }
 
-  getCurrentUser$(): Observable<User | null> {
+  getCurrentUser$(forceRefresh?:boolean): Observable<User | null> {
+    if(forceRefresh) {
+      return new Observable<User>(result => {
+        this.http.get(userEndpoints['getUser'], {responseType: 'text', withCredentials: true})
+          .subscribe(currentUser => {
+            this.currentUser = JSON.parse(currentUser);
+            this.currentUserSubject.next(this.currentUser);
+            this.currentUserSubject.next(this.currentUser);
+            result.next(this.currentUser ? this.currentUser : undefined);
+          });
+      });
+    }
     return this.currentUserSubject.asObservable();
+  }
+
+  getCurrentUsername(): string {
+    return this.currentUser?.username ? this.currentUser.username : '';
   }
 
   validateSession(): void {
@@ -58,6 +73,8 @@ export class UserService {
       .subscribe(currentUser => {
         let user: User = JSON.parse(currentUser);
         if (user.username == 'anonymousUser') {
+          // this.currentUser = null;
+          // this.currentUserSubject.next(this.currentUser);
           return;
         }
         this.currentUser = user;
@@ -155,6 +172,73 @@ export class UserService {
 
   getUrlBeforeLogin(): string | null {
     return this.urlBeforeLogin;
+  }
+
+  uploadAvatar$(avatar: File): Observable<boolean> {
+    let body = new FormData();
+    body.append('image', avatar);
+
+    let httpPostRequest = this.http.post(userEndpoints['uploadAvatar'], body,
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable<boolean>(isSuccessful => {
+      httpPostRequest.pipe(
+        catchError(() => httpPostRequest),
+      ).subscribe({
+        next: () => {
+          this.validateSession();
+          isSuccessful.next(true)
+        },
+        error: () => {
+          isSuccessful.next(false);
+        }
+      })
+    });
+  }
+
+  getCurrentUser(): User | null {
+    this.validateSession();
+    return this.currentUser;
+  }
+
+  removeAvatar$(): Observable<boolean> {
+    let httpPostRequest = this.http.post(userEndpoints['removeAvatar'], {},
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable<boolean>(isSuccessful => {
+      httpPostRequest.pipe(
+        catchError(() => httpPostRequest),
+      ).subscribe(() => {
+        isSuccessful.next(true);
+      });
+    });
+  }
+
+  //todo make server side
+  makePostRequest$(endpoint: string, payload: FormData): Observable<boolean> {
+    let httpPostRequest = this.http.post(endpoint, payload,
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable(isSuccessful => {
+      httpPostRequest.pipe(
+        catchError(()=>httpPostRequest)
+      ).subscribe({
+        next: ()=>isSuccessful.next(true),
+        error: ()=>isSuccessful.next(false)
+      });
+    });
   }
 }
 

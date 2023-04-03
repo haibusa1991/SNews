@@ -1,0 +1,92 @@
+<h2>Аватар</h2>
+<div class="avatar-layout">
+  <div class="default-avatar"
+       *ngIf="!isUploadAvatarFormShown">
+    <div *ngIf="!hasCustomAvatar" class="avatar-background"
+         [ngStyle]="{'background-color':currentUser.defaultAvatarColor}">
+      <p>{{username | slice:0:1 | uppercase }}</p>
+    </div>
+
+    <div *ngIf="hasCustomAvatar" class="image-avatar">
+      <img src="{{userEndpoints['downloadAvatar']}}{{currentUser.avatarId}}"/>
+    </div>
+  </div>
+
+  <div class="default-avatar"
+  *ngIf="isUploadAvatarFormShown">
+    <div *ngIf="avatarPreview" class="image-avatar">
+      <img src="{{avatarPreview}}" alt="Avatar preview"/>
+    </div>
+  </div>
+
+  <div class="modify-buttons-wrapper"
+       *ngIf="!isUploadAvatarFormShown">
+    <div
+      class="form-button-wrapper button">
+      <app-text-button
+        (click)="isUploadAvatarFormShown = true"
+        buttonText="Промяна"
+      ></app-text-button>
+    </div>
+
+    <div
+      class="form-button-wrapper button">
+      <app-text-button
+        (click)="onRemoveAvatar()"
+        buttonText="Премахване"
+      ></app-text-button>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="uploadAvatarForm"
+    (submit)="onAvatarUpload()"
+    class="upload-form">
+    <p *ngIf="isUploadAvatarFormShown"
+       class="file-info no-text-overflow">{{imageFilename | filename}}</p>
+    <div class="upload-avatar-buttons-wrapper">
+      <label class="form-button-wrapper button"
+             *ngIf="isUploadAvatarFormShown"
+             for="image">
+        <app-text-button buttonText="Избор на изображение"></app-text-button>
+      </label>
+      <input style="display: none" type="file"
+             id="image"
+             formControlName="imageFile"
+             accept=".bmp,
+                      .jpg,
+                      .jpeg,
+                      .gif,
+                      .png"
+             (change)="onFileChange($event)">
+
+      <div
+        class=" "
+        *ngIf="isUploadAvatarFormShown">
+        <button
+          type="submit"
+          [disabled]="isUploadAvatarButtonDisabled"
+          class="clickable form-clear-button-style button">
+          <app-text-button
+            [buttonText]="'Запазване'"
+            [isDisabled]="isUploadAvatarButtonDisabled">
+          </app-text-button>
+        </button>
+      </div>
+
+      <div class="form-button-wrapper button"
+           *ngIf="isUploadAvatarFormShown">
+        <app-text-button
+          buttonText="Отказ"
+          (click)="onAvatarChangeCancel()"
+        ></app-text-button>
+      </div>
+    </div>
+
+    <p *ngIf="isUploadAvatarFormShown"
+       class="file-info">Максималният размер на файла е 1 MB</p>
+  </form>
+</div>
+<app-warning-label
+  *ngIf="hasErrorUploading"
+[warningText]="'Файлът, който се опитвате да качите, превишава максималния позволен размер.'"></app-warning-label>

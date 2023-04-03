@@ -1,0 +1,48 @@
+//@import 'user-panel-shared.component';
+//@import 'src/assets/styles/constants';
+//
+//.button {
+//  min-width: 10rem;
+//  max-width: 30%;
+//}
+//
+//.user-summary {
+//  display: flex;
+//  flex-direction: row;
+//  flex-wrap: wrap;
+//  justify-content: center;
+//  gap: 1rem;
+//  max-width: map-get($content-width, DESKTOP);
+//  margin: 2rem auto 0;
+//  min-height: calc(100vh - $header-height - $footer-height - 116px);
+//
+//  .file-info {
+//    padding: 1rem 1rem 0;
+//    text-align: center;
+//  }
+//
+//
+//  .info-section {
+//    .info-line {
+//      width: 100%;
+//      text-align: center;
+//      font-size: 1.1rem;
+//    }
+//
+//    .info-button {
+//      min-width: 12rem;
+//      margin: 1rem auto;
+//    }
+//
+//    @media screen and (width >= map-get($content-width,MOBILE)) {
+//      .info-line {
+//        text-align: left;
+//      }
+//
+//      .info-button {
+//        margin: 1rem 0;
+//      }
+//    }
+//  }
+//}
+//
