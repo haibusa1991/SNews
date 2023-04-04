@@ -1,9 +1,13 @@
 package com.snews.server.services.query;
 
 import com.snews.server.dto.ArticleOverviewDto;
+import com.snews.server.dto.UserDto;
 import com.snews.server.entities.ArticleEntity;
+import com.snews.server.entities.UserEntity;
 import com.snews.server.repositories.ArticleRepository;
+import com.snews.server.repositories.UserRepository;
 import com.snews.server.utils.Utils;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,9 +19,13 @@ import java.util.stream.Collectors;
 public class QueryServiceImpl implements QueryService {
 
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
-    public QueryServiceImpl(ArticleRepository articleRepository) {
+    public QueryServiceImpl(ArticleRepository articleRepository, UserRepository userRepository, ModelMapper modelMapper) {
         this.articleRepository = articleRepository;
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -71,6 +79,13 @@ public class QueryServiceImpl implements QueryService {
             }
         }
         return Map.entry(article, relevanceRating);
+    }
+
+    @Override
+    public UserDto[] userSearch(String username) {
+        List<UserEntity> matches = this.userRepository.getUserEntitiesByUsernameContainingOrderByUsernameAsc(username);
+
+        return matches.stream().map(user -> modelMapper.map(user, UserDto.class)).toArray(UserDto[]::new);
     }
 }
 

@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
-import {catchError, Observable, Subject, switchMap} from "rxjs";
+import {catchError, iif, mergeMap, Observable, of, Subject, switchMap, tap, throwError} from "rxjs";
 import {RegisterResponse, User} from "../../utils/types";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {userEndpoints} from "../../../environments/environment";
+import {Authority} from "../../utils/enums";
+import * as http from "http";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 
 @Injectable({
@@ -49,8 +52,8 @@ export class UserService {
     });
   }
 
-  getCurrentUser$(forceRefresh?:boolean): Observable<User | null> {
-    if(forceRefresh) {
+  getCurrentUser$(forceRefresh?: boolean): Observable<User | null> {
+    if (forceRefresh) {
       return new Observable<User>(result => {
         this.http.get(userEndpoints['getUser'], {responseType: 'text', withCredentials: true})
           .subscribe(currentUser => {
@@ -222,7 +225,6 @@ export class UserService {
     });
   }
 
-  //todo make server side
   makePostRequest$(endpoint: string, payload: FormData): Observable<boolean> {
     let httpPostRequest = this.http.post(endpoint, payload,
       {
@@ -233,12 +235,38 @@ export class UserService {
 
     return new Observable(isSuccessful => {
       httpPostRequest.pipe(
-        catchError(()=>httpPostRequest)
+        catchError(() => httpPostRequest)
       ).subscribe({
-        next: ()=>isSuccessful.next(true),
-        error: ()=>isSuccessful.next(false)
+        next: () => isSuccessful.next(true),
+        error: () => isSuccessful.next(false)
       });
     });
+  }
+
+  updateUserAuthorities$(username: string, action: Authority): Observable<boolean> {
+    let httpPostRequest = this.http.post(userEndpoints['updateAuthorities'],
+      {
+        username: username,
+        action: Authority[action]
+      },
+      {
+        responseType: 'text' as const,
+        withCredentials: true
+      }
+    );
+
+    return new Observable<boolean>(isSuccessful => {
+      httpPostRequest.pipe(
+        catchError(e => (e as HttpResponse<any>).status == 403 ? httpPostRequest : throwError(() => e))
+      ).subscribe({
+        next: () => {
+          isSuccessful.next(true)
+        },
+        error: () => {
+          isSuccessful.next(false)
+        }
+      })
+    })
   }
 }
 

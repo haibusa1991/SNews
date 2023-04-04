@@ -1,6 +1,4 @@
-//@import 'snews-palette';
-//@import 'constants';
-//@import "buttons";
+
 @import "typography";
 @import "responsive";
 @import "form-styles";
@@ -51,4 +49,8 @@ html {
 .component-loading-spinner {
   display: block;
   margin: 2rem 0;
+}
+
+.page-title {
+  padding-top: 1rem;
 }

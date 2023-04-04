@@ -1,0 +1,23 @@
+<div class="content-background-gray">
+  <div class="content centered form-content">
+    <h1 class="page-title">Администраторски панел</h1>
+    <div class="buttons">
+      <app-text-button
+        [buttonText]="'Нова статия'"
+        [href]="'/support/new-article'"
+        class="button"
+      ></app-text-button>
+      <app-text-button
+        [buttonText]="'Управление на потребители'"
+        class="button"
+      (click)="toggleSearch()">
+      </app-text-button>
+    </div>
+
+    <div class="user-search"
+    *ngIf="isSearchVisible">
+      <h2>Търсене на потребител</h2>
+    <app-users-search></app-users-search>
+    </div>
+  </div>
+</div>

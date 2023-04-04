@@ -4,7 +4,10 @@ import com.snews.server.dto.*;
 import com.snews.server.entities.ResetPasswordTokenEntity;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
+import com.snews.server.enumeration.AuthorityAction;
 import com.snews.server.enumeration.UserRoleEnum;
+import com.snews.server.exceptions.MalformedDataException;
+import com.snews.server.exceptions.NonExistentUserException;
 import com.snews.server.repositories.PasswordResetTokenRepository;
 import com.snews.server.repositories.UserRepository;
 import com.snews.server.services.email.EmailService;
@@ -61,6 +64,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUserByUsername(String username) {
         return this.userRepository.getUserByUsername(username);
+    }
+
+    @Override
+    public UserDto getUserDtoByUsername(String username) {
+        UserEntity user = this.userRepository.getUserByUsername(username);
+        if (user != null) {
+            return this.modelMapper.map(user, UserDto.class);
+        }
+        return null;
     }
 
     @Override
@@ -189,7 +201,7 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        if (!this.passwordEncoder.matches(dto.getCurrentPassword(),currentUser.getPassword())) {
+        if (!this.passwordEncoder.matches(dto.getCurrentPassword(), currentUser.getPassword())) {
             throw new AuthenticationException("Invalid password");
         }
 
@@ -249,11 +261,42 @@ public class UserServiceImpl implements UserService {
         }
 
 
-        if (!this.passwordEncoder.matches(dto.getCurrentPassword(),currentUser.getPassword())) {
+        if (!this.passwordEncoder.matches(dto.getCurrentPassword(), currentUser.getPassword())) {
             throw new AuthenticationException("Invalid password");
         }
 
         currentUser.setEmail(dto.getNewEmail());
         this.userRepository.save(currentUser);
+    }
+
+    @Override
+    public void updateAuthorities(UpdateAuthorityDto dto) throws NonExistentUserException, MalformedDataException {
+        UserEntity targetUser = this.userRepository.getUserByUsername(dto.getUsername());
+        if (targetUser == null) {
+            throw new NonExistentUserException("No user with username " + dto.getUsername() + " exists.");
+        }
+
+        AuthorityAction action;
+        try {
+            action = AuthorityAction.valueOf(dto.getAction());
+        } catch (Exception e) {
+            throw new MalformedDataException("Invalid action.");
+        }
+
+
+        switch (action) {
+            case ADD_MODERATOR -> targetUser.addRole(userRoleService.getUserRole(UserRoleEnum.MODERATOR));
+            case REMOVE_MODERATOR -> targetUser.removeRole(userRoleService.getUserRole(UserRoleEnum.MODERATOR));
+            case ADD_ADMINISTRATOR -> targetUser.addRole(userRoleService.getUserRole(UserRoleEnum.ADMINISTRATOR));
+            case REMOVE_ADMINISTRATOR -> {
+                UserEntity currentUser = getCurrentUser();
+                if(currentUser.equals(targetUser)){
+                    throw new MalformedDataException("You cannot demote yourself, dummy.");
+                }
+                targetUser.removeRole(userRoleService.getUserRole(UserRoleEnum.ADMINISTRATOR));
+            }
+        }
+
+        this.userRepository.save(targetUser);
     }
 }

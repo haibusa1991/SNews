@@ -1,0 +1,93 @@
+<div class="contents">
+  <div class="table">
+    <!--  TODO to be implemented-->
+    <!--  <a routerLink="/support/user/{{data.username}}" class="avatar">-->
+    <a class="avatar">
+      <div class="default-avatar">
+        <div *ngIf="!data.avatarId" class="avatar-background"
+             [ngStyle]="{'background-color':data.defaultAvatarColor}">
+          <p>{{data.username | slice:0:1 | uppercase }}</p>
+        </div>
+
+        <div *ngIf="data.avatarId" class="image-avatar">
+          <img src="{{userEndpoints['downloadAvatar']}}{{data.avatarId}}"/>
+        </div>
+      </div>
+    </a>
+    <!--  TODO to be implemented-->
+    <!--  <a routerLink="/support/user/{{data.username}}" class="summary">-->
+    <a class="summary">
+      <p class="cropped-text"><b>{{data.username}}</b></p>
+      <p class="cropped-text">{{data.email}}</p>
+      <p *ngIf="data.roles.includes('MODERATOR')" class="moderator">Модератор</p>
+      <p *ngIf="data.roles.includes('ADMINISTRATOR')" class="administrator">Администратор</p>
+    </a>
+    <div class="buttons">
+      <app-text-button
+        [buttonText]="'Добави към администратори'"
+        class="button"
+        (click)="addToAdministrators(data.username)"
+        *ngIf="!data.roles.includes('ADMINISTRATOR') && !isLoading">
+      </app-text-button>
+
+      <app-text-button
+        [buttonText]="'Премахни от администратори'"
+        class="button"
+        (click)="removeFromAdministrators(data.username)"
+        *ngIf="data.roles.includes('ADMINISTRATOR') && this.currentUsername != data.username  && !isLoading">
+      </app-text-button>
+
+      <app-text-button
+        [buttonText]="'Добави към модератори'"
+        class="button"
+        (click)="addToModerators(data.username)"
+        *ngIf="!data.roles.includes('MODERATOR')  && !isLoading">
+      </app-text-button>
+
+      <app-text-button
+        [buttonText]="'Премахни от модератори'"
+        class="button"
+        (click)="removeFromModerators(data.username)"
+        *ngIf="data.roles.includes('MODERATOR')  && !isLoading">
+      </app-text-button>
+
+      <app-component-spinner
+        *ngIf="isLoading"
+        class="spinner-large"
+      ></app-component-spinner>
+    </div>
+  </div>
+  <div class="mobile-actions">
+    <app-text-button
+      [buttonText]="'Добави към администратори'"
+      class="button"
+      (click)="addToAdministrators(data.username)"
+      *ngIf="!data.roles.includes('ADMINISTRATOR')  && !isLoading">
+    </app-text-button>
+
+    <app-text-button
+      [buttonText]="'Премахни от администратори'"
+      class="button"
+      (click)="removeFromAdministrators(data.username)"
+      *ngIf="data.roles.includes('ADMINISTRATOR') && !isLoading">
+    </app-text-button>
+
+    <app-text-button
+      [buttonText]="'Добави към модератори'"
+      class="button"
+      (click)="addToModerators(data.username)"
+      *ngIf="!data.roles.includes('MODERATOR') && !isLoading">
+    </app-text-button>
+
+    <app-text-button
+      [buttonText]="'Премахни от модератори'"
+      class="button"
+      (click)="removeFromModerators(data.username)"
+      *ngIf="data.roles.includes('MODERATOR') && !isLoading">
+    </app-text-button>
+    <app-component-spinner
+      *ngIf="isLoading"
+      class="spinner-small centered"
+    ></app-component-spinner>
+  </div>
+</div>

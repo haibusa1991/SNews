@@ -7,6 +7,8 @@ import org.springframework.boot.web.servlet.server.CookieSameSiteSupplier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,7 @@ import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity(debug = true)
+@EnableMethodSecurity()
 public class SecurityConfiguration {
 
     @Bean
@@ -47,7 +50,11 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST, "/user/login","/user/register","/user/forgotten-password","/user/reset-password", "/user/remove-avatar").permitAll()
 //                .requestMatchers(HttpMethod.POST, "/article/new-article").hasRole(UserRoleEnum.ADMINISTRATOR.name())
                 //todo update with proper rights
-                .requestMatchers(HttpMethod.POST, "/article/new-article","/user/upload-avatar","/user/change-password", "/user/change-email").permitAll()
+                .requestMatchers(HttpMethod.POST, "/article/new-article",
+                        "/user/upload-avatar",
+                        "/user/change-password",
+                        "/user/change-email",
+                        "/user/update-authority").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/testpost").hasRole(UserRoleEnum.ADMINISTRATOR.name())
 
                 .and()
