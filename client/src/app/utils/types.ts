@@ -34,9 +34,9 @@ export type ArticleContent = {
 export type User = {
   'username': string,
   roles: [
-    'user',
-    'moderator',
-    'administrator',
+    'USER',
+    'MODERATOR',
+    'ADMINISTRATOR',
   ],
   avatarId:string,
   defaultAvatarColor:string;

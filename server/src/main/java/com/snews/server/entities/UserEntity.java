@@ -2,6 +2,7 @@ package com.snews.server.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ public class UserEntity {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_entity_id",referencedColumnName = "id")
     private Set<UserRoleEntity> userRoles;
 
     private String avatarId;
@@ -68,12 +70,16 @@ public class UserEntity {
         return this;
     }
 
-    public void addRole(UserRoleEntity userRole){
+    public void addRole(UserRoleEntity userRole) {
         this.userRoles.add(userRole);
     }
 
-    public boolean remove(UserRoleEntity userRoleEntity){
-        return this.userRoles.remove(userRoleEntity);
+    public boolean removeRole(UserRoleEntity userRoleEntity) {
+        Optional<UserRoleEntity> roleToRemove = this.userRoles
+                .stream()
+                .filter(r -> r.getRole() == userRoleEntity.getRole())
+                .findFirst();
+        return this.userRoles.remove(roleToRemove.orElse(null));
     }
 
     public String getAvatarId() {
@@ -92,5 +98,17 @@ public class UserEntity {
     public UserEntity setDefaultAvatarColor(String defaultAvatarColor) {
         this.defaultAvatarColor = defaultAvatarColor;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserEntity that = (UserEntity) o;
+
+        if (!id.equals(that.id)) return false;
+        if (!email.equals(that.email)) return false;
+        return username.equals(that.username);
     }
 }

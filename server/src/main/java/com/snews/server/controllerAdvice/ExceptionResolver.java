@@ -1,9 +1,6 @@
 package com.snews.server.controllerAdvice;
 
-import com.snews.server.exceptions.InternalServerErrorException;
-import com.snews.server.exceptions.InvalidPasswordResetException;
-import com.snews.server.exceptions.UserAlreadyRegisteredException;
-import com.snews.server.exceptions.MalformedDataException;
+import com.snews.server.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -38,6 +35,12 @@ public class ExceptionResolver {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(InternalServerErrorException.class)
     public String handleInternalServerErrorException(Exception e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NonExistentUserException.class)
+    public String handleNonExistentUserException(Exception e) {
         return e.getMessage();
     }
 }

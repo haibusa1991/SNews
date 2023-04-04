@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     'register': '/user/register',
     'settings': '/user/settings',
     'moderation': '/user/moderation',
-    'administration': '/support/new-article',
+    'administration': '/support/admin-panel',
     'logout': '/user/logout'
   }
 
@@ -158,10 +158,10 @@ export class HeaderComponent implements OnInit {
     if (this.currentUser) {
       items.push(this.menuItems['settings']);
 
-      if (this.currentUser.roles.find(e => e == 'moderator')) {
+      if (this.currentUser.roles.find(e => e == 'MODERATOR')) {
         items.push(this.menuItems['moderation']);
       }
-      if (this.currentUser.roles.find(e => e == 'administrator')) {
+      if (this.currentUser.roles.find(e => e == 'ADMINISTRATOR')) {
         items.push(this.menuItems['administration']);
       }
 

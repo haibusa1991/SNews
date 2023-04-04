@@ -24,6 +24,7 @@ export const userEndpoints = {
   'downloadAvatar':'http://localhost:8080/avatars/',
   'changePassword':'http://localhost:8080/user/change-password',
   'changeEmail':'http://localhost:8080/user/change-email',
+  'updateAuthorities':'http://localhost:8080/user/update-authority',
 }
 
 export const articleEndpoints = {
@@ -34,6 +35,10 @@ export const articleEndpoints = {
   'articleByCategory':'http://localhost:8080/api/news',
   'thumbnailPath':'http://localhost:8080/thumbnails/',
   'imagePath':'http://localhost:8080/images/',
+}
+
+export const queryEndpoints:{[k:string]:string} = {
+  'findUser': 'http://localhost:8080/query/user/',
 }
 
 

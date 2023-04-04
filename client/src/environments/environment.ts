@@ -28,6 +28,7 @@ export const userEndpoints = {
   'downloadAvatar':'/api/avatars/',
   'changePassword':'/api/user/change-password',
   'changeEmail':'/api/user/change-email',
+  'updateAuthorities':'/api/user/update-authority',
 }
 
 export const articleEndpoints = {
@@ -38,6 +39,10 @@ export const articleEndpoints = {
   'articleByCategory':'/api/api/news',
   'thumbnailPath':'/api/thumbnails/',
   'imagePath':'/api/images/',
+}
+
+export const queryEndpoints:{[k:string]:string} = {
+  'findUser': '/api/query/user/',
 }
 
 

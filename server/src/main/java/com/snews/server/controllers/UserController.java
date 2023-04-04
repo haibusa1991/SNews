@@ -4,13 +4,16 @@ import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.MalformedDataException;
+import com.snews.server.exceptions.NonExistentUserException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -129,10 +132,28 @@ public class UserController {
     @PostMapping(path = "/change-email")
     public ResponseEntity<String> changeEmail(NewEmailDto dto) {
         try {
-            this.userService .changeEmail(dto);
+            this.userService.changeEmail(dto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping(path = "/{username}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    public ResponseEntity<UserDto> getUser(@PathVariable String username) {
+        UserDto userDto = this.userService.getUserDtoByUsername(username);
+        if (userDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+
+    }
+
+    @PostMapping(path = "/update-authority")
+        @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    public ResponseEntity<String> updateAuthority(@RequestBody UpdateAuthorityDto dto) throws NonExistentUserException, MalformedDataException {
+        this.userService.updateAuthorities(dto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

@@ -2,6 +2,8 @@ package com.snews.server.services.user;
 
 import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
+import com.snews.server.exceptions.MalformedDataException;
+import com.snews.server.exceptions.NonExistentUserException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
@@ -11,6 +13,8 @@ public interface UserService{
     UserEntity getUserByEmail(String email);
 
     UserEntity getUserByUsername(String username);
+
+    UserDto getUserDtoByUsername(String username);
 
     UserDto registerUser(RegisterDto dto);
 
@@ -31,4 +35,6 @@ public interface UserService{
     void removeAvatar();
 
     void changeEmail(NewEmailDto dto) throws AuthenticationException;
+
+    void updateAuthorities(UpdateAuthorityDto dto) throws NonExistentUserException, MalformedDataException;
 }

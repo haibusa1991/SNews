@@ -11,6 +11,11 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatInputModule} from "@angular/material/input";
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { UsersSearchComponent } from './users-search/users-search.component';
+import { UserSummaryComponent } from './user-summary/user-summary.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const moduleRoutes: Routes = [
   {
@@ -20,6 +25,14 @@ const moduleRoutes: Routes = [
   {
     path: "new-article",
     component: NewArticleComponent
+  },
+  {
+    path: "admin-panel",
+    component: AdminPanelComponent
+  },
+  {
+    path: "user/:username",
+    component: UserDetailsComponent
   }
 ]
 
@@ -27,7 +40,11 @@ const moduleRoutes: Routes = [
 @NgModule({
   declarations: [
     ModeratorPanelComponent,
-    NewArticleComponent
+    NewArticleComponent,
+    AdminPanelComponent,
+    UsersSearchComponent,
+    UserSummaryComponent,
+    UserDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +56,8 @@ const moduleRoutes: Routes = [
     MatFormFieldModule,
     MatSelectModule,
     MatChipsModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
   ]
 })
 export class SupportModule {
