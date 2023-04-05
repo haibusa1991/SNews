@@ -156,4 +156,9 @@ public class UserController {
         this.userService.updateAuthorities(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @GetMapping(path = "/debug")
+    public void debug(){
+        this.userService.removeInvalidPasswordRecoveryTokens();
+    }
 }

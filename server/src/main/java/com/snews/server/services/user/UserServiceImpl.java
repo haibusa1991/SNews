@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 
 @Service
@@ -298,5 +300,12 @@ public class UserServiceImpl implements UserService {
         }
 
         this.userRepository.save(targetUser);
+    }
+
+    @Override
+    public void removeInvalidPasswordRecoveryTokens(){
+        List<ResetPasswordTokenEntity> invalidTokens = this.tokenRepository
+                .getAllByCreatedBeforeOrExhaustedIsTrue(LocalDateTime.now().minusSeconds(900));
+        this.tokenRepository.deleteAll(invalidTokens);
     }
 }

@@ -18,14 +18,14 @@ public class ResetPasswordTokenEntity {
     private String token;
 
     public boolean isExhausted() {
-        return isExhausted;
+        return exhausted;
     }
 
     public void setExhausted(boolean exhausted) {
-        isExhausted = exhausted;
+        this.exhausted = exhausted;
     }
 
-    private boolean isExhausted = false;
+    private boolean exhausted = false;
 
     public ResetPasswordTokenEntity setId(UUID id) {
         this.id = id;

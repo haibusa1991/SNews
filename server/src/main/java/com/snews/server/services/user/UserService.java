@@ -37,4 +37,6 @@ public interface UserService{
     void changeEmail(NewEmailDto dto) throws AuthenticationException;
 
     void updateAuthorities(UpdateAuthorityDto dto) throws NonExistentUserException, MalformedDataException;
+
+    void removeInvalidPasswordRecoveryTokens();
 }
