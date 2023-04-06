@@ -23,7 +23,6 @@ public class UserEntity {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_entity_id",referencedColumnName = "id")
     private Set<UserRoleEntity> userRoles;
 
     private String avatarId;

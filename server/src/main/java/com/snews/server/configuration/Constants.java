@@ -7,4 +7,5 @@ public class Constants {
     public static String CONFIGURATION_FILEPATH = "storage/server/";
 
     public static String CONFIGURATION_FILENAME = "config.json";
+    public static String HOSTING_DOMAIN = "https://snews.azurewebsites.net";
 }

@@ -6,8 +6,10 @@ import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
 import com.snews.server.enumeration.AuthorityAction;
 import com.snews.server.enumeration.UserRoleEnum;
+import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.exceptions.NonExistentUserException;
+import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.repositories.PasswordResetTokenRepository;
 import com.snews.server.repositories.UserRepository;
 import com.snews.server.services.email.EmailService;
@@ -25,9 +27,9 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
+
+import static com.snews.server.configuration.Constants.HOSTING_DOMAIN;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -78,23 +80,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto registerUser(RegisterDto dto) {
+    public void registerUser(RegisterDto dto) throws UserAlreadyRegisteredException, InternalServerErrorException {
+        if (this.getUserByUsername(dto.getUsername()) != null) {
+            throw new UserAlreadyRegisteredException("Username already registered.");
+        }
+
+        if (this.getUserByEmail(dto.getEmail()) != null) {
+            throw new UserAlreadyRegisteredException("Email address is already registered.");
+        }
+
         UserEntity userEntity = new UserEntity();
         UserRoleEntity role = this.userRoleService.getUserRole(UserRoleEnum.USER);
-        String candidateUsername = dto.getUsername();
-        String candidateEmail = dto.getEmail();
 
-        userEntity.setUsername(candidateUsername)
-                .setEmail(candidateEmail)
+        userEntity.setUsername(dto.getUsername())
+                .setEmail(dto.getEmail())
                 .setUserRoles(Set.of(role))
                 .setPassword(this.passwordEncoder.encode(dto.getPassword()))
                 .setDefaultAvatarColor(getRandomAvatarColor());
 
-        UserEntity registeredUserEntity = this.userRepository.save(userEntity);
-
-        return this.modelMapper.map(registeredUserEntity, UserDto.class);
+        try {
+            this.userRepository.save(userEntity);
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Error saving new user to database.");
+        }
     }
 
+//    TODO remove from final build
     @Override
     public void initUsers() {
         if (this.userRepository.count() > 0) {
@@ -126,6 +137,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository.saveAll(users);
     }
 
+//    TODO remove from final build
     private UserEntity createBaseUser(String username) {
         UserEntity userEntity = new UserEntity();
 
@@ -145,7 +157,7 @@ public class UserServiceImpl implements UserService {
         }
 
         String passwordResetToken = getPasswordResetToken(user);
-        this.emailService.sendMessage(user.getUsername(), user.getEmail(), "http://localhost:8080/user/password-reset/" + passwordResetToken);
+        this.emailService.sendMessage(user.getUsername(), user.getEmail(), HOSTING_DOMAIN + "/user/password-reset/" + passwordResetToken);
     }
 
     private String getPasswordResetToken(UserEntity user) {
@@ -292,7 +304,7 @@ public class UserServiceImpl implements UserService {
             case ADD_ADMINISTRATOR -> targetUser.addRole(userRoleService.getUserRole(UserRoleEnum.ADMINISTRATOR));
             case REMOVE_ADMINISTRATOR -> {
                 UserEntity currentUser = getCurrentUser();
-                if(currentUser.equals(targetUser)){
+                if (currentUser.equals(targetUser)) {
                     throw new MalformedDataException("You cannot demote yourself, dummy.");
                 }
                 targetUser.removeRole(userRoleService.getUserRole(UserRoleEnum.ADMINISTRATOR));
@@ -303,7 +315,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeInvalidPasswordRecoveryTokens(){
+    public void removeInvalidPasswordRecoveryTokens() {
         List<ResetPasswordTokenEntity> invalidTokens = this.tokenRepository
                 .getAllByCreatedBeforeOrExhaustedIsTrue(LocalDateTime.now().minusSeconds(900));
         this.tokenRepository.deleteAll(invalidTokens);

@@ -11,7 +11,7 @@ import java.io.IOException;
 public interface ArticleService {
 
 
-    String save(NewArticleDto dto) throws IOException, InternalServerErrorException, MalformedDataException;
+    String save(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException;
 
     String[] getArticleCategories();
 

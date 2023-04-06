@@ -1,6 +1,5 @@
 package com.snews.server.services.file;
 
-import java.io.File;
 import java.io.IOException;
 
 public interface FileService {
@@ -9,9 +8,9 @@ public interface FileService {
 
     void generateThumbnail(byte[] file, String pictureLink) throws IOException;
 
-    byte[] getPictureFromDisk(String image);
+    byte[] getArticleImageFromDisk(String image);
 
-    byte[] getThumbnailFromDisk(String image);
+    byte[] getArticleThumbnailFromDisk(String image);
 
     byte[] getAvatarFromDisk(String avatar);
 

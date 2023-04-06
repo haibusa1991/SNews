@@ -12,8 +12,10 @@ import com.snews.server.repositories.ArticleRepository;
 import com.snews.server.services.articleTag.ArticleTagService;
 import com.snews.server.services.file.FileService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
@@ -140,6 +142,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleDto getArticle(String href) {
         ArticleEntity article = this.articleRepository.getArticleEntityByHref(href);
+        ArticleDto dto = this.modelMapper.map(article, ArticleDto.class);
+
+        boolean isAuthenticated = SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+
+        if (!isAuthenticated) {
+            dto.setContent(new String[]{dto.getContent()[0]});
+        }
+
 
         return this.modelMapper.map(article, ArticleDto.class);
     }
@@ -168,6 +178,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+//    TODO implement pagination of results
     public ArticleOverviewDto[] getTodayArticles() {
         LocalDateTime now = LocalDateTime.now();
 

@@ -64,7 +64,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public byte[] getPictureFromDisk(String image) {
+    public byte[] getArticleImageFromDisk(String image) {
         try {
             return Files.readAllBytes(Path.of(getRootPath() + ARTICLE_IMAGES_FILEPATH + image));
         } catch (IOException e) {
@@ -74,7 +74,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public byte[] getThumbnailFromDisk(String image) {
+    public byte[] getArticleThumbnailFromDisk(String image) {
         try {
             return Files.readAllBytes(Path.of(getRootPath() + ARTICLE_THUMBNAILS_FILEPATH + "/" + image + "_thumb"));
         } catch (IOException e) {

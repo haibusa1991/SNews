@@ -2,9 +2,6 @@ package com.snews.server.controllers;
 
 import com.snews.server.services.file.FileService;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,13 +20,13 @@ public class ImageController {
     }
 
     @GetMapping("images/{image}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String image) {
-        return resourceResponse(this.fileService.getPictureFromDisk(image));
+    public ResponseEntity<byte[]> getArticleImage(@PathVariable String image) {
+        return resourceResponse(this.fileService.getArticleImageFromDisk(image));
     }
 
     @GetMapping("thumbnails/{thumbnail}")
-    public ResponseEntity<byte[]> getThumbnail(@PathVariable String thumbnail) {
-        return resourceResponse(this.fileService.getThumbnailFromDisk(thumbnail));
+    public ResponseEntity<byte[]> getArticleThumbnail(@PathVariable String thumbnail) {
+        return resourceResponse(this.fileService.getArticleThumbnailFromDisk(thumbnail));
     }
 
     @GetMapping("avatars/{avatar}")

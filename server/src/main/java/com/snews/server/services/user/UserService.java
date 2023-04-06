@@ -2,8 +2,10 @@ package com.snews.server.services.user;
 
 import com.snews.server.dto.*;
 import com.snews.server.entities.UserEntity;
+import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.exceptions.NonExistentUserException;
+import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
@@ -16,7 +18,7 @@ public interface UserService{
 
     UserDto getUserDtoByUsername(String username);
 
-    UserDto registerUser(RegisterDto dto);
+    void registerUser(RegisterDto dto) throws UserAlreadyRegisteredException, InternalServerErrorException;
 
     void initUsers();
 

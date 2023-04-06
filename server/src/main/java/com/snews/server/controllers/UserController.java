@@ -33,27 +33,15 @@ public class UserController {
     }
 
     @PostMapping(path = "/register")
-    public UserDto register(@RequestBody @Valid RegisterDto registerDto,
+    public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto,
                             BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
 
         if (bindingResult.hasErrors()) {
             throw getMalformedDataException(bindingResult);
         }
 
-//todo refactor -> move logic to service. Service returns enum - OK, usernameError, emailError
-        String candidateUsername = registerDto.getUsername();
-        UserEntity userEntityByUsername = this.userService.getUserByUsername(candidateUsername);
-        if (userEntityByUsername != null && candidateUsername.equalsIgnoreCase(userEntityByUsername.getUsername())) {
-            throw new UserAlreadyRegisteredException("Username already registered.");
-        }
-
-        String candidateEmail = registerDto.getEmail();
-        UserEntity userEntityByEmail = this.userService.getUserByEmail(candidateEmail);
-        if (userEntityByEmail != null && candidateEmail.equalsIgnoreCase(userEntityByEmail.getEmail())) {
-            throw new UserAlreadyRegisteredException("Email address is already registered.");
-        }
-
-        return this.userService.registerUser(registerDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+//        return this.userService.registerUser(registerDto);
 
     }
 
