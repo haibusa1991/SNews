@@ -45,6 +45,13 @@ export const queryEndpoints:{[k:string]:string} = {
   'findUser': '/api/query/user/',
 }
 
+export const configurationEndpoints:{[k:string]:string} = {
+  'modifySetting': '/api/configuration/modify-setting',
+  'setState': '/api/configuration/set-state',
+  'getState': '/api/configuration/get-state',
+  'canRegister': '/api/configuration/can-register',
+}
+
 
 /*
  * For easier debugging in development mode, you can import the following file

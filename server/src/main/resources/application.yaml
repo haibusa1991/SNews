@@ -34,8 +34,8 @@ spring:
 #    username: noreply@snews.com
 logging:
   level:
-        org.springframework.security: trace
-#    org.springframework.security: error
+#        org.springframework.security: trace
+    org.springframework.security: error
 
 server:
   servlet:

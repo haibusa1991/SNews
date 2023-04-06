@@ -91,23 +91,35 @@ export class UserService {
       withCredentials: true,
     });
 
+    let registerResponse: RegisterResponse = {
+      isUsernameTaken: false,
+      isEmailTaken: false,
+      isRegistrationClosed: false
+    }
+
     return new Observable<RegisterResponse>(response =>
       httpPostRequest.pipe(
         catchError(() => httpPostRequest))
         .subscribe({
           next: () => {
-            response.next({isUsernameTaken: false, isEmailTaken: false});
+            response.next(registerResponse);
           },
           error: e => {
             let resp = e as HttpErrorResponse
 
             if (resp.status == 409 && resp.error == 'Username already registered.') {
-              response.next({isUsernameTaken: true, isEmailTaken: false});
+              registerResponse.isUsernameTaken = true;
             }
 
             if (resp.status == 409 && resp.error == 'Email address is already registered.') {
-              response.next({isUsernameTaken: false, isEmailTaken: true});
+              registerResponse.isEmailTaken = true;
             }
+
+            if (resp.status == 400 && resp.error == 'User registration is not allowed at this time.') {
+              registerResponse.isRegistrationClosed = true;
+            }
+
+            response.next(registerResponse);
           }
         })
     );

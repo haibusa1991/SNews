@@ -41,4 +41,9 @@ export const queryEndpoints:{[k:string]:string} = {
   'findUser': 'http://localhost:8080/query/user/',
 }
 
-
+export const configurationEndpoints:{[k:string]:string} = {
+  'modifySetting': 'http://localhost:8080/configuration/modify-setting',
+  'setState': 'http://localhost:8080/configuration/set-state',
+  'getState': 'http://localhost:8080/configuration/get-state',
+  'canRegister': 'http://localhost:8080/configuration/can-register',
+}

@@ -38,23 +38,28 @@ export type User = {
     'MODERATOR',
     'ADMINISTRATOR',
   ],
-  avatarId:string,
-  defaultAvatarColor:string;
-  email:string
+  avatarId: string,
+  defaultAvatarColor: string;
+  email: string
 }
 
 export type RegisterResponse = {
-  isEmailTaken:boolean,
-  isUsernameTaken:boolean
+  isEmailTaken: boolean,
+  isUsernameTaken: boolean,
+  isRegistrationClosed: boolean
 }
 
 export type Article = {
-  href:string,
-  heading:string,
-  published:string,
-  picture:string,
-  pictureSource:string,
-  content:string[],
-  author:string
-  articleTags:string[]
+  href: string,
+  heading: string,
+  published: string,
+  picture: string,
+  pictureSource: string,
+  content: string[],
+  author: string
+  articleTags: string[]
+}
+
+export type ServerConfiguration = {
+  enableNewUserRegistration: boolean
 }

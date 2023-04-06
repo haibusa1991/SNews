@@ -12,6 +12,8 @@ import static com.snews.server.configuration.Constants.*;
 
 @Service
 public class FileServiceImpl implements FileService {
+    private byte[] configurationFileCache = null;
+
 
     @Override
     public String savePictureToDisk(byte[] file) {
@@ -99,7 +101,7 @@ public class FileServiceImpl implements FileService {
                 .outputQuality(0.8)
                 .toOutputStream(fileOutputStream);
 
-       return saveToDisk(fileOutputStream.toByteArray(), AVATAR_FILEPATH);
+        return saveToDisk(fileOutputStream.toByteArray(), AVATAR_FILEPATH);
     }
 
     private String saveToDisk(byte[] file, String path) {
@@ -114,5 +116,32 @@ public class FileServiceImpl implements FileService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public byte[] readConfigurationFile() throws IOException {
+        if (this.configurationFileCache != null) {
+            return this.configurationFileCache;
+        }
+
+        try {
+            this.configurationFileCache = Files.readAllBytes(Path.of(getRootPath() + CONFIGURATION_FILEPATH + CONFIGURATION_FILENAME));
+            return this.configurationFileCache;
+        } catch (Exception e) {
+            Path storagePath = Path.of(getRootPath() + CONFIGURATION_FILEPATH);
+            Path filepath = Path.of(storagePath + "/" + CONFIGURATION_FILENAME);
+            Files.createDirectories(storagePath);
+            Files.createFile(filepath);
+            Files.write(filepath, new byte[0]);
+            return new byte[0];
+        }
+    }
+
+    @Override
+    public void writeConfigurationFile(byte[] configuration) throws IOException {
+        Path storagePath = Path.of(getRootPath() + CONFIGURATION_FILEPATH);
+        Path filepath = Path.of(storagePath + "/" + CONFIGURATION_FILENAME);
+        this.configurationFileCache = null;
+        Files.write(filepath, configuration);
     }
 }

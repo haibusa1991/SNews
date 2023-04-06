@@ -3,6 +3,7 @@ import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, 
 import {PasswordValidators} from "../../utils/validators";
 import {UserService} from "../../core/user-service/user.service";
 import {Router} from "@angular/router";
+import {ConfigurationService} from "../../core/configuration/configuration.service";
 
 @Component({
   selector: 'app-register',
@@ -12,6 +13,8 @@ import {Router} from "@angular/router";
 export class RegisterComponent implements OnInit {
 
   isRegisterButtonDisabled = true;
+  isRegistrationOpen: boolean = true;
+
   passwordErrorMessages: { [key: string]: string } = {
     minlength: "Паролата трябва да бъде с дължина минимум 8 символа.",
     noLowercase: "Паролата трябва да съдържа малка буква.",
@@ -22,6 +25,7 @@ export class RegisterComponent implements OnInit {
   formErrorMessages: { [key: string]: string } = {
     usernameAlreadyRegistered: "Вече съществува потребител с това потребителско име.",
     emailAlreadyRegistered: "Вече съществува потребител с този email адрес.",
+    registrationClosed: "Регистрацията на нови потребители е забранена.",
   }
 
   passwordErrorMessage = this.passwordErrorMessages['minlength'];
@@ -64,7 +68,10 @@ export class RegisterComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-              private router:Router) {
+              private router: Router,
+              private configurationService: ConfigurationService) {
+
+
   }
 
   ngOnInit(): void {
@@ -81,26 +88,39 @@ export class RegisterComponent implements OnInit {
       .subscribe(formStatus => this.isRegisterButtonDisabled = formStatus == 'INVALID');
 
     this.registerForm.controls.password.valueChanges.subscribe(() => this.updatePasswordError())
+
+    this.configurationService.isRegistrationEnabled$().subscribe(isOpen => {
+      this.isRegistrationOpen = isOpen;
+    });
   }
 
 
   onSubmit() {
     let form = this.registerForm.value;
 
-    this.userService.register$(form.email!, form.username!, form.password!).subscribe(response => {
-      if (response.isEmailTaken) {
-        this.formErrorMessage = this.formErrorMessages['emailAlreadyRegistered'];
-        this.hasRegistrationIssue = true;
-        return;
-      }
+    this.userService.register$(form.email!, form.username!, form.password!).subscribe({
+      next: response => {
+        if (response.isEmailTaken) {
+          this.formErrorMessage = this.formErrorMessages['emailAlreadyRegistered'];
+          this.hasRegistrationIssue = true;
+          return;
+        }
 
-      if (response.isUsernameTaken) {
-        this.formErrorMessage = this.formErrorMessages['usernameAlreadyRegistered'];
-        this.hasRegistrationIssue = true;
-        return;
-      }
+        if (response.isUsernameTaken) {
+          this.formErrorMessage = this.formErrorMessages['usernameAlreadyRegistered'];
+          this.hasRegistrationIssue = true;
+          return;
+        }
 
-      this.router.navigateByUrl('/user/login')
+        if (response.isRegistrationClosed) {
+          this.formErrorMessage = this.formErrorMessages['registrationClosed'];
+          this.hasRegistrationIssue = true;
+          return;
+        }
+
+        this.router.navigateByUrl('/user/login')
+      },
+      error: () => {  }
     })
   }
 

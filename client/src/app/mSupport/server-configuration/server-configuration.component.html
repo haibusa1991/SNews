@@ -1,0 +1,27 @@
+<div class="server-config">
+  <app-component-spinner
+    *ngIf="!serverState"
+  ></app-component-spinner>
+
+  <ng-container *ngIf="serverState">
+    <mat-slide-toggle
+      [checked]="serverState.enableNewUserRegistration"
+      [(ngModel)]="serverState.enableNewUserRegistration">
+      Разреши нови регистрации
+    </mat-slide-toggle>
+
+    <div class="settings-buttons">
+    <app-text-button
+      [buttonText]="'Запазване'"
+      class="button"
+      (click)="onSettingsSave()">
+    </app-text-button>
+
+    <app-text-button
+      [buttonText]="'Затваряне'"
+      class="button"
+      (click)="onCancel()">
+    </app-text-button>
+    </div>
+  </ng-container>
+</div>

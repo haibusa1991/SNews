@@ -16,4 +16,8 @@ public interface FileService {
     byte[] getAvatarFromDisk(String avatar);
 
     String saveAvatarToDisk(byte[] file) throws IOException;
+
+    byte[] readConfigurationFile() throws IOException;
+
+    void writeConfigurationFile(byte[] configuration) throws IOException;
 }

@@ -60,7 +60,7 @@ export class UserSummaryComponent {
         this.data.roles.splice(index, 1);
       }
     })
-    this.confirmationSnackbar.open(`${this.data.username} бше успешно премахнат от ${role == "MODERATOR" ? 'модератори' : 'администратори'}.`, 'ОK', {duration: 3000});
+    this.confirmationSnackbar.open(`${this.data.username} беше успешно премахнат от ${role == "MODERATOR" ? 'модератори' : 'администратори'}.`, 'ОK', {duration: 3000});
   }
 
   private addRole(role: string) {

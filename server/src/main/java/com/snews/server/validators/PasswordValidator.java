@@ -16,6 +16,10 @@ public class PasswordValidator implements ConstraintValidator<Password,String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if(value==null){
+            return false;
+        }
+
         boolean hasUppercase=false;
         boolean hasLowercase=false;
         boolean hasDigit=false;

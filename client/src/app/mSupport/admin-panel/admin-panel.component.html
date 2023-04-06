@@ -7,17 +7,29 @@
         [href]="'/support/new-article'"
         class="button"
       ></app-text-button>
+
       <app-text-button
         [buttonText]="'Управление на потребители'"
         class="button"
-      (click)="toggleSearch()">
+        (click)="toggleSearch()">
+      </app-text-button>
+
+      <app-text-button
+        [buttonText]="'Управление на платформата'"
+        class="button"
+        (click)="toggleServerConfig()">
       </app-text-button>
     </div>
 
     <div class="user-search"
-    *ngIf="isSearchVisible">
+         *ngIf="isSearchVisible">
       <h2>Търсене на потребител</h2>
-    <app-users-search></app-users-search>
+      <app-users-search></app-users-search>
+    </div>
+
+    <div class="server-config"
+         *ngIf="isServerConfigVisible">
+      <app-server-configuration (onCancelEvent)="isServerConfigVisible=false"></app-server-configuration>
     </div>
   </div>
 </div>

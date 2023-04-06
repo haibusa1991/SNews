@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ModeratorPanelComponent} from './moderator-panel/moderator-panel.component';
 import {RouterModule, Routes} from "@angular/router";
 import {NewArticleComponent} from './new-article/new-article.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../mShared/shared.module";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
@@ -16,6 +16,8 @@ import { UsersSearchComponent } from './users-search/users-search.component';
 import { UserSummaryComponent } from './user-summary/user-summary.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { ServerConfigurationComponent } from './server-configuration/server-configuration.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 const moduleRoutes: Routes = [
   {
@@ -44,7 +46,8 @@ const moduleRoutes: Routes = [
     AdminPanelComponent,
     UsersSearchComponent,
     UserSummaryComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    ServerConfigurationComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +60,9 @@ const moduleRoutes: Routes = [
     MatSelectModule,
     MatChipsModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    FormsModule
   ]
 })
 export class SupportModule {

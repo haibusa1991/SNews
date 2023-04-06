@@ -1,5 +1,7 @@
 package com.snews.server.configuration;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.snews.server.dto.ArticleDto;
 import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.dto.UserDto;
@@ -42,6 +44,11 @@ public class BeansConfiguration {
         props.put("mail.debug", "true");
 
         return mailSender;
+    }
+
+    @Bean
+    public Gson getGson() {
+        return new GsonBuilder().setPrettyPrinting().create();
     }
 
 }
