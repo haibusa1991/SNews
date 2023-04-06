@@ -1,15 +1,15 @@
 package com.snews.server.services.articleTag;
 
 
-import com.snews.server.entities.ArticleTagEntity;
-import com.snews.server.enumeration.ArticleTagEnum;
+import com.snews.server.entities.ArticleCategoryEntity;
+import com.snews.server.enumeration.ArticleCategoryEnum;
 
 import java.util.List;
 
 public interface ArticleTagService {
     void initTags();
 
-    List<ArticleTagEntity> getAllTags();
+    List<ArticleCategoryEntity> getAllTags();
 
-    ArticleTagEntity getTag(ArticleTagEnum tagEnum);
+    ArticleCategoryEntity getCategory(ArticleCategoryEnum tagEnum);
 }

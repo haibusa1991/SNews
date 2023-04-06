@@ -1,7 +1,7 @@
 package com.snews.server.repositories;
 
 import com.snews.server.entities.ArticleEntity;
-import com.snews.server.entities.ArticleTagEntity;
+import com.snews.server.entities.ArticleCategoryEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -28,7 +28,7 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, UUID> {
 
     List<ArticleEntity> findAllByPublishedAfterOrderByPublishedDesc(LocalDateTime date);
 
-    List<ArticleEntity> findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(ArticleTagEntity tag);
+    List<ArticleEntity> findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(ArticleCategoryEntity tag);
 
     List<ArticleEntity> findAllByOrderByPublishedDesc(Pageable pageable);
 

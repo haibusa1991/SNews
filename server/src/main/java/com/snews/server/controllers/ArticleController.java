@@ -6,15 +6,11 @@ import com.snews.server.dto.NewArticleDto;
 import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.services.article.ArticleService;
-import com.snews.server.services.file.FileService;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping(path = "/article")
@@ -27,13 +23,14 @@ public class ArticleController {
     }
 
     @PostMapping(path = "/new-article", consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<String> publishArticle(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException {
-        String href = this.articleService.save(dto);
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
+    public ResponseEntity<String> newArticle(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException {
+        String href = this.articleService.addArticle(dto);
         return new ResponseEntity<>(href, HttpStatus.CREATED);
     }
 
     @GetMapping("/article-categories")
-    public ResponseEntity<String[]> getArticle() {
+    public ResponseEntity<String[]> getArticleCategories() {
         return new ResponseEntity<>(articleService.getArticleCategories(), HttpStatus.OK);
     }
 
@@ -44,12 +41,14 @@ public class ArticleController {
     }
 
     @GetMapping("/home-articles")
-    public ArticleOverviewDto[] getRecentArticles() {
+    public ArticleOverviewDto[] getHomepageArticles() {
         return this.articleService.getRecentArticles(12);
     }
 
     @GetMapping("/article-category/{category}")
     public ArticleOverviewDto[] getToday(@PathVariable String category) {
+
+//        TODO remove logic from controller
         if (category.equalsIgnoreCase("today")) {
             return this.articleService.getTodayArticles();
         }

@@ -6,12 +6,10 @@ import com.snews.server.dto.NewArticleDto;
 import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
 
-import java.io.IOException;
-
 public interface ArticleService {
 
 
-    String save(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException;
+    String addArticle(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException;
 
     String[] getArticleCategories();
 

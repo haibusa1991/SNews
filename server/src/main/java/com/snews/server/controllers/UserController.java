@@ -1,25 +1,21 @@
 package com.snews.server.controllers;
 
 import com.snews.server.dto.*;
-import com.snews.server.entities.UserEntity;
 import com.snews.server.exceptions.InvalidPasswordResetException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.exceptions.NonExistentUserException;
 import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.services.user.UserService;
 import jakarta.validation.Valid;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.stream.Collectors;
+import static com.snews.server.utils.Utils.createMalformedDataException;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -34,80 +30,63 @@ public class UserController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto,
-                            BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
+                                           BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
 
         if (bindingResult.hasErrors()) {
-            throw getMalformedDataException(bindingResult);
+            throw createMalformedDataException(bindingResult);
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-//        return this.userService.registerUser(registerDto);
-
     }
 
     @PostMapping(path = "/forgotten-password")
-    public void forgottenPassword(@RequestBody ResetPasswordRequestDto dto) {
+    public ResponseEntity<String> forgottenPassword(@RequestBody ResetPasswordRequestDto dto) {
         this.userService.sendPasswordResetToken(dto);
-//        System.out.println("--------------------------********************************-------------------------------");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/reset-password")
-    public void resetPassword(@RequestBody @Valid ResetPasswordDto dto, BindingResult bindingResult)
+    public ResponseEntity<String> resetPassword(@RequestBody @Valid ResetPasswordDto dto, BindingResult bindingResult)
             throws MalformedDataException, InvalidPasswordResetException {
 
         if (bindingResult.hasErrors()) {
-            throw getMalformedDataException(bindingResult);
+            throw createMalformedDataException(bindingResult);
         }
 
-        if (!this.userService.validatePasswordResetToken(dto.getRecoveryToken())) {
+        boolean isValidToken = this.userService.isValidPasswordResetToken(dto.getRecoveryToken());
+        if (!isValidToken) {
             throw new InvalidPasswordResetException("Token timeout or token already used");
         }
 
         this.userService.changePassword(dto);
-    }
-
-    @GetMapping("/username")
-    public String getUsername() {
-        return SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public UserDto getUser() {
-        return this.userService.getUserDto();
-//        return userDto;
-
-    }
-
-    private MalformedDataException getMalformedDataException(BindingResult result) {
-        String errorMessages = result
-                .getAllErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining(System.lineSeparator()));
-
-        return new MalformedDataException(errorMessages);
+    public ResponseEntity<UserDto> getUser() {
+        return  new ResponseEntity<>(this.userService.getCurrentUserAsDto(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/upload-avatar", consumes = MediaType.ALL_VALUE)
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     public ResponseEntity<String> uploadAvatar(MultipartFile image) {
         try {
             this.userService.addAvatar(image);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(path = "/remove-avatar")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     public ResponseEntity<String> removeAvatar() {
         this.userService.removeAvatar();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(path = "/change-password")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     public ResponseEntity<String> changePassword(NewPasswordDto dto) {
         try {
             this.userService.changePassword(dto);
@@ -118,6 +97,7 @@ public class UserController {
     }
 
     @PostMapping(path = "/change-email")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     public ResponseEntity<String> changeEmail(NewEmailDto dto) {
         try {
             this.userService.changeEmail(dto);
@@ -128,7 +108,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/{username}")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
     public ResponseEntity<UserDto> getUser(@PathVariable String username) {
         UserDto userDto = this.userService.getUserDtoByUsername(username);
         if (userDto == null) {
@@ -139,14 +119,9 @@ public class UserController {
     }
 
     @PostMapping(path = "/update-authority")
-        @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
     public ResponseEntity<String> updateAuthority(@RequestBody UpdateAuthorityDto dto) throws NonExistentUserException, MalformedDataException {
         this.userService.updateAuthorities(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping(path = "/debug")
-    public void debug(){
-        this.userService.removeInvalidPasswordRecoveryTokens();
     }
 }

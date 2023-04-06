@@ -4,7 +4,7 @@ import com.snews.server.dto.ArticleDto;
 import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.dto.UserDto;
 import com.snews.server.entities.ArticleEntity;
-import com.snews.server.entities.ArticleTagEntity;
+import com.snews.server.entities.ArticleCategoryEntity;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
 import org.modelmapper.Converter;
@@ -23,10 +23,10 @@ public class ModelMapperConfiguration {
         ModelMapper modelMapper = new ModelMapper();
 
 
-        Converter<Set<ArticleTagEntity>, String[]> articleTagsConverter = context ->
+        Converter<Set<ArticleCategoryEntity>, String[]> articleTagsConverter = context ->
                 context.getSource()
                         .stream()
-                        .map(e -> e.getTag().name())
+                        .map(e -> e.getCategory().name())
                         .toArray(String[]::new);
 
         Converter<String, String[]> articleContentConverter = context ->
@@ -57,7 +57,7 @@ public class ModelMapperConfiguration {
 
         modelMapper.createTypeMap(ArticleEntity.class, ArticleOverviewDto.class)
                 .addMappings(m -> m.using(articleOverviewDtoSetHref).map(ArticleEntity::getHref, ArticleOverviewDto::setHref))
-                .addMappings(m -> m.using(articleOverviewDtoSetThumbnail).map(ArticleEntity::getPicture, ArticleOverviewDto::setThumbnailUrl))
+                .addMappings(m -> m.using(articleOverviewDtoSetThumbnail).map(ArticleEntity::getImage, ArticleOverviewDto::setThumbnailUrl))
                 .addMapping(ArticleEntity::getPublished, ArticleOverviewDto::setPublished);
 
 

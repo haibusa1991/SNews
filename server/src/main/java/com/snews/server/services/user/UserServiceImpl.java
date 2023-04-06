@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean validatePasswordResetToken(String token) {
+    public boolean isValidPasswordResetToken(String token) {
         ResetPasswordTokenEntity tokenEntity = this.tokenRepository.getPasswordResetTokenEntityByToken(token);
 
         if (tokenEntity.isExhausted()) {
@@ -234,7 +234,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserDto() {
+    public UserDto getCurrentUserAsDto() {
         UserEntity currentUser = getCurrentUser();
 
         try {
@@ -262,12 +262,14 @@ public class UserServiceImpl implements UserService {
         return color.toString();
     }
 
-    private UserEntity getCurrentUser() {
+    @Override
+    public UserEntity getCurrentUser() {
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         return this.userRepository.getUserByUsername(currentUsername);
     }
 
     @Override
+//    TODO verify new email is not owned
     public void changeEmail(NewEmailDto dto) throws AuthenticationException {
         UserEntity currentUser = getCurrentUser();
         if (currentUser == null) {

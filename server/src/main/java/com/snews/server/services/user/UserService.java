@@ -24,7 +24,7 @@ public interface UserService{
 
     void sendPasswordResetToken(ResetPasswordRequestDto dto);
 
-    boolean validatePasswordResetToken(String token);
+    boolean isValidPasswordResetToken(String token);
 
     void changePassword(ResetPasswordDto dto);
 
@@ -32,9 +32,11 @@ public interface UserService{
 
     void addAvatar(MultipartFile image) throws IOException;
 
-    UserDto getUserDto();
+    UserDto getCurrentUserAsDto();
 
     void removeAvatar();
+
+    UserEntity getCurrentUser();
 
     void changeEmail(NewEmailDto dto) throws AuthenticationException;
 

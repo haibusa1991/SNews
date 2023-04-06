@@ -1,14 +1,14 @@
 package com.snews.server.repositories;
 
-import com.snews.server.entities.ArticleTagEntity;
-import com.snews.server.enumeration.ArticleTagEnum;
+import com.snews.server.entities.ArticleCategoryEntity;
+import com.snews.server.enumeration.ArticleCategoryEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface ArticleTagRepository extends JpaRepository<ArticleTagEntity, UUID> {
+public interface ArticleTagRepository extends JpaRepository<ArticleCategoryEntity, UUID> {
 
-    ArticleTagEntity getArticleTagEntityByTag(ArticleTagEnum tag);
+    ArticleCategoryEntity getArticleTagEntityByTag(ArticleCategoryEnum tag);
 }

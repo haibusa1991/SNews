@@ -1,7 +1,7 @@
 package com.snews.server.services.articleTag;
 
-import com.snews.server.entities.ArticleTagEntity;
-import com.snews.server.enumeration.ArticleTagEnum;
+import com.snews.server.entities.ArticleCategoryEntity;
+import com.snews.server.enumeration.ArticleCategoryEnum;
 import com.snews.server.repositories.ArticleTagRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +22,18 @@ public class ArticleTagServiceImpl implements ArticleTagService {
         if (this.tagRepository.count() > 0) return;
 
         this.tagRepository.saveAll(
-                Arrays.stream(ArticleTagEnum.values())
-                        .map(ArticleTagEntity::new)
+                Arrays.stream(ArticleCategoryEnum.values())
+                        .map(ArticleCategoryEntity::new)
                         .toList());
     }
 
     @Override
-    public List<ArticleTagEntity> getAllTags() {
+    public List<ArticleCategoryEntity> getAllTags() {
         return this.tagRepository.findAll();
     }
 
     @Override
-    public ArticleTagEntity getTag(ArticleTagEnum tagEnum) {
+    public ArticleCategoryEntity getCategory(ArticleCategoryEnum tagEnum) {
         return this.tagRepository.getArticleTagEntityByTag(tagEnum);
     }
 

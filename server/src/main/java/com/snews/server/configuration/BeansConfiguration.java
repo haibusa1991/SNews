@@ -2,15 +2,6 @@ package com.snews.server.configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.snews.server.dto.ArticleDto;
-import com.snews.server.dto.ArticleOverviewDto;
-import com.snews.server.dto.UserDto;
-import com.snews.server.entities.ArticleEntity;
-import com.snews.server.entities.ArticleTagEntity;
-import com.snews.server.entities.UserEntity;
-import com.snews.server.entities.UserRoleEntity;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -18,8 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @org.springframework.context.annotation.Configuration
 public class BeansConfiguration {
