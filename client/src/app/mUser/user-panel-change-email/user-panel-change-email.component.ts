@@ -58,8 +58,9 @@ export class UserPanelChangeEmailComponent implements OnInit {
       autoFocus: "dialog",
     });
 
-    dialog.afterClosed().subscribe(hasChangedPassword => {
-      if (hasChangedPassword) {
+    dialog.afterClosed().subscribe(hasChangedEmail => {
+      if (hasChangedEmail) {
+        this.userEmail = this.changeEmailForm.controls.email.value!
         this.confirmationSnackbar.open('Email адресът е променен успешно.', 'ОK', {duration: 3000});
       }
 

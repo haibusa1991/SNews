@@ -4,8 +4,6 @@ import {RegisterResponse, User} from "../../utils/types";
 import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {userEndpoints} from "../../../environments/environment";
 import {Authority} from "../../utils/enums";
-import * as http from "http";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 
 @Injectable({
@@ -127,14 +125,17 @@ export class UserService {
 
   logout$(): Observable<void> {
     let httpPostRequest = this.http.post(userEndpoints['logout'], {}, {responseType: 'text'});
+    this.currentUser = null;
+    this.urlBeforeLogin = '/';
+    this.currentUserSubject.next(this.currentUser);
 
     return new Observable<void>(() => {
       httpPostRequest.pipe(
         catchError(() => httpPostRequest))
         .subscribe(() => {
-          this.currentUser = null;
-          this.urlBeforeLogin = '/';
-          this.currentUserSubject.next(this.currentUser);
+          // this.currentUser = null;
+          // this.urlBeforeLogin = '/';
+          // this.currentUserSubject.next(this.currentUser);
         });
     })
   }

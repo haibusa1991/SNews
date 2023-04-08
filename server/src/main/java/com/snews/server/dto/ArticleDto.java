@@ -3,11 +3,12 @@ package com.snews.server.dto;
 public class ArticleDto {
     private String heading;
     private String published;
-    private String picture;
-    private String pictureSource;
-    private String content[];
+    private String image;
+    private String thumbnail;
+    private String imageSource;
+    private String[] content;
     private String author;
-    private String articleTags[];
+    private String[] categories;
 
     public String getHeading() {
         return heading;
@@ -18,21 +19,21 @@ public class ArticleDto {
         return this;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getImage() {
+        return image;
     }
 
-    public ArticleDto setPicture(String picture) {
-        this.picture = picture;
+    public ArticleDto setImage(String image) {
+        this.image = image;
         return this;
     }
 
-    public String getPictureSource() {
-        return pictureSource;
+    public String getImageSource() {
+        return imageSource;
     }
 
-    public ArticleDto setPictureSource(String pictureSource) {
-        this.pictureSource = pictureSource;
+    public ArticleDto setImageSource(String imageSource) {
+        this.imageSource = imageSource;
         return this;
     }
 
@@ -54,12 +55,12 @@ public class ArticleDto {
         return this;
     }
 
-    public String[] getArticleTags() {
-        return articleTags;
+    public String[] getCategories() {
+        return categories;
     }
 
-    public ArticleDto setArticleTags(String[] articleTags) {
-        this.articleTags = articleTags;
+    public ArticleDto setCategories(String[] categories) {
+        this.categories = categories;
         return this;
     }
 
@@ -69,6 +70,15 @@ public class ArticleDto {
 
     public ArticleDto setPublished(String published) {
         this.published = published;
+        return this;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public ArticleDto setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
         return this;
     }
 }

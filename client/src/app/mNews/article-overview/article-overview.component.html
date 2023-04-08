@@ -1,9 +1,9 @@
 <div class="content">
   <a class="large-tile clickable"
      [ngClass]="{'large-tile':!isSmallHeading,'small-tile':isSmallHeading}"
-     routerLink="{{articleOverviewData.href}}">
+     routerLink="/news/{{articleOverviewData.href}}">
     <div class="thumbnail">
-      <img src="{{thumbnailPath}}{{articleOverviewData.thumbnailUrl}}" alt="Article thumbnail">
+      <img src="{{thumbnailPath}}{{articleOverviewData.thumbnail}}" alt="Article thumbnail">
       <h3>{{articleOverviewData.published | datetime}}</h3>
     </div>
     <div class="headings">

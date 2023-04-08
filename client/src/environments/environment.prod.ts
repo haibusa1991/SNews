@@ -2,18 +2,10 @@ export const environment = {
   production: true
 };
 
-export const apiEndpoints = {
-  'articleContent': 'http://localhost:8080/api/articleContent',
-  'csrf': 'http://localhost:8080/api/csrf',
-  'testPost': 'http://localhost:8080/api/testPost',
-  'search': 'http://localhost:8080/api/search',
-}
-
 export const userEndpoints = {
   'login': 'http://localhost:8080/user/login',
   'register': 'http://localhost:8080/user/register',
   'logout': 'http://localhost:8080/user/logout',
-  'csrf': apiEndpoints['csrf'],
   'getUsername' : 'http://localhost:8080/user/username',
   'getUser':'http://localhost:8080/user/user',
   'forgottenPassword':'http://localhost:8080/user/forgotten-password',
@@ -21,7 +13,7 @@ export const userEndpoints = {
   'allUserComments':'http://localhost:8080/user/comments',
   'uploadAvatar':'http://localhost:8080/user/upload-avatar',
   'removeAvatar':'http://localhost:8080/user/remove-avatar',
-  'downloadAvatar':'http://localhost:8080/avatars/',
+  'downloadAvatar':'http://localhost:8080/images/',
   'changePassword':'http://localhost:8080/user/change-password',
   'changeEmail':'http://localhost:8080/user/change-email',
   'updateAuthorities':'http://localhost:8080/user/update-authority',
@@ -30,15 +22,17 @@ export const userEndpoints = {
 export const articleEndpoints = {
   'newArticle': 'http://localhost:8080/article/new-article',
   'articleCategories':'http://localhost:8080/article/article-categories',
-  'articles':'http://localhost:8080/api/article',
-  'homePageArticles':'http://localhost:8080/api/article/home-articles',
-  'articleByCategory':'http://localhost:8080/api/news',
-  'thumbnailPath':'http://localhost:8080/thumbnails/',
+  'articles':'http://localhost:8080/article',
+  'homePageArticles':'http://localhost:8080/article/home-articles',
+  'articleByCategory':'http://localhost:8080/article/article-category',
+  'thumbnailPath':'http://localhost:8080/images/',
   'imagePath':'http://localhost:8080/images/',
+  'relatedArticles':'http://localhost:8080/article/related-articles',
 }
 
 export const queryEndpoints:{[k:string]:string} = {
   'findUser': 'http://localhost:8080/query/user/',
+  'findArticles': 'http://localhost:8080/query'
 }
 
 export const configurationEndpoints:{[k:string]:string} = {

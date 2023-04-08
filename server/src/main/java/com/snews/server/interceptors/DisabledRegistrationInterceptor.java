@@ -18,7 +18,7 @@ public class DisabledRegistrationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        boolean isRegistrationEnabled = (boolean) this.configurationService.getSetting("enableNewUserRegistration");
+        boolean isRegistrationEnabled = this.configurationService.getSetting("enableNewUserRegistration").equals("true");
 
 
         if(request.getRequestURL().indexOf("/user/register")!=-1 && !isRegistrationEnabled){

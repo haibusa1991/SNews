@@ -21,6 +21,7 @@ import {DateTimePipe} from "./pipes/date-time.pipe";
 import { ComponentSpinnerComponent } from './component-spinner/component-spinner.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { FullscreenSpinnerComponent } from './fullscreen-spinner/fullscreen-spinner.component';
+import {UnderConstructionComponent} from "./under-construction/under-construction.component";
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { FullscreenSpinnerComponent } from './fullscreen-spinner/fullscreen-spin
     DateTimePipe,
     ComponentSpinnerComponent,
     FullscreenSpinnerComponent,
+    UnderConstructionComponent
   ],
     exports: [
         HeaderComponent,

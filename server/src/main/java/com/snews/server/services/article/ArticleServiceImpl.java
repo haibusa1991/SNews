@@ -4,76 +4,78 @@ import com.snews.server.dto.ArticleDto;
 import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.dto.NewArticleDto;
 import com.snews.server.entities.ArticleEntity;
-import com.snews.server.entities.ArticleTagEntity;
-import com.snews.server.enumeration.ArticleTagEnum;
+import com.snews.server.entities.ArticleCategoryEntity;
+import com.snews.server.entities.ImageEntity;
+import com.snews.server.enumeration.ArticleCategoryEnum;
 import com.snews.server.exceptions.InternalServerErrorException;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.repositories.ArticleRepository;
-import com.snews.server.services.articleTag.ArticleTagService;
-import com.snews.server.services.file.FileService;
+import com.snews.server.services.articleCategory.ArticleCategoryService;
+import com.snews.server.services.image.ImageService;
+import com.snews.server.utils.Utils;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 
-import static com.snews.server.enumeration.ArticleTagEnum.*;
-
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    private final FileService fileService;
-    private final ArticleTagService articleTagService;
+    private final ArticleCategoryService articleCategoryService;
     private final ArticleRepository articleRepository;
+    private final ImageService imageService;
     private final ModelMapper modelMapper;
 
 
-    public ArticleServiceImpl(FileService fileService, ArticleTagService articleTagService, ArticleRepository articleRepository, ModelMapper modelMapper) {
-        this.fileService = fileService;
-        this.articleTagService = articleTagService;
+
+    public ArticleServiceImpl(ArticleCategoryService articleCategoryService, ArticleRepository articleRepository, ImageService imageService, ModelMapper modelMapper) {
+        this.articleCategoryService = articleCategoryService;
         this.articleRepository = articleRepository;
+        this.imageService = imageService;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public String save(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException {
-
-        String pictureLink;
-        try {
-            byte[] file = dto.getPictureFile().getBytes();
-            pictureLink = this.fileService.savePictureToDisk(file);
-            this.fileService.generateThumbnail(file, pictureLink);
-        } catch (Exception e) {
-            throw new InternalServerErrorException("Unable to save image");
-        }
-
-        Set<ArticleTagEntity> tags = new HashSet<>();
-        for (String category : dto.getCategories()) {
-            ArticleTagEntity tag = this.articleTagService.getTag(ArticleTagEnum.valueOf(category));
-
-            if (tag == null) {
-                throw new MalformedDataException("invalid tags");
+    public String addArticle(NewArticleDto dto) throws InternalServerErrorException, MalformedDataException {
+        Set<ArticleCategoryEntity> categories = new HashSet<>();
+        for (String cat : dto.getCategories()) {
+            try {
+                ArticleCategoryEntity category = this.articleCategoryService.getCategory(ArticleCategoryEnum.valueOf(cat));
+                categories.add(category);
+            }catch (Exception e){
+                throw new MalformedDataException("Invalid categories.");
             }
-            tags.add(tag);
         }
+
+        byte[] articleImageBytes = Utils.resizeImage(dto.getImageFile(), 960, 720);
+        ImageEntity articleImageEntity = this.imageService.saveImage(articleImageBytes);
+
+        byte[] articleThumbnailBytes = Utils.resizeImage(dto.getImageFile(), 400, 240);
+        ImageEntity articleThumbnailImageEntity = this.imageService.saveImage(articleThumbnailBytes);
 
         ArticleEntity article = new ArticleEntity();
         article.setHeading(dto.getHeading())
                 .setPublished(LocalDateTime.now())
-                .setPicture(pictureLink)
-                .setPictureSource(dto.getPictureSource())
-                .setContent(dto.getArticle())
+                .setImage(articleImageEntity)
+                .setThumbnail(articleThumbnailImageEntity)
+                .setImageSource(dto.getImageSource())
+                .setContent(dto.getContent())
                 .setAuthor(dto.getAuthor())
                 .setHref(getHref(dto.getHeading()));
 
-        ArticleEntity persisted = this.articleRepository.save(article);
-        persisted.setTags(tags);
-        this.articleRepository.save(persisted);
-
-        this.articleRepository.save(article);
-
-        return article.getHref();
+        try {
+            ArticleEntity persisted = this.articleRepository.save(article);
+            persisted.setCategories(categories);
+            this.articleRepository.save(persisted);
+//            this.articleRepository.save(article); //TODO check if second persistence is required
+            return article.getHref();
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Error saving article to database.");
+        }
     }
 
     private String getHref(String heading) {
@@ -130,18 +132,32 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public String[] getArticleCategories() {
-        return this.articleTagService
-                .getAllTags()
+        return this.articleCategoryService
+                .getAllCategories()
                 .stream()
-                .map(e -> e.getTag().name())
+                .map(e -> e.getCategory().name())
                 .toArray(String[]::new);
     }
 
     @Override
-    public ArticleDto getArticle(String href) {
+    public ArticleDto getArticle(String href) throws MalformedDataException {
         ArticleEntity article = this.articleRepository.getArticleEntityByHref(href);
+        if(article==null){
+            throw new MalformedDataException("No such article.");
+        }
 
-        return this.modelMapper.map(article, ArticleDto.class);
+        ArticleDto dto = this.modelMapper.map(article, ArticleDto.class);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAuthenticated = !authentication
+                .getPrincipal()
+                .equals("anonymousUser");
+
+        if (!isAuthenticated) {
+            dto.setContent(new String[]{dto.getContent()[0]});
+        }
+
+        return dto;
     }
 
     @Override
@@ -168,6 +184,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+//    TODO implement pagination of results
     public ArticleOverviewDto[] getTodayArticles() {
         LocalDateTime now = LocalDateTime.now();
 
@@ -190,21 +207,35 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleOverviewDto[] getArticlesByCategory(String category) {
-        boolean isValidTag = Arrays.stream(ArticleTagEnum.values())
-                .map(Enum::name)
-                .anyMatch(e->e.equalsIgnoreCase(category));
+        if (category.equalsIgnoreCase("today")) {
+            return this.getTodayArticles();
+        }
 
-        if(!isValidTag) {
+
+        boolean isValidCategory = Arrays.stream(ArticleCategoryEnum.values())
+                .map(Enum::name)
+                .anyMatch(e -> e.equalsIgnoreCase(category));
+
+        if (!isValidCategory) {
             return new ArticleOverviewDto[0];
         }
 
-        ArticleTagEnum tagEnum = ArticleTagEnum.valueOf(category.toUpperCase());
-        ArticleTagEntity tag = this.articleTagService.getTag(tagEnum);
+        ArticleCategoryEnum tagEnum = ArticleCategoryEnum.valueOf(category.toUpperCase());
+        ArticleCategoryEntity tag = this.articleCategoryService.getCategory(tagEnum);
 
-        List<ArticleEntity> articles = this.articleRepository.findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(tag);
+        List<ArticleEntity> articles = this.articleRepository.findAllByCategoriesContainingIgnoreCaseOrderByPublishedDesc(tag);
 
         return articles.stream()
                 .map(article -> this.modelMapper.map(article, ArticleOverviewDto.class))
                 .toArray(ArticleOverviewDto[]::new);
+    }
+
+    @Override
+    public ArticleOverviewDto[] getRelatedArticles(String category) {
+        ArticleOverviewDto[] articlesByCategory = this.getArticlesByCategory(category);
+        if(articlesByCategory.length<4) {
+            return articlesByCategory;
+        }
+        return Arrays.copyOfRange(articlesByCategory,0,3);
     }
 }

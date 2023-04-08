@@ -1,41 +1,41 @@
 package com.snews.server.services.configuration;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import com.snews.server.dto.ServerConfigurationModelDto;
 import com.snews.server.dto.UpdateSettingDto;
+import com.snews.server.entities.ServerSettingEntity;
 import com.snews.server.enumeration.ServerConfigurationEnum;
 import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.models.ServerConfigurationModel;
-import com.snews.server.services.file.FileService;
+import com.snews.server.repositories.ServerSettingsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 
 @Service
 public class ConfigurationServiceImpl implements ConfigurationService {
-    private final FileService fileService;
     private final ModelMapper modelMapper;
-    private final Gson gson;
+    private final ServerSettingsRepository serverSettingsRepository;
 
-    public ConfigurationServiceImpl(FileService fileService, ModelMapper modelMapper, Gson gson) {
-        this.fileService = fileService;
+    public ConfigurationServiceImpl(ModelMapper modelMapper, ServerSettingsRepository serverSettingsRepository) {
         this.modelMapper = modelMapper;
-        this.gson = gson;
+        this.serverSettingsRepository = serverSettingsRepository;
     }
 
     @Override
-    public Object getSetting(String setting) throws NoSuchFieldException, IllegalAccessException {
-        ServerConfigurationModel model = readConfiguration();
+    public void initConfiguration() {
+        if (this.serverSettingsRepository.count() > 0) {
+            return;
+        }
 
-        Field settingField = model.getClass().getDeclaredField(setting);
-        settingField.setAccessible(true);
+        ServerSettingEntity enableNewUserRegistration = new ServerSettingEntity()
+                .setSetting("enableNewUserRegistration")
+                .setValue("true");
+        this.serverSettingsRepository.save(enableNewUserRegistration);
+    }
 
-        return settingField.get(model);
+    @Override
+    public String getSetting(String setting) {
+        return this.serverSettingsRepository.getServerSettingEntityBySetting(setting).getValue();
     }
 
     @Override
@@ -54,69 +54,42 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         }
     }
 
-
     @Override
     public void setState(ServerConfigurationModelDto dto) {
         ServerConfigurationModel model = this.modelMapper.map(dto, ServerConfigurationModel.class);
-        writeConfiguration(model);
+
+        ServerSettingEntity enableNewUserRegistration = this.serverSettingsRepository.getServerSettingEntityBySetting("enableNewUserRegistration");
+        enableNewUserRegistration.setValue(model.isEnableNewUserRegistration() ? "true" : "false");
+        this.serverSettingsRepository.save(enableNewUserRegistration);
     }
 
     @Override
     public ServerConfigurationModelDto getState() {
-        ServerConfigurationModel model = readConfiguration();
+        ServerConfigurationModel model = new ServerConfigurationModel();
+        ServerSettingEntity setting = this.getSettingEntity("enableNewUserRegistration");
+        model.setEnableNewUserRegistration(setting.getValue().equals("true"));
         return this.modelMapper.map(model, ServerConfigurationModelDto.class);
     }
 
     @Override
-    public Boolean isRegistrationEnabled(){
-        return this.readConfiguration().isEnableNewUserRegistration();
+    public Boolean isRegistrationEnabled() {
+        return this.getSettingEntity("enableNewUserRegistration").getValue().equals("true");
     }
 
     private void enableUserRegistration() {
-        setProperty("enableNewUserRegistration", true);
+        ServerSettingEntity setting = this.getSettingEntity("enableNewUserRegistration");
+        setting.setValue("true");
+        this.serverSettingsRepository.save(setting);
     }
 
     private void disableUserRegistration() {
-        setProperty("enableNewUserRegistration", false);
-    }
-
-    private void setProperty(String property, boolean value) {
-        try {
-            ServerConfigurationModel model = readConfiguration();
-            Field setting = model.getClass().getDeclaredField(property);
-            setting.setAccessible(true);
-            setting.setBoolean(model, value);
-            writeConfiguration(model);
-
-        } catch (Exception ignored) {
-        }
-    }
-
-    private ServerConfigurationModel readConfiguration() {
-
-        InputStream config;
-        try {
-            config = new ByteArrayInputStream(fileService.readConfigurationFile());
-        } catch (Exception e) {
-            return new ServerConfigurationModel();
-        }
-
-        JsonReader json = new JsonReader(new InputStreamReader(config));
-
-        ServerConfigurationModel settings = gson.fromJson(json, ServerConfigurationModel.class);
-
-        if (settings == null) {
-            return new ServerConfigurationModel();
-        }
-        return settings;
-    }
-
-    private void writeConfiguration(ServerConfigurationModel configuration) {
-        try {
-            this.fileService.writeConfigurationFile(gson.toJson(configuration).getBytes());
-        } catch (Exception ignored) {
-        }
+        ServerSettingEntity setting = this.getSettingEntity("enableNewUserRegistration");
+        setting.setValue("false");
+        this.serverSettingsRepository.save(setting);
     }
 
 
+    private ServerSettingEntity getSettingEntity(String setting) {
+        return this.serverSettingsRepository.getServerSettingEntityBySetting(setting);
+    }
 }

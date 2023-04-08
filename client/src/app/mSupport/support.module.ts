@@ -18,23 +18,30 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { ServerConfigurationComponent } from './server-configuration/server-configuration.component';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {isModerator} from "../guards/isModerator";
+import {isAdministrator} from "../guards/isAdministrator";
 
 const moduleRoutes: Routes = [
   {
     path: "moderation",
-    component: ModeratorPanelComponent
+    component: ModeratorPanelComponent,
+    canActivate: [()=>isModerator()]
   },
   {
     path: "new-article",
-    component: NewArticleComponent
+    component: NewArticleComponent,
+    canActivate: [()=>isAdministrator()]
+
   },
   {
     path: "admin-panel",
-    component: AdminPanelComponent
+    component: AdminPanelComponent,
+    canActivate: [()=>isAdministrator()]
   },
   {
     path: "user/:username",
-    component: UserDetailsComponent
+    component: UserDetailsComponent,
+    canActivate: [()=>isAdministrator()]
   }
 ]
 

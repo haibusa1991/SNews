@@ -62,7 +62,6 @@ export class SearchBarComponent implements OnInit {
 
     this.isQueryTooShort = false;
     this.router.navigateByUrl('/news/search-results/'+query)
-    // console.log(result); //todo remove this
     this.searchField.nativeElement.blur();
     this.eventProvider.emitBackgroundClick();
     this.searchForm.reset();

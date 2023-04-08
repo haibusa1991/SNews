@@ -6,7 +6,6 @@ import com.snews.server.exceptions.MalformedDataException;
 import com.snews.server.services.configuration.ConfigurationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -23,7 +22,7 @@ public class ConfigurationController {
     }
 
     @PostMapping(path = "/modify-setting")
-//    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
     public ResponseEntity<String> modifySetting(@RequestBody UpdateSettingDto dto) throws MalformedDataException {
         this.configurationService.modifySetting(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -31,7 +30,7 @@ public class ConfigurationController {
     }
 
     @PostMapping(path = "/set-state")
-//    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
     public ResponseEntity<String> modifyState(@RequestBody @Valid ServerConfigurationModelDto dto,
                                               BindingResult bindingResult) throws MalformedDataException {
         if (bindingResult.hasErrors()) {
@@ -43,7 +42,7 @@ public class ConfigurationController {
     }
 
     @GetMapping(path = "/get-state")
-//    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')") //todo enable after finishing component
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMINISTRATOR')")
     public ResponseEntity<ServerConfigurationModelDto> getState() {
         return new ResponseEntity<>(this.configurationService.getState(), HttpStatus.OK);
     }

@@ -15,22 +15,27 @@ public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(unique = true)
     private String heading;
 
     private LocalDateTime published;
 
-    private String picture;
+    @OneToOne(fetch = FetchType.EAGER)
+    private ImageEntity image;
 
-    private String pictureSource;
+    @OneToOne(fetch = FetchType.EAGER)
+    private ImageEntity thumbnail;
+
+    private String imageSource;
 
     @Column(columnDefinition = "TEXT")
     private String content;
 
     private String author;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "tags",referencedColumnName = "article_tags_id")
-    private Set<ArticleTagEntity> tags = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "category", referencedColumnName = "article_categories_id")
+    private Set<ArticleCategoryEntity> categories = new HashSet<>();
 
     private String href;
 
@@ -52,21 +57,14 @@ public class ArticleEntity {
         return this;
     }
 
-    public String getPicture() {
-        return picture;
+
+
+    public String getImageSource() {
+        return imageSource;
     }
 
-    public ArticleEntity setPicture(String picture) {
-        this.picture = picture;
-        return this;
-    }
-
-    public String getPictureSource() {
-        return pictureSource;
-    }
-
-    public ArticleEntity setPictureSource(String pictureSource) {
-        this.pictureSource = pictureSource;
+    public ArticleEntity setImageSource(String pictureSource) {
+        this.imageSource = pictureSource;
         return this;
     }
 
@@ -88,12 +86,12 @@ public class ArticleEntity {
         return this;
     }
 
-    public Set<ArticleTagEntity> getTags() {
-        return tags;
+    public Set<ArticleCategoryEntity> getCategories() {
+        return categories;
     }
 
-    public ArticleEntity setTags(Set<ArticleTagEntity> tags) {
-        this.tags = tags;
+    public ArticleEntity setCategories(Set<ArticleCategoryEntity> categories) {
+        this.categories = categories;
         return this;
     }
 
@@ -106,7 +104,25 @@ public class ArticleEntity {
         return this;
     }
 
-    public void addTag(ArticleTagEntity tag){
-        this.tags.add(tag);
+    public void addCategory(ArticleCategoryEntity category) {
+        this.categories.add(category);
+    }
+
+    public ImageEntity getImage() {
+        return image;
+    }
+
+    public ArticleEntity setImage(ImageEntity image) {
+        this.image = image;
+        return this;
+    }
+
+    public ImageEntity getThumbnail() {
+        return thumbnail;
+    }
+
+    public ArticleEntity setThumbnail(ImageEntity thumbnail) {
+        this.thumbnail = thumbnail;
+        return this;
     }
 }

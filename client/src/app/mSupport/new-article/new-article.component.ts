@@ -18,19 +18,19 @@ export class NewArticleComponent implements OnInit {
 
 
   newArticleForm = new FormGroup({
-    heading: new FormControl('my heading', [
+    heading: new FormControl('', [
       Validators.required,
-      // Validators.minLength(10)
+      Validators.minLength(10)
     ]),
     pictureFile: new FormControl('', Validators.required),
-    pictureSource: new FormControl('my picture source', [
+    pictureSource: new FormControl('', [
       Validators.required,
     ]),
-    article: new FormControl('my article', [
+    article: new FormControl('', [
       Validators.required,
-      // Validators.minLength(100),
+      Validators.minLength(100),
     ]),
-    author: new FormControl('my author', [
+    author: new FormControl('', [
       Validators.required,
     ]),
     categories: new FormControl('', Validators.required)

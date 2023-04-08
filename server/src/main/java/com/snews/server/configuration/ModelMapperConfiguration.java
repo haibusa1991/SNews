@@ -3,10 +3,7 @@ package com.snews.server.configuration;
 import com.snews.server.dto.ArticleDto;
 import com.snews.server.dto.ArticleOverviewDto;
 import com.snews.server.dto.UserDto;
-import com.snews.server.entities.ArticleEntity;
-import com.snews.server.entities.ArticleTagEntity;
-import com.snews.server.entities.UserEntity;
-import com.snews.server.entities.UserRoleEntity;
+import com.snews.server.entities.*;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -23,18 +20,23 @@ public class ModelMapperConfiguration {
         ModelMapper modelMapper = new ModelMapper();
 
 
-        Converter<Set<ArticleTagEntity>, String[]> articleTagsConverter = context ->
+        Converter<Set<ArticleCategoryEntity>, String[]> articleCategoriesConverter = context ->
                 context.getSource()
                         .stream()
-                        .map(e -> e.getTag().name())
+                        .map(e -> e.getCategory().name())
                         .toArray(String[]::new);
 
         Converter<String, String[]> articleContentConverter = context ->
                 context.getSource().split("\n");
 
+        Converter<ImageEntity, String> imageEntityConverter = context ->
+                context.getSource() == null? "": context.getSource().getId().toString();
+
         modelMapper.createTypeMap(ArticleEntity.class, ArticleDto.class)
-                .addMappings(m -> m.using(articleTagsConverter).map(ArticleEntity::getTags, ArticleDto::setArticleTags))
-                .addMappings(m -> m.using(articleContentConverter).map(ArticleEntity::getContent, ArticleDto::setContent));
+                .addMappings(m -> m.using(articleCategoriesConverter).map(ArticleEntity::getCategories, ArticleDto::setCategories))
+                .addMappings(m -> m.using(articleContentConverter).map(ArticleEntity::getContent, ArticleDto::setContent))
+                .addMappings(m->m.using(imageEntityConverter).map(ArticleEntity::getImage,ArticleDto::setImage))
+                .addMappings(m->m.using(imageEntityConverter).map(ArticleEntity::getThumbnail,ArticleDto::setThumbnail));
 
 
         Converter<Set<UserRoleEntity>, Set<String>> userRoleConverter = context ->
@@ -45,19 +47,16 @@ public class ModelMapperConfiguration {
                         .collect(Collectors.toSet());
 
         modelMapper.createTypeMap(UserEntity.class, UserDto.class)
-                .addMappings(m -> m.using(userRoleConverter).map(UserEntity::getUserRoles, UserDto::setRoles));
+                .addMappings(m -> m.using(userRoleConverter).map(UserEntity::getUserRoles, UserDto::setRoles))
+                .addMappings(m -> m.using(imageEntityConverter).map(UserEntity::getAvatar, UserDto::setAvatar));
 
-
-        Converter<String, String> articleOverviewDtoSetThumbnail = context ->
-//                "assets/storage/articles/thumbnails/" + context.getSource() + "_thumb";
-                context.getSource();
 
         Converter<String, String> articleOverviewDtoSetHref = context ->
-                "/news/article/" + context.getSource();
+                "/article/" + context.getSource();
 
         modelMapper.createTypeMap(ArticleEntity.class, ArticleOverviewDto.class)
                 .addMappings(m -> m.using(articleOverviewDtoSetHref).map(ArticleEntity::getHref, ArticleOverviewDto::setHref))
-                .addMappings(m -> m.using(articleOverviewDtoSetThumbnail).map(ArticleEntity::getPicture, ArticleOverviewDto::setThumbnailUrl))
+                .addMappings(m -> m.using(imageEntityConverter).map(ArticleEntity::getThumbnail, ArticleOverviewDto::setThumbnail))
                 .addMapping(ArticleEntity::getPublished, ArticleOverviewDto::setPublished);
 
 

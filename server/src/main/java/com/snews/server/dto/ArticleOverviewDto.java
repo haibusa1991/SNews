@@ -2,7 +2,7 @@ package com.snews.server.dto;
 
 public class ArticleOverviewDto {
     private String href;
-    private String thumbnailUrl;
+    private String thumbnail;
     private String published;
     private String heading;
 
@@ -15,12 +15,12 @@ public class ArticleOverviewDto {
         return this;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public ArticleOverviewDto setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+    public ArticleOverviewDto setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
         return this;
     }
 

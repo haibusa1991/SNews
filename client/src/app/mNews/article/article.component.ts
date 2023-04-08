@@ -15,46 +15,12 @@ import {articleEndpoints} from "../../../environments/environment";
 })
 export class ArticleComponent implements OnInit {
 
-  article: Article = {
-    articleTags: [],
-    author: "",
-    content: [],
-    heading: "",
-    href: "",
-    picture: "placeholder",
-    pictureSource: "",
-    published: ""
-  };
-  articleTags: ArticleTag[] = [];
-  picturePath = articleEndpoints['imagePath']
+  article!: Article;
+  articleCategories: ArticleTag[] = [];
+  imagePath = articleEndpoints['imagePath']
 
   //todo replace with proper implementation; Count must be multiple of 2
-  relatedArticles: ArticleOverviewData[] = [
-    {
-      heading: '"Вектор за атака1". Как София даде милиони за китайски камери в градския транспорт',
-      href: '/articles/article-url-goes-here',
-      published: '02 Февруари 2023 17:33',
-      thumbnailUrl: "placeholder"
-    },
-    {
-      heading: '"Вектор за атака2". Как София даде милиони за китайски камери в градския транспорт',
-      href: '/articles/article-url-goes-here',
-      published: '',
-      thumbnailUrl: "placeholder"
-    },
-    {
-      heading: '"Вектор за атака3". Как София даде милиони за китайски камери в градския транспорт',
-      href: '/articles/article-url-goes-here',
-      published: '02 Февруари 2023 17:33',
-      thumbnailUrl: "placeholder"
-    },
-    {
-      heading: '"Вектор за атака4". Как София даде милиони за китайски камери в градския транспорт',
-      href: '/articles/article-url-goes-here',
-      published: '02 Февруари 2023 17:33',
-      thumbnailUrl: "placeholder"
-    },
-  ]
+  relatedArticles!: ArticleOverviewData[];
 
   isOldArticle: boolean = false
   currentUser: User | null = null;
@@ -73,13 +39,20 @@ export class ArticleComponent implements OnInit {
       this.article = article;
       this.checkIfOldArticle();
 
-      for (let inputTag of article.articleTags) {
-        this.articleTags.push({
-          href: articleCategoriesHref[inputTag],
-          tag: articleCategories[inputTag]
+      for (let category of article.categories) {
+        this.articleCategories.push({
+          href: articleCategoriesHref[category],
+          tag: articleCategories[category]
         });
       }
-    });
+
+      // TODO refactor - remove double subscription
+      // debugger
+      this.articleService
+        .getRelatedArticles$(this.article.categories[0])
+        .subscribe(relatedArticles => this.relatedArticles=relatedArticles);
+      });
+
 
     this.userService.validateSession();
     this.userService.getCurrentUser$().subscribe(user => this.currentUser = user);

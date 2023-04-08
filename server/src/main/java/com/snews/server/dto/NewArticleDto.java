@@ -1,24 +1,22 @@
 package com.snews.server.dto;
 
-import org.springframework.data.annotation.Transient;
 import org.springframework.web.multipart.MultipartFile;
 
 public class NewArticleDto {
-    private String article;
+    private String content;
     private String author;
     private String[] categories;
     private String heading;
-    private String pictureSource;
+    private String imageSource;
 
-//    @Transient
-    private MultipartFile pictureFile;
+    private MultipartFile imageFile;
 
-    public String getArticle() {
-        return article;
+    public String getContent() {
+        return content;
     }
 
-    public NewArticleDto setArticle(String article) {
-        this.article = article;
+    public NewArticleDto setContent(String content) {
+        this.content = content;
         return this;
     }
 
@@ -49,21 +47,21 @@ public class NewArticleDto {
         return this;
     }
 
-    public String getPictureSource() {
-        return pictureSource;
+    public String getImageSource() {
+        return imageSource;
     }
 
-    public NewArticleDto setPictureSource(String pictureSource) {
-        this.pictureSource = pictureSource;
+    public NewArticleDto setImageSource(String imageSource) {
+        this.imageSource = imageSource;
         return this;
     }
 
-    public MultipartFile getPictureFile() {
-        return pictureFile;
+    public MultipartFile getImageFile() {
+        return imageFile;
     }
 
-    public NewArticleDto setPictureFile(MultipartFile pictureFile) {
-        this.pictureFile = pictureFile;
+    public NewArticleDto setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
         return this;
     }
 }
