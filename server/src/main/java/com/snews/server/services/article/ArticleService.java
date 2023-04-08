@@ -13,11 +13,13 @@ public interface ArticleService {
 
     String[] getArticleCategories();
 
-    ArticleDto getArticle(String articleUrl);
+    ArticleDto getArticle(String articleUrl) throws MalformedDataException;
 
     ArticleOverviewDto[] getRecentArticles(int articleCount);
 
     ArticleOverviewDto[] getTodayArticles();
 
     ArticleOverviewDto[] getArticlesByCategory(String category);
+
+    ArticleOverviewDto[] getRelatedArticles(String category);
 }

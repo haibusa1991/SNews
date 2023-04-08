@@ -15,7 +15,7 @@ export type ArticleTag = {
 
 export type ArticleOverviewData = {
   href: string,
-  thumbnailUrl: string,
+  thumbnail: string,
   published: string
   heading: string
 }
@@ -38,7 +38,7 @@ export type User = {
     'MODERATOR',
     'ADMINISTRATOR',
   ],
-  avatarId: string,
+  avatar: string,
   defaultAvatarColor: string;
   email: string
 }
@@ -50,14 +50,13 @@ export type RegisterResponse = {
 }
 
 export type Article = {
-  href: string,
   heading: string,
   published: string,
-  picture: string,
-  pictureSource: string,
+  image: string,
+  imageSource: string,
   content: string[],
   author: string
-  articleTags: string[]
+  categories: string[]
 }
 
 export type ServerConfiguration = {

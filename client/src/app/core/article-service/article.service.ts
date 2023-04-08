@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {articleEndpoints, userEndpoints} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {catchError, Observable, switchMap} from "rxjs";
+import {HttpClient, HttpResponse} from "@angular/common/http";
+import {catchError, Observable, switchMap, throwError} from "rxjs";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {FormGroup} from "@angular/forms";
 import {articleCategories} from "../../utils/snewsConstants";
@@ -16,17 +16,12 @@ export class ArticleService {
   constructor(private http: HttpClient) {
   }
 
-  getToken$() {
-    return this.http.get(userEndpoints['csrf'],
-      {responseType: 'text', withCredentials: true},)
-  }
-
   postNewArticle$(inputForm: FormGroup, pictureFile: File): Observable<string> {
     let body = new FormData();
     let input = inputForm.controls;
     body.append('heading', input['heading'].value);
-    body.append('pictureSource', input['pictureSource'].value);
-    body.append('article', input['article'].value);
+    body.append('imageSource', input['pictureSource'].value);
+    body.append('content', input['article'].value);
     body.append('author', input['author'].value);
 
     let jsonCategories: string[] = [];
@@ -44,7 +39,7 @@ export class ArticleService {
     }
 
     body.append('categories', jsonCategories.toString());
-    body.append('pictureFile', pictureFile);
+    body.append('imageFile', pictureFile);
 
     let httpPostRequest = this.http.post(articleEndpoints['newArticle'], body,
       {
@@ -52,12 +47,12 @@ export class ArticleService {
         withCredentials: true
       }
     );
+
     return new Observable<string>(result => {
-      this.getToken$().pipe(
-        switchMap(() => httpPostRequest),
-        catchError(() => httpPostRequest))
-        .subscribe(link => result.next(link))
-    })
+      httpPostRequest.pipe(
+        catchError(e => (e as HttpResponse<any>).status == 403 ? httpPostRequest : throwError(() => e))
+      ).subscribe(link => result.next(link));
+    });
   }
 
   getArticleCategories$(): Observable<string[]> {
@@ -90,6 +85,13 @@ export class ArticleService {
   getArticlesByCategory$(category: string): Observable<ArticleOverviewData[]> {
     return new Observable<ArticleOverviewData[]>(res => {
       this.http.get(`${articleEndpoints['articleByCategory']}/${category}`, {responseType: 'text'})
+        .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
+    })
+  }
+
+  getRelatedArticles$(category:string):Observable<ArticleOverviewData[]> {
+    return new Observable<ArticleOverviewData[]>(res => {
+      this.http.get(`${articleEndpoints['relatedArticles']}/${category}`, {responseType: 'text'})
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }

@@ -1,6 +1,7 @@
 package com.snews.server.services.user;
 
 import com.snews.server.dto.*;
+import com.snews.server.entities.ImageEntity;
 import com.snews.server.entities.ResetPasswordTokenEntity;
 import com.snews.server.entities.UserEntity;
 import com.snews.server.entities.UserRoleEntity;
@@ -13,21 +14,20 @@ import com.snews.server.exceptions.UserAlreadyRegisteredException;
 import com.snews.server.repositories.PasswordResetTokenRepository;
 import com.snews.server.repositories.UserRepository;
 import com.snews.server.services.email.EmailService;
-import com.snews.server.services.file.FileService;
+import com.snews.server.services.image.ImageService;
 import com.snews.server.services.userRole.UserRoleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.naming.AuthenticationException;
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
 
 import static com.snews.server.configuration.Constants.HOSTING_DOMAIN;
 
@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordResetTokenRepository tokenRepository;
 
     private final UserRoleService userRoleService;
-    private final FileService fileService;
     private final EmailService emailService;
+    private final ImageService imageService;
 
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository,
                            PasswordResetTokenRepository tokenRepository,
                            UserRoleService userRoleService,
-                           FileService fileService,
                            PasswordEncoder passwordEncoder,
                            ModelMapper modelMapper,
-                           EmailService emailService) {
+                           EmailService emailService,
+                           ImageService imageService) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.userRoleService = userRoleService;
-        this.fileService = fileService;
+        this.imageService = imageService;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
         this.emailService = emailService;
@@ -224,12 +224,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addAvatar(MultipartFile image) throws IOException {
-        String avatarId = fileService.saveAvatarToDisk(image.getBytes());
-        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-        UserEntity user = this.userRepository.getUserByUsername(username);
+    public void addAvatar(MultipartFile image) {
+        UserEntity user = getCurrentUser();
+        ImageEntity avatar = this.imageService.saveImage(image);
 
-        user.setAvatarId(avatarId);
+        user.setAvatar(avatar);
         this.userRepository.save(user);
     }
 
@@ -247,7 +246,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeAvatar() {
         UserEntity currentUser = getCurrentUser();
-        currentUser.setAvatarId(null);
+        currentUser.setAvatar(null);
         this.userRepository.save(currentUser);
     }
 

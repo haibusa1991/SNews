@@ -4,13 +4,13 @@
     <!--  <a routerLink="/support/user/{{data.username}}" class="avatar">-->
     <a class="avatar">
       <div class="default-avatar">
-        <div *ngIf="!data.avatarId" class="avatar-background"
+        <div *ngIf="!data.avatar" class="avatar-background"
              [ngStyle]="{'background-color':data.defaultAvatarColor}">
           <p>{{data.username | slice:0:1 | uppercase }}</p>
         </div>
 
-        <div *ngIf="data.avatarId" class="image-avatar">
-          <img src="{{userEndpoints['downloadAvatar']}}{{data.avatarId}}"/>
+        <div *ngIf="data.avatar" class="image-avatar">
+          <img src="{{userEndpoints['downloadAvatar']}}{{data.avatar}}"/>
         </div>
       </div>
     </a>

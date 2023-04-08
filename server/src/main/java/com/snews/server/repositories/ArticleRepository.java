@@ -28,7 +28,7 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, UUID> {
 
     List<ArticleEntity> findAllByPublishedAfterOrderByPublishedDesc(LocalDateTime date);
 
-    List<ArticleEntity> findAllByTagsContainingIgnoreCaseOrderByPublishedDesc(ArticleCategoryEntity tag);
+    List<ArticleEntity> findAllByCategoriesContainingIgnoreCaseOrderByPublishedDesc(ArticleCategoryEntity category);
 
     List<ArticleEntity> findAllByOrderByPublishedDesc(Pageable pageable);
 

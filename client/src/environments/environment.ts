@@ -6,18 +6,10 @@ export const environment = {
   production: false
 };
 
-export const apiEndpoints = {
-  'articleContent': 'api/api/articleContent',
-  'csrf': 'api/api/csrf',
-  'search': 'api/api/search',
-  'testPost': 'api/api/testPost'
-}
-
 export const userEndpoints = {
   'login': 'api/user/login',
   'register': 'api/user/register',
   'logout': 'api/user/logout',
-  'csrf': apiEndpoints['csrf'],
   'getUsername' : '/api/user/username',
   'getUser':'/api/user/user',
   'forgottenPassword':'/api/user/forgotten-password',
@@ -25,7 +17,7 @@ export const userEndpoints = {
   'allUserComments':'/api/user/comments',
   'uploadAvatar':'/api/user/upload-avatar',
   'removeAvatar':'/api/user/remove-avatar',
-  'downloadAvatar':'/api/avatars/',
+  'downloadAvatar':'/api/images/',
   'changePassword':'/api/user/change-password',
   'changeEmail':'/api/user/change-email',
   'updateAuthorities':'/api/user/update-authority',
@@ -34,15 +26,17 @@ export const userEndpoints = {
 export const articleEndpoints = {
   'newArticle': '/api/article/new-article',
   'articleCategories':'api/article/article-categories',
-  'articles':'/api/api/article',
-  'homePageArticles':'/api/api/article/home-articles',
-  'articleByCategory':'/api/api/news',
-  'thumbnailPath':'/api/thumbnails/',
+  'articles':'/api/article',
+  'homePageArticles':'/api/article/home-articles',
+  'articleByCategory':'/api/article/article-category',
+  'thumbnailPath':'/api/images/',
   'imagePath':'/api/images/',
+  'relatedArticles':'/api/article/related-articles',
 }
 
 export const queryEndpoints:{[k:string]:string} = {
   'findUser': '/api/query/user/',
+  'findArticles': '/api/query/'
 }
 
 export const configurationEndpoints:{[k:string]:string} = {

@@ -5,7 +5,9 @@ import com.snews.server.dto.UpdateSettingDto;
 import com.snews.server.exceptions.MalformedDataException;
 
 public interface ConfigurationService {
-    Object getSetting(String setting) throws NoSuchFieldException, IllegalAccessException;
+    void initConfiguration();
+
+    String getSetting(String setting) throws NoSuchFieldException, IllegalAccessException;
 
     void modifySetting(UpdateSettingDto dto) throws MalformedDataException;
 

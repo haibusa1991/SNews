@@ -2,11 +2,10 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HomeComponent} from './home/home.component';
 import {ArticleOverviewComponent} from './article-overview/article-overview.component';
-import {RouteReuseStrategy, RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../mShared/shared.module";
 import {ArticleComponent} from './article/article.component';
 import { NewsCategory } from './news-category/news-category.component';
-import {RouterConfiguration} from "../configuration/RouterConfiguration";
 import { SearchResultsComponent } from './search-results/search-results.component';
 
 

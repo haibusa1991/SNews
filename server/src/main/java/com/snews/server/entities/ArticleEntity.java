@@ -20,11 +20,11 @@ public class ArticleEntity {
 
     private LocalDateTime published;
 
-    @Column(columnDefinition = "TEXT")
-    private String image;
+    @OneToOne(fetch = FetchType.EAGER)
+    private ImageEntity image;
 
-    @Column(columnDefinition = "TEXT")
-    private String thumbnail;
+    @OneToOne(fetch = FetchType.EAGER)
+    private ImageEntity thumbnail;
 
     private String imageSource;
 
@@ -34,8 +34,8 @@ public class ArticleEntity {
     private String author;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "tags", referencedColumnName = "article_tags_id")
-    private Set<ArticleCategoryEntity> tags = new HashSet<>();
+    @JoinColumn(name = "category", referencedColumnName = "article_categories_id")
+    private Set<ArticleCategoryEntity> categories = new HashSet<>();
 
     private String href;
 
@@ -57,14 +57,7 @@ public class ArticleEntity {
         return this;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public ArticleEntity setImage(String picture) {
-        this.image = picture;
-        return this;
-    }
 
     public String getImageSource() {
         return imageSource;
@@ -93,12 +86,12 @@ public class ArticleEntity {
         return this;
     }
 
-    public Set<ArticleCategoryEntity> getTags() {
-        return tags;
+    public Set<ArticleCategoryEntity> getCategories() {
+        return categories;
     }
 
-    public ArticleEntity setTags(Set<ArticleCategoryEntity> tags) {
-        this.tags = tags;
+    public ArticleEntity setCategories(Set<ArticleCategoryEntity> categories) {
+        this.categories = categories;
         return this;
     }
 
@@ -111,15 +104,24 @@ public class ArticleEntity {
         return this;
     }
 
-    public void addTag(ArticleCategoryEntity tag) {
-        this.tags.add(tag);
+    public void addCategory(ArticleCategoryEntity category) {
+        this.categories.add(category);
     }
 
-    public String getThumbnail() {
+    public ImageEntity getImage() {
+        return image;
+    }
+
+    public ArticleEntity setImage(ImageEntity image) {
+        this.image = image;
+        return this;
+    }
+
+    public ImageEntity getThumbnail() {
         return thumbnail;
     }
 
-    public ArticleEntity setThumbnail(String thumbnail) {
+    public ArticleEntity setThumbnail(ImageEntity thumbnail) {
         this.thumbnail = thumbnail;
         return this;
     }

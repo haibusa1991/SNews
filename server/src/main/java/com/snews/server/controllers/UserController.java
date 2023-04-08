@@ -1,10 +1,7 @@
 package com.snews.server.controllers;
 
 import com.snews.server.dto.*;
-import com.snews.server.exceptions.InvalidPasswordResetException;
-import com.snews.server.exceptions.MalformedDataException;
-import com.snews.server.exceptions.NonExistentUserException;
-import com.snews.server.exceptions.UserAlreadyRegisteredException;
+import com.snews.server.exceptions.*;
 import com.snews.server.services.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -30,12 +27,13 @@ public class UserController {
 
     @PostMapping(path = "/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDto registerDto,
-                                           BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException {
+                                           BindingResult bindingResult) throws UserAlreadyRegisteredException, MalformedDataException, InternalServerErrorException {
 
         if (bindingResult.hasErrors()) {
             throw createMalformedDataException(bindingResult);
         }
 
+        this.userService.registerUser(registerDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

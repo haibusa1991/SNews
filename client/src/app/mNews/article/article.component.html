@@ -1,5 +1,5 @@
 <div class="content-background-gray">
-  <article class="article">
+  <article class="article" *ngIf="article">
 
     <div class="article-header">
       <h1>{{article.heading}}</h1>
@@ -13,8 +13,8 @@
 
     <div class="article-picture">
       <div class="img-wrapper">
-        <img src="{{picturePath}}{{article.picture}}" alt="Article image">
-        <p>Източник: {{article.pictureSource}}</p>
+        <img src="{{imagePath}}{{article.image}}" alt="Article image">
+        <p>Източник: {{article.imageSource}}</p>
       </div>
     </div>
 
@@ -34,7 +34,7 @@
     <div class="article-footer">
       <p>Категория:</p>
       <ul role="list">
-        <li *ngFor="let tag of articleTags; last as isLast">
+        <li *ngFor="let tag of articleCategories; last as isLast">
           <a routerLink="{{tag.href}}"
              class="clickable"
           >{{tag.tag}}</a>

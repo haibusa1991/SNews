@@ -17,9 +17,8 @@ export class LoginComponent implements OnInit {
   hasBadCredentials = false;
 
   loginForm: FormGroup = new FormGroup({
-    //todo remove defaults
-    email: new FormControl('haibusa2005@abv.b', Validators.required),
-    password: new FormControl('123456Aa', Validators.required),
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
 
   constructor(private userService: UserService,

@@ -43,7 +43,7 @@ export class UserPanelAvatarComponent implements OnInit {
     this.uploadAvatarForm.statusChanges.subscribe(formStatus => this.isUploadAvatarButtonDisabled = formStatus != 'VALID');
     this.userService.getCurrentUser$().subscribe(user => {
       this.currentUser = user!;
-      this.hasCustomAvatar = !!this.currentUser.avatarId;
+      this.hasCustomAvatar = !!this.currentUser.avatar;
     });
 
     this.currentUser = this.userService.getCurrentUser()!;

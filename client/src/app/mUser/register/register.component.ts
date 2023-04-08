@@ -45,22 +45,22 @@ export class RegisterComponent implements OnInit {
   }
 
   registerForm = new FormGroup({
-    email: new FormControl('haibusa@abv.b', [
+    email: new FormControl('', [
       Validators.email,
       Validators.required
     ]),
-    username: new FormControl('haibusa', [
+    username: new FormControl('', [
       Validators.required,
       Validators.minLength(3)
     ]),
-    password: new FormControl('123456Aa', [
+    password: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
       PasswordValidators.uppercase(),
       PasswordValidators.lowercase(),
       PasswordValidators.numeric(),
     ]),
-    repass: new FormControl('123456Aa', [
+    repass: new FormControl('', [
       Validators.required,
       this.passwordsMatchValidator()
     ])

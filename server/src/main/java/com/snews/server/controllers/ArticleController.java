@@ -34,9 +34,8 @@ public class ArticleController {
         return new ResponseEntity<>(articleService.getArticleCategories(), HttpStatus.OK);
     }
 
-
     @GetMapping("/{href}")
-    public ArticleDto getArticle(@PathVariable String href) {
+    public ArticleDto getArticle(@PathVariable String href) throws MalformedDataException {
         return this.articleService.getArticle(href);
     }
 
@@ -47,12 +46,11 @@ public class ArticleController {
 
     @GetMapping("/article-category/{category}")
     public ArticleOverviewDto[] getToday(@PathVariable String category) {
-
-//        TODO remove logic from controller
-        if (category.equalsIgnoreCase("today")) {
-            return this.articleService.getTodayArticles();
-        }
-
         return this.articleService.getArticlesByCategory(category);
+    }
+
+    @GetMapping("/related-articles/{category}")
+    public ArticleOverviewDto[] getRelatedArticles(@PathVariable String category){
+        return this.articleService.getRelatedArticles(category);
     }
 }

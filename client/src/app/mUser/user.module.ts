@@ -13,26 +13,25 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {LogoutComponent} from './logout/logout.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { UserPanelAvatarComponent } from './user-panel-avatar/user-panel-avatar.component';
-import { UserPanelChangePasswordComponent } from './user-panel-change-password/user-panel-change-password.component';
-import { PasswordReenterDialogComponent } from './password-reenter-dialog/password-reenter-dialog.component';
+import {ConfirmationDialogComponent} from './confirmation-dialog/confirmation-dialog.component';
+import {UserPanelAvatarComponent} from './user-panel-avatar/user-panel-avatar.component';
+import {UserPanelChangePasswordComponent} from './user-panel-change-password/user-panel-change-password.component';
+import {PasswordReenterDialogComponent} from './password-reenter-dialog/password-reenter-dialog.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { UserPanelChangeEmailComponent } from './user-panel-change-email/user-panel-change-email.component';
+import {UserPanelChangeEmailComponent} from './user-panel-change-email/user-panel-change-email.component';
+import {isGuest} from "../guards/isGuest";
+import {isUser} from "../guards/isUser";
 
 const moduleRoutes: Routes = [
   {
-    path: '',
-    pathMatch: 'full',
-    component: UserPanelComponent
-  },
-  {
     path: 'settings',
-    component: UserPanelComponent
+    component: UserPanelComponent,
+    canActivate: [() => isUser()]
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [() => isGuest()]
   },
   {
     path: 'logout',
@@ -40,15 +39,18 @@ const moduleRoutes: Routes = [
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate: [() => isGuest()]
   },
   {
     path: 'forgotten-password',
-    component: ForgottenPasswordComponent
+    component: ForgottenPasswordComponent,
+    canActivate: [() => isGuest()]
   },
   {
     path: 'password-reset/:passwordResetToken',
-    component: PasswordResetComponent
+    component: PasswordResetComponent,
+    canActivate: [() => isGuest()]
   }
 ];
 

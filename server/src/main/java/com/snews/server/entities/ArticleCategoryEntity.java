@@ -17,7 +17,7 @@ public class ArticleCategoryEntity {
     @Enumerated(EnumType.STRING)
     private ArticleCategoryEnum category;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "tags")
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "categories")
     private Set<ArticleEntity> articles;
 
     public ArticleCategoryEnum getCategory() {

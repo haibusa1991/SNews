@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface ArticleTagRepository extends JpaRepository<ArticleCategoryEntity, UUID> {
+public interface ArticleCategoryRepository extends JpaRepository<ArticleCategoryEntity, UUID> {
 
-    ArticleCategoryEntity getArticleTagEntityByTag(ArticleCategoryEnum tag);
+    ArticleCategoryEntity getArticleCategoryEntityByCategory(ArticleCategoryEnum category);
 }

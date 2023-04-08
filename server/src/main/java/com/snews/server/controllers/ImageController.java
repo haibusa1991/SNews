@@ -1,6 +1,6 @@
 package com.snews.server.controllers;
 
-import com.snews.server.services.file.FileService;
+import com.snews.server.services.image.ImageService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,25 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/")
 public class ImageController {
 
-    private final FileService fileService;
+    private final ImageService imageService;
 
-    public ImageController(FileService fileService) {
-        this.fileService = fileService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
     }
 
     @GetMapping("images/{image}")
     public ResponseEntity<byte[]> getArticleImage(@PathVariable String image) {
-        return resourceResponse(this.fileService.getArticleImageFromDisk(image));
-    }
-
-    @GetMapping("thumbnails/{thumbnail}")
-    public ResponseEntity<byte[]> getArticleThumbnail(@PathVariable String thumbnail) {
-        return resourceResponse(this.fileService.getArticleThumbnailFromDisk(thumbnail));
-    }
-
-    @GetMapping("avatars/{avatar}")
-    public ResponseEntity<byte[]> getAvatar(@PathVariable String avatar) {
-        return resourceResponse(this.fileService.getAvatarFromDisk(avatar));
+        return resourceResponse(this.imageService.getImage(image));
     }
 
     private ResponseEntity<byte[]> resourceResponse(byte[] resource) {
