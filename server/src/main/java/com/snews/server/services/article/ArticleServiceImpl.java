@@ -71,7 +71,6 @@ public class ArticleServiceImpl implements ArticleService {
             ArticleEntity persisted = this.articleRepository.save(article);
             persisted.setCategories(categories);
             this.articleRepository.save(persisted);
-//            this.articleRepository.save(article); //TODO check if second persistence is required
             return article.getHref();
         } catch (Exception e) {
             throw new InternalServerErrorException("Error saving article to database.");
