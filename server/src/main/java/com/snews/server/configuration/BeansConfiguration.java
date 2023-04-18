@@ -2,9 +2,8 @@ package com.snews.server.configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -12,8 +11,12 @@ import java.util.Properties;
 
 @org.springframework.context.annotation.Configuration
 public class BeansConfiguration {
-    @Autowired
-    private Environment environment;
+    @Value("${env.gmail-username}")
+    private String emailUsername;
+
+    @Value("${env.gmail-password}")
+    private String emailPassword;
+
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -21,9 +24,8 @@ public class BeansConfiguration {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         mailSender.setDefaultEncoding("UTF-8");
-
-        mailSender.setUsername(System.getenv("GmailUsername"));
-        mailSender.setPassword(System.getenv("GmailPasswordToken"));
+        mailSender.setUsername(emailUsername);
+        mailSender.setPassword(emailPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

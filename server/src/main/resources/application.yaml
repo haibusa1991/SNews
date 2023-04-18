@@ -1,13 +1,18 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost:3306/snews?
-    useSSL=false
+#    url: "jdbc:mysql://localhost:3306/snews?
+#    useSSL=false
+#    &createDatabaseIfNotExist=true
+#    &serverTimezone=UTC
+#    &allowPublicKeyRetrieval=true"
+
+    url: "jdbc:mysql://snews-server.mysql.database.azure.com:3306/snews?
+    useSSL=true
     &createDatabaseIfNotExist=true
-    &serverTimezone=UTC
     &allowPublicKeyRetrieval=true"
-    username: root
-    password: toor
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
   sql:
     init:
       mode: always
@@ -30,21 +35,14 @@ spring:
   servlet:
     multipart:
       max-file-size: 1MB
-#  mail:
-#    username: noreply@snews.com
 logging:
   level:
         org.springframework.security: trace
-#    org.springframework.security: error
-
 server:
   servlet:
     session:
       cookie:
         secure: true
-#  ssl:
-#    key-store: keystore/snews.p12
-#    key-store-type: PKCS12
-#    key-alias: snews
-#    enabled: true
-#    key-store-password:
+env:
+  gmail-username: ${GMAIL_USERNAME}
+  gmail-password: ${GMAIL_PASSWORD}
