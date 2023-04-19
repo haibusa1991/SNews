@@ -21,5 +21,5 @@ public interface ArticleService {
 
     ArticleOverviewDto[] getArticlesByCategory(String category);
 
-    ArticleOverviewDto[] getRelatedArticles(String category);
+    ArticleOverviewDto[] getRelatedArticles(String category, String currentArticleHref);
 }

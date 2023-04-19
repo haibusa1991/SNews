@@ -50,7 +50,8 @@ import {UnderConstructionComponent} from "./under-construction/under-constructio
         FilenamePipe,
         DateTimePipe,
         ComponentSpinnerComponent,
-        FullscreenSpinnerComponent
+        FullscreenSpinnerComponent,
+        UnderConstructionComponent
     ],
   imports: [
     CommonModule,

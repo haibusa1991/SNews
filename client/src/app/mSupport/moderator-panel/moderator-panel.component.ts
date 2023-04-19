@@ -11,7 +11,7 @@ export class ModeratorPanelComponent implements OnInit {
   constructor(private router:Router) { }
 
   ngOnInit(): void {
-    this.router.navigateByUrl('/under-construction')
+    // this.router.navigateByUrl('/under-construction')
   }
 
 }

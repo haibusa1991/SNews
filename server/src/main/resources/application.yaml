@@ -7,10 +7,12 @@ spring:
 #    &serverTimezone=UTC
 #    &allowPublicKeyRetrieval=true"
 
-    url: "jdbc:mysql://snews-server.mysql.database.azure.com:3306/snews?
-    useSSL=true
-    &createDatabaseIfNotExist=true
-    &allowPublicKeyRetrieval=true"
+#    url: "jdbc:mysql://snews-server.mysql.database.azure.com:3306/snews?
+#    useSSL=true
+#    &createDatabaseIfNotExist=true
+#    &allowPublicKeyRetrieval=true"
+#    url: ${MYSQL_CONNECTION_STRING}
+    url: jdbc:mysql://localhost:3306/snews?serverTimezone=UTC&sslmode=required&useSSL=true&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
   sql:

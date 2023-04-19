@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.snews</groupId>
     <artifactId>server</artifactId>
-    <version>1.0</version>
+    <version>1.0-DEVELOPMENT</version>
     <name>SNews server</name>
     <description>SNews backend server application</description>
     <properties>
@@ -95,6 +95,8 @@
                     <workingDirectory>../client</workingDirectory>
                     <arguments>
                         <argument>build</argument>
+                        <argument>--configuration </argument>
+                        <argument>dev-build</argument>
                     </arguments>
                 </configuration>
             </plugin>

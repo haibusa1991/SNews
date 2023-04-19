@@ -2,11 +2,13 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HomeComponent} from './home/home.component';
 import {ArticleOverviewComponent} from './article-overview/article-overview.component';
-import {RouterModule, Routes} from "@angular/router";
+import {RouteReuseStrategy, RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../mShared/shared.module";
 import {ArticleComponent} from './article/article.component';
 import { NewsCategory } from './news-category/news-category.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import {RouterConfiguration} from "../configuration/RouterConfiguration";
+import { CommentsComponent } from './comments/comments.component';
 
 
 const moduleRoutes: Routes = [
@@ -24,6 +26,10 @@ const moduleRoutes: Routes = [
     component: ArticleComponent
   },
   {
+    path: 'article/:articleHref/comments',
+    component: CommentsComponent
+  },
+  {
     path: 'search-results/:keywords',
     component: SearchResultsComponent
   },
@@ -37,6 +43,7 @@ const moduleRoutes: Routes = [
     ArticleComponent,
     NewsCategory,
     SearchResultsComponent,
+    CommentsComponent,
   ],
   imports: [
     CommonModule,
@@ -44,10 +51,10 @@ const moduleRoutes: Routes = [
     SharedModule
   ],
   providers:[
-    // {
-    //   provide: RouteReuseStrategy,
-    //   useClass: RouterConfiguration
-    // }
+    {
+      provide: RouteReuseStrategy,
+      useClass: RouterConfiguration
+    }
   ]
 })
 export class NewsModule {

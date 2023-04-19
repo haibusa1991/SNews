@@ -30,6 +30,14 @@ const routes: Routes = [
     component: PageNotFoundComponent
   },
   {
+    path: 'gdpr',
+    component: UnderConstructionComponent
+  },
+  {
+    path: 'privacy-policy',
+    component: UnderConstructionComponent
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }

@@ -1,3 +1,4 @@
+<app-fullscreen-spinner *ngIf="!article"></app-fullscreen-spinner>
 <div class="content-background-gray">
   <article class="article" *ngIf="article">
 
@@ -28,7 +29,7 @@
     *ngIf="!currentUser">
       <h2>Благодаря, че четете SNews!</h2>
 <!--      todo DRY candidate - links should come from a central place-->
-      <p>За да прочетете цялата статия, моля <a routerLink="/user/login"><strong>влезте</strong></a> или се <a routerLink="/user/register"><strong>регистрирайте</strong></a>.</p>
+      <p>За да прочетете цялата статия, моля <a routerLink="/user/login" class="clickable"><strong>влезте</strong></a> или се <a routerLink="/user/register" class="clickable"><strong>регистрирайте</strong></a>.</p>
     </div>
 
     <div class="article-footer">
@@ -48,14 +49,13 @@
           class="button"
           [href]="'comments'"
           [buttonText]="'Коментари'"
-          [isDisabled]="true"
         ></app-text-button>
       </div>
     </div>
   </article>
 
-  <section class="more-news content-background-green">
-    <h1 style="text-align: center">Още по темата</h1>
+  <section class="more-news content-background-green" *ngIf="relatedArticles">
+    <h1 style="text-align: center">Още от категорията</h1>
     <div class="more-news-wrapper">
       <app-article-overview
         *ngFor="let data of relatedArticles"

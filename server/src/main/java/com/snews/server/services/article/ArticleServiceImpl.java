@@ -230,11 +230,15 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleOverviewDto[] getRelatedArticles(String category) {
-        ArticleOverviewDto[] articlesByCategory = this.getArticlesByCategory(category);
+    public ArticleOverviewDto[] getRelatedArticles(String category, String currentArticleHref) {
+        ArticleOverviewDto[] articlesByCategory = Arrays
+                .stream(this.getArticlesByCategory(category))
+                .filter(e -> !e.getHref().equalsIgnoreCase("/article/"+currentArticleHref))
+                .toArray(ArticleOverviewDto[]::new);
+
         if(articlesByCategory.length<4) {
             return articlesByCategory;
         }
-        return Arrays.copyOfRange(articlesByCategory,0,3);
+        return Arrays.copyOfRange(articlesByCategory,0,4);
     }
 }

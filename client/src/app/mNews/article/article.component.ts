@@ -19,7 +19,6 @@ export class ArticleComponent implements OnInit {
   articleCategories: ArticleTag[] = [];
   imagePath = articleEndpoints['imagePath']
 
-  //todo replace with proper implementation; Count must be multiple of 2
   relatedArticles!: ArticleOverviewData[];
 
   isOldArticle: boolean = false
@@ -49,7 +48,7 @@ export class ArticleComponent implements OnInit {
       // TODO refactor - remove double subscription
       // debugger
       this.articleService
-        .getRelatedArticles$(this.article.categories[0])
+        .getRelatedArticles$(this.article.categories[0],articleHref!)
         .subscribe(relatedArticles => this.relatedArticles=relatedArticles);
       });
 
@@ -62,11 +61,9 @@ export class ArticleComponent implements OnInit {
       tap(() => {
         this.userService.setUrlBeforeLogin('/news/' + this.activatedRoute.snapshot.url.join('/'));
       })
-    ).subscribe();
-  }
+    ).subscribe(e=>{
 
-  onNavigate(href: string) {
-    this.router.navigateByUrl(href)
+    });
   }
 
   checkIfOldArticle() {
