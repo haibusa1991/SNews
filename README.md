@@ -1,6 +1,5 @@
 # SNews
-### Simple newsletter site as an exam project for Spring course at Softuni
-### Hosted at <a href="https://snews.azurewebsites.net">snews.azurewebsites.net</a>
+### Simple newsletter site as an exam project for Spring course at Softuni. Hosted at <a href="https://snews.azurewebsites.net">snews.azurewebsites.net</a>
 
 ## Main features
 * Entirely responsive Angular frontend.
