@@ -1,5 +1,5 @@
 # SNews
-### Simple newsletter site as an exam project for Spring course at Softuni
+### Simple newsletter site as an exam project for Spring course at Softuni. Hosted at <a href="https://snews.azurewebsites.net">snews.azurewebsites.net</a>
 
 ## Main features
 * Entirely responsive Angular frontend.
@@ -11,7 +11,7 @@
 * Basic search engine to easily find article by keywords or date.
 * 12 most recent articles shown on front page. 8 for mobile.
 * Only registered users can read the whole articles.
-* Articles feature 3 (or less) most recent related articles.
+* Articles feature 4 (or less) most recent related articles.
 * Warning label if user is looking at an old article.
 * Users can upload an avatar and remove it if needed.
 * Users can change their email and password.
