@@ -50,7 +50,7 @@ public class ArticleController {
     }
 
     @GetMapping("/related-articles/{category}")
-    public ArticleOverviewDto[] getRelatedArticles(@PathVariable String category){
-        return this.articleService.getRelatedArticles(category);
+    public ArticleOverviewDto[] getRelatedArticles(@PathVariable String category, @RequestParam String currentArticle){
+        return this.articleService.getRelatedArticles(category,currentArticle);
     }
 }

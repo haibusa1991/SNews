@@ -89,9 +89,9 @@ export class ArticleService {
     })
   }
 
-  getRelatedArticles$(category:string):Observable<ArticleOverviewData[]> {
+  getRelatedArticles$(category: string, currentArticleHref: string): Observable<ArticleOverviewData[]> {
     return new Observable<ArticleOverviewData[]>(res => {
-      this.http.get(`${articleEndpoints['relatedArticles']}/${category}`, {responseType: 'text'})
+      this.http.get(`${articleEndpoints['relatedArticles']}/${category}?currentArticle=${currentArticleHref}`, {responseType: 'text'})
         .subscribe(article => res.next(JSON.parse(article as string) as ArticleOverviewData[]))
     })
   }

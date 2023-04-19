@@ -83,6 +83,15 @@ public class QueryServiceImpl implements QueryService {
 
     @Override
     public UserDto[] userSearch(String username) {
+        if (username.equals("***")) {
+            return this.userRepository
+                    .findAll()
+                    .stream()
+                    .sorted(Comparator.comparing(UserEntity::getUsername))
+                    .map(user -> modelMapper.map(user, UserDto.class))
+                    .toArray(UserDto[]::new);
+        }
+
         List<UserEntity> matches = this.userRepository.getUserEntitiesByUsernameContainingOrderByUsernameAsc(username);
 
         return matches.stream().map(user -> modelMapper.map(user, UserDto.class)).toArray(UserDto[]::new);
